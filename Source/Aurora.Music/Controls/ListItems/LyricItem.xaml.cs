@@ -19,8 +19,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public LrcContent Data
         {
-            get { return (LrcContent)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (LrcContent)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...
@@ -35,8 +35,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public bool IsCurrent
         {
-            get { return (bool)GetValue(IsCurrentProperty); }
-            set { SetValue(IsCurrentProperty, value); }
+            get => (bool)GetValue(IsCurrentProperty);
+            set => SetValue(IsCurrentProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsCurrent.  This enables animation, styling, binding, etc...

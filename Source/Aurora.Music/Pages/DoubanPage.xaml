@@ -291,7 +291,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="[" x:Uid="DropBtn" Command="{x:Bind Context.Delete}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="[" x:Uid="DropBtn" Command="{x:Bind Context.DeleteCommand}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Delete"/>
@@ -301,7 +301,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F1" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button AccessKey="P" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayPause}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
+                <Button AccessKey="P" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayOrPauseCommand}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
@@ -311,7 +311,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <KeyboardAccelerator Key="F2" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="]" x:Uid="Next" Command="{x:Bind Context.Next}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
+                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="]" x:Uid="Next" Command="{x:Bind Context.NextCommand}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <SymbolIcon Symbol="Next"/>

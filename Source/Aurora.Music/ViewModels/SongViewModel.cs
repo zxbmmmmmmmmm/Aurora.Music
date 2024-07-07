@@ -8,6 +8,8 @@ using Aurora.Music.Core.Tools;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -21,30 +23,21 @@ namespace Aurora.Music.ViewModels
     {
     }
 
-    public class SongViewModel : ViewModelBase, IKey
+    public partial class SongViewModel : ViewModelBase, IKey
     {
         public SongViewModel()
         {
         }
-
+        [ObservableProperty]
         private bool listMultiSelecting;
-        public bool ListMultiSelecting
-        {
-            get { return listMultiSelecting; }
-            set { SetProperty(ref listMultiSelecting, value); }
-        }
 
         public override string ToString()
         {
             return $"{Title} - {string.Format(Consts.Localizer.GetString("TileDesc"), album, GetFormattedArtists())}, {GetAddtionalDesc()}";
         }
 
+        [ObservableProperty]
         private bool isOnline;
-        public bool IsOnline
-        {
-            get { return isOnline; }
-            set { SetProperty(ref isOnline, value); }
-        }
 
         public bool IsPodcast { get; set; }
         public bool IsVideo { get; set; }
@@ -52,8 +45,8 @@ namespace Aurora.Music.ViewModels
         private uint disc = 1;
         public uint Disc
         {
-            get { return disc; }
-            set { disc = value; }
+            get => disc;
+            set => disc = value;
         }
 
 
@@ -117,12 +110,8 @@ namespace Aurora.Music.ViewModels
 
         public double Rating { get; set; }
 
+        [ObservableProperty]
         private bool isOnedrive;
-        public bool IsOnedrive
-        {
-            get { return isOnedrive; }
-            set { SetProperty(ref isOnedrive, value); }
-        }
 
         public SongViewModel(Song song)
         {
@@ -147,19 +136,11 @@ namespace Aurora.Music.ViewModels
             Disc = song.Disc;
         }
 
+        [ObservableProperty]
         private DateTime pubDate;
-        public DateTime PubDate
-        {
-            get { return pubDate; }
-            set { SetProperty(ref pubDate, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan duration;
-        public TimeSpan Duration
-        {
-            get { return duration; }
-            set { SetProperty(ref duration, value); }
-        }
 
         public string StrArrtoDisplay(string[] arr)
         {
@@ -199,12 +180,8 @@ namespace Aurora.Music.ViewModels
 
         public Uri Artwork { get; set; }
 
+        [ObservableProperty]
         private Song song;
-        public Song Song
-        {
-            get { return song; }
-            set { SetProperty(ref song, value); }
-        }
 
         internal string GetFormattedArtists()
         {
@@ -219,15 +196,15 @@ namespace Aurora.Music.ViewModels
         private string title;
         public string Title
         {
-            get { return title.IsNullorEmpty() ? (FilePath ?? "Unknown").Split('\\').LastOrDefault() : title; }
-            set { title = value; }
+            get => title.IsNullorEmpty() ? (FilePath ?? "Unknown").Split('\\').LastOrDefault() : title;
+            set => title = value;
         }
 
         private string album;
         public string Album
         {
-            get { return album.IsNullorEmpty() ? Consts.UnknownAlbum : album; }
-            set { album = value; }
+            get => album.IsNullorEmpty() ? Consts.UnknownAlbum : album;
+            set => album = value;
         }
 
         public string VideoIndicator(bool b)
@@ -235,37 +212,37 @@ namespace Aurora.Music.ViewModels
             return b ? "\uE173 " : "";
         }
 
-        public DelegateCommand DownloadPodcast
+        [RelayCommand]
+        public async Task DownloadPodcast()
         {
-            get => new DelegateCommand(async () =>
+            if (!song.IsOnline) return;
+            if (!CanDownload) return;
+            var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
+            var fileName = song.GetFileName();
+            try
             {
-                if (!song.IsOnline) return;
-                if (!CanDownload) return;
-                var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Podcasts", CreationCollisionOption.OpenIfExists);
-                var fileName = song.GetFileName();
-                try
+                CanDownload = false;
+                MainPage.Current.PopMessage("Start Caching");
+                var file = await Downloader.Current.StartDownload(new Uri(song.FilePath), fileName, folder, new DownloadDesc()
                 {
-                    CanDownload = false;
-                    MainPage.Current.PopMessage("Start Caching");
-                    var file = await Downloader.Current.StartDownload(new Uri(song.FilePath), fileName, folder, new DownloadDesc()
-                    {
-                        Title = song.Title,
-                        Description = "Podcast",
-                    });
-                    IsOnline = false;
-                    song.IsOnline = false;
-                    song.FilePath = file.Path;
-                }
-                catch (Exception)
-                {
+                    Title = song.Title,
+                    Description = "Podcast",
+                });
+                IsOnline = false;
+                song.IsOnline = false;
+                song.FilePath = file.Path;
+            }
+            catch (Exception)
+            {
 
-                }
-                finally
-                {
-                    CanDownload = true;
-                }
-            });
+            }
+            finally
+            {
+                CanDownload = true;
+            }
         }
+
+
 
         public string IsPodcastDownloadable(bool a)
         {
@@ -280,7 +257,7 @@ namespace Aurora.Music.ViewModels
         private bool fav;
         public bool Favorite
         {
-            get { return fav; }
+            get => fav;
             set
             {
                 SetProperty(ref fav, value);
@@ -299,12 +276,8 @@ namespace Aurora.Music.ViewModels
             return new AlbumViewModel(await SQLOperator.Current().GetAlbumByNameAsync(Song.Album, Song.ID));
         }
 
+        [ObservableProperty]
         private bool canDownload = true;
-        public bool CanDownload
-        {
-            get { return canDownload; }
-            set { SetProperty(ref canDownload, value); }
-        }
 
         private uint track;
         public uint Track
@@ -315,7 +288,7 @@ namespace Aurora.Music.ViewModels
                     return Index + 1;
                 return track;
             }
-            set { track = value; }
+            set => track = value;
         }
 
         public string ShowOnline(bool a)
@@ -323,21 +296,8 @@ namespace Aurora.Music.ViewModels
             return a ? "\uE753" : string.Empty;
         }
 
-        public string FormattedAlbum
-        {
-            get
-            {
-                return Album;
-            }
-        }
+        public string FormattedAlbum => Album;
 
-        public string Key
-        {
-            get
-            {
-                return Title;
-
-            }
-        }
+        public string Key => Title;
     }
 }

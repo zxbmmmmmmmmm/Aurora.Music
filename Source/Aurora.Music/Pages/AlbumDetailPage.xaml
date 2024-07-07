@@ -143,7 +143,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                 </Button.Flyout>
                             </Button>
 
-                            <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
+                            <Button Command="{x:Bind Context.PlayAllCommand}" Style="{ThemeResource PlayAllButton}"/>
                         </toolkit:WrapPanel>
                     </RelativePanel>
                 </Grid>
@@ -241,7 +241,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           Icon="Cancel" Label="Close"
                           Visibility="{x:Bind SelectionModeToOther(SongList.SelectionMode),Mode=OneWay}"/>
             <AppBarButton x:Uid="PlayAllAppBarButton" 
-                          Label="Play all" Command="{x:Bind Context.PlayAll}"
+                          Label="Play all" Command="{x:Bind Context.PlayAllCommand}"
                           Visibility="{x:Bind SelectionModeToTitle(SongList.SelectionMode),Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>

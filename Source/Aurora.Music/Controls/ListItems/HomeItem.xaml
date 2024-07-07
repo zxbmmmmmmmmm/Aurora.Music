@@ -120,7 +120,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid>
         <TextBlock FontSize="13" 
                    Style="{ThemeResource BodyTextBlockStyle}" 
-                   ToolTipService.ToolTip="{x:Bind Data.AddtionalAndDescription(Data.Addtional, Data.Description), Mode=OneWay}"
+                   ToolTipService.ToolTip="{x:Bind Data.AdditionalAndDescription(Data.Additional, Data.Description), Mode=OneWay}"
                    HorizontalAlignment="Left" VerticalAlignment="Center" 
                    MaxLines="1" TextWrapping="NoWrap" 
                    Grid.Row="2"
@@ -128,7 +128,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                    TextTrimming="CharacterEllipsis"
                    Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
                    Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
-            <Run Text="{x:Bind Data.Addtional,Mode=OneWay}"/>
+            <Run Text="{x:Bind Data.Additional,Mode=OneWay}"/>
             <Run Text="·"/>
             <Run Text="{x:Bind Data.Description,Mode=OneWay}"/>
         </TextBlock>

@@ -24,8 +24,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public AlbumViewModel Data
         {
-            get { return (AlbumViewModel)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (AlbumViewModel)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
         }
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataProperty =
@@ -117,16 +117,16 @@ namespace Aurora.Music.Controls.ListItems
 
         public double ImageWidth
         {
-            get { return (double)GetValue(ImageWidthProperty); }
-            set { SetValue(ImageWidthProperty, value); }
+            get => (double)GetValue(ImageWidthProperty);
+            set => SetValue(ImageWidthProperty, value);
         }
         // Using a DependencyProperty as the backing store for ImageWidth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageWidthProperty =
             DependencyProperty.Register("ImageWidth", typeof(double), typeof(AlbumItem), new PropertyMetadata(150d));
         public double ImageHeight
         {
-            get { return (double)GetValue(ImageHeightProperty); }
-            set { SetValue(ImageHeightProperty, value); }
+            get => (double)GetValue(ImageHeightProperty);
+            set => SetValue(ImageHeightProperty, value);
         }
         // Using a DependencyProperty as the backing store for ImageHeight.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ImageHeightProperty =

@@ -34,8 +34,8 @@ namespace Aurora.Music.Controls
         private BitmapImage artwork;
         public BitmapImage Artwork
         {
-            get { return artwork; }
-            set { SetProperty(ref artwork, value); }
+            get => artwork;
+            set => SetProperty(ref artwork, value);
         }
 
         internal TagDialog(SongViewModel song)
@@ -220,80 +220,78 @@ namespace Aurora.Music.Controls
         {
         }
 
-        private DelegateCommand ChangeArtwork
-        {
-            get => new DelegateCommand(async () =>
-              {
-                  var picker = new Windows.Storage.Pickers.FileOpenPicker
-                  {
-                      ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
-                      SuggestedStartLocation =
-                      Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
-                  };
-                  picker.FileTypeFilter.Add(".jpg");
-                  picker.FileTypeFilter.Add(".jpeg");
-                  picker.FileTypeFilter.Add(".png");
+        private DelegateCommand ChangeArtwork =>
+            new DelegateCommand(async () =>
+            {
+                var picker = new Windows.Storage.Pickers.FileOpenPicker
+                {
+                    ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+                    SuggestedStartLocation =
+                        Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+                };
+                picker.FileTypeFilter.Add(".jpg");
+                picker.FileTypeFilter.Add(".jpeg");
+                picker.FileTypeFilter.Add(".png");
 
-                  var img = await picker.PickSingleFileAsync();
-                  if (img != null)
-                  {
-                      await PlaybackEngine.PlaybackEngine.Current.DetachCurrentItem();
+                var img = await picker.PickSingleFileAsync();
+                if (img != null)
+                {
+                    await PlaybackEngine.PlaybackEngine.Current.DetachCurrentItem();
 
-                      Artwork = new BitmapImage(new Uri(img.Path));
+                    Artwork = new BitmapImage(new Uri(img.Path));
 
-                      using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
-                      {
-                          using (var stream = await img.OpenReadAsync())
-                          {
-                              if (tagTemp.Tag.Pictures != null && tagTemp.Tag.Pictures.Length > 0)
-                              {
-                                  var p = new List<IPicture>();
-                                  p.AddRange(tagTemp.Tag.Pictures);
-                                  p.RemoveAt(0);
-                                  p.Insert(0, new Picture(ByteVector.FromStream(stream.AsStream())));
-                                  tagTemp.Tag.Pictures = p.ToArray();
-                              }
-                              else
-                              {
-                                  var p = new List<Picture>
-                                  {
-                                      new Picture(ByteVector.FromStream(stream.AsStream()))
-                                  };
-                                  tagTemp.Tag.Pictures = p.ToArray();
-                              }
-                          }
-                          tagTemp.Save();
-                      }
+                    using (var tagTemp = TagLib.File.Create(file.AsAbstraction()))
+                    {
+                        using (var stream = await img.OpenReadAsync())
+                        {
+                            if (tagTemp.Tag.Pictures != null && tagTemp.Tag.Pictures.Length > 0)
+                            {
+                                var p = new List<IPicture>();
+                                p.AddRange(tagTemp.Tag.Pictures);
+                                p.RemoveAt(0);
+                                p.Insert(0, new Picture(ByteVector.FromStream(stream.AsStream())));
+                                tagTemp.Tag.Pictures = p.ToArray();
+                            }
+                            else
+                            {
+                                var p = new List<Picture>
+                                {
+                                    new Picture(ByteVector.FromStream(stream.AsStream()))
+                                };
+                                tagTemp.Tag.Pictures = p.ToArray();
+                            }
+                        }
+                        tagTemp.Save();
+                    }
 
-                      var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
-                      {
-                          ApplicationSearchFilter = $"System.FileName:{Model.ID}.*"
-                      };
+                    var options = new Windows.Storage.Search.QueryOptions(Windows.Storage.Search.CommonFileQuery.DefaultQuery, new string[] { ".jpg", ".png", ".bmp" })
+                    {
+                        ApplicationSearchFilter = $"System.FileName:{Model.ID}.*"
+                    };
 
-                      var query = ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(options);
-                      var files = await query.GetFilesAsync();
-                      if (Model.ID.ToString() != "0" && files.Count > 0)
-                      {
-                          foreach (var file in files)
-                          {
-                              await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                          }
-                      }
+                    var query = ApplicationData.Current.TemporaryFolder.CreateFileQueryWithOptions(options);
+                    var files = await query.GetFilesAsync();
+                    if (Model.ID.ToString() != "0" && files.Count > 0)
+                    {
+                        foreach (var file in files)
+                        {
+                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        }
+                    }
 
-                      await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
-                  }
-                  else
-                  {
+                    await PlaybackEngine.PlaybackEngine.Current.ReAttachCurrentItem();
+                }
+                else
+                {
 
-                  }
-                  MainPage.Current.PopMessage("Succeed");
-              });
-        }
+                }
+                MainPage.Current.PopMessage("Succeed");
+            });
 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void RaisePropertyChanged(string propertyName = null)
+        private void OnPropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -304,7 +302,7 @@ namespace Aurora.Music.Controls
             if (changed)
             {
                 backingField = Value;
-                this.RaisePropertyChanged(propertyName);
+                this.OnPropertyChanged(propertyName);
             }
             return changed;
         }
@@ -517,190 +515,190 @@ namespace Aurora.Music.Controls
         private TimeSpan duration;
         public TimeSpan Duration
         {
-            get { return duration; }
-            set { SetProperty(ref duration, value); }
+            get => duration;
+            set => SetProperty(ref duration, value);
         }
         private uint bitRate;
         public uint BitRate
         {
-            get { return bitRate; }
-            set { SetProperty(ref bitRate, value); }
+            get => bitRate;
+            set => SetProperty(ref bitRate, value);
         }
 
         private string filePath;
         public string FilePath
         {
-            get { return filePath; }
-            set { SetProperty(ref filePath, value); }
+            get => filePath;
+            set => SetProperty(ref filePath, value);
         }
         private string picturePath;
         public string PicturePath
         {
-            get { return picturePath; }
-            set { SetProperty(ref picturePath, value); }
+            get => picturePath;
+            set => SetProperty(ref picturePath, value);
         }
 
         private string musicBrainzReleaseId;
         public string MusicBrainzReleaseId
         {
-            get { return musicBrainzReleaseId; }
-            set { SetProperty(ref musicBrainzReleaseId, value); }
+            get => musicBrainzReleaseId;
+            set => SetProperty(ref musicBrainzReleaseId, value);
         }
         private string musicBrainzDiscId;
         public string MusicBrainzDiscId
         {
-            get { return musicBrainzDiscId; }
-            set { SetProperty(ref musicBrainzDiscId, value); }
+            get => musicBrainzDiscId;
+            set => SetProperty(ref musicBrainzDiscId, value);
         }
         private string musicIpId;
         public string MusicIpId
         {
-            get { return musicIpId; }
-            set { SetProperty(ref musicIpId, value); }
+            get => musicIpId;
+            set => SetProperty(ref musicIpId, value);
         }
         private string amazonId;
         public string AmazonId
         {
-            get { return amazonId; }
-            set { SetProperty(ref amazonId, value); }
+            get => amazonId;
+            set => SetProperty(ref amazonId, value);
         }
         private string musicBrainzReleaseStatus;
         public string MusicBrainzReleaseStatus
         {
-            get { return musicBrainzReleaseStatus; }
-            set { SetProperty(ref musicBrainzReleaseStatus, value); }
+            get => musicBrainzReleaseStatus;
+            set => SetProperty(ref musicBrainzReleaseStatus, value);
         }
         private string musicBrainzReleaseType;
         public string MusicBrainzReleaseType
         {
-            get { return musicBrainzReleaseType; }
-            set { SetProperty(ref musicBrainzReleaseType, value); }
+            get => musicBrainzReleaseType;
+            set => SetProperty(ref musicBrainzReleaseType, value);
         }
         private string musicBrainzReleaseCountry;
         public string MusicBrainzReleaseCountry
         {
-            get { return musicBrainzReleaseCountry; }
-            set { SetProperty(ref musicBrainzReleaseCountry, value); }
+            get => musicBrainzReleaseCountry;
+            set => SetProperty(ref musicBrainzReleaseCountry, value);
         }
         private double replayGainTrackGain;
         public double ReplayGainTrackGain
         {
-            get { return replayGainTrackGain; }
-            set { SetProperty(ref replayGainTrackGain, value); }
+            get => replayGainTrackGain;
+            set => SetProperty(ref replayGainTrackGain, value);
         }
         private double replayGainTrackPeak;
         public double ReplayGainTrackPeak
         {
-            get { return replayGainTrackPeak; }
-            set { SetProperty(ref replayGainTrackPeak, value); }
+            get => replayGainTrackPeak;
+            set => SetProperty(ref replayGainTrackPeak, value);
         }
         private double replayGainAlbumGain;
         public double ReplayGainAlbumGain
         {
-            get { return replayGainAlbumGain; }
-            set { SetProperty(ref replayGainAlbumGain, value); }
+            get => replayGainAlbumGain;
+            set => SetProperty(ref replayGainAlbumGain, value);
         }
         private double replayGainAlbumPeak;
         public double ReplayGainAlbumPeak
         {
-            get { return replayGainAlbumPeak; }
-            set { SetProperty(ref replayGainAlbumPeak, value); }
+            get => replayGainAlbumPeak;
+            set => SetProperty(ref replayGainAlbumPeak, value);
         }
         //public IPicture[] Pictures { get; set; }
         private string firstAlbumArtist;
         public string FirstAlbumArtist
         {
-            get { return firstAlbumArtist; }
-            set { SetProperty(ref firstAlbumArtist, value); }
+            get => firstAlbumArtist;
+            set => SetProperty(ref firstAlbumArtist, value);
         }
         private string firstAlbumArtistSort;
         public string FirstAlbumArtistSort
         {
-            get { return firstAlbumArtistSort; }
-            set { SetProperty(ref firstAlbumArtistSort, value); }
+            get => firstAlbumArtistSort;
+            set => SetProperty(ref firstAlbumArtistSort, value);
         }
         private string firstPerformer;
         public string FirstPerformer
         {
-            get { return firstPerformer; }
-            set { SetProperty(ref firstPerformer, value); }
+            get => firstPerformer;
+            set => SetProperty(ref firstPerformer, value);
         }
         private string firstPerformerSort;
         public string FirstPerformerSort
         {
-            get { return firstPerformerSort; }
-            set { SetProperty(ref firstPerformerSort, value); }
+            get => firstPerformerSort;
+            set => SetProperty(ref firstPerformerSort, value);
         }
         private string firstComposerSort;
         public string FirstComposerSort
         {
-            get { return firstComposerSort; }
-            set { SetProperty(ref firstComposerSort, value); }
+            get => firstComposerSort;
+            set => SetProperty(ref firstComposerSort, value);
         }
         private string firstComposer;
         public string FirstComposer
         {
-            get { return firstComposer; }
-            set { SetProperty(ref firstComposer, value); }
+            get => firstComposer;
+            set => SetProperty(ref firstComposer, value);
         }
         private string firstGenre;
         public string FirstGenre
         {
-            get { return firstGenre; }
-            set { SetProperty(ref firstGenre, value); }
+            get => firstGenre;
+            set => SetProperty(ref firstGenre, value);
         }
         private string joinedAlbumArtists;
         public string JoinedAlbumArtists
         {
-            get { return joinedAlbumArtists; }
-            set { SetProperty(ref joinedAlbumArtists, value); }
+            get => joinedAlbumArtists;
+            set => SetProperty(ref joinedAlbumArtists, value);
         }
         private string joinedPerformers;
         public string JoinedPerformers
         {
-            get { return joinedPerformers; }
-            set { SetProperty(ref joinedPerformers, value); }
+            get => joinedPerformers;
+            set => SetProperty(ref joinedPerformers, value);
         }
         private string joinedPerformersSort;
         public string JoinedPerformersSort
         {
-            get { return joinedPerformersSort; }
-            set { SetProperty(ref joinedPerformersSort, value); }
+            get => joinedPerformersSort;
+            set => SetProperty(ref joinedPerformersSort, value);
         }
         private string joinedComposers;
         public string JoinedComposers
         {
-            get { return joinedComposers; }
-            set { SetProperty(ref joinedComposers, value); }
+            get => joinedComposers;
+            set => SetProperty(ref joinedComposers, value);
         }
         private string musicBrainzTrackId;
         public string MusicBrainzTrackId
         {
-            get { return musicBrainzTrackId; }
-            set { SetProperty(ref musicBrainzTrackId, value); }
+            get => musicBrainzTrackId;
+            set => SetProperty(ref musicBrainzTrackId, value);
         }
         private string musicBrainzReleaseArtistId;
         public string MusicBrainzReleaseArtistId
         {
-            get { return musicBrainzReleaseArtistId; }
-            set { SetProperty(ref musicBrainzReleaseArtistId, value); }
+            get => musicBrainzReleaseArtistId;
+            set => SetProperty(ref musicBrainzReleaseArtistId, value);
         }
         private bool isEmpty;
         public bool IsEmpty
         {
-            get { return isEmpty; }
-            set { SetProperty(ref isEmpty, value); }
+            get => isEmpty;
+            set => SetProperty(ref isEmpty, value);
         }
         private string musicBrainzArtistId;
         public string MusicBrainzArtistId
         {
-            get { return musicBrainzArtistId; }
-            set { SetProperty(ref musicBrainzArtistId, value); }
+            get => musicBrainzArtistId;
+            set => SetProperty(ref musicBrainzArtistId, value);
         }
         private string songTitle;
         public string SongTitle
         {
-            get { return songTitle; }
+            get => songTitle;
             set
             {
                 SetProperty(ref songTitle, value);
@@ -710,49 +708,49 @@ namespace Aurora.Music.Controls
         private string titleSort;
         public string TitleSort
         {
-            get { return titleSort; }
-            set { SetProperty(ref titleSort, value); }
+            get => titleSort;
+            set => SetProperty(ref titleSort, value);
         }
         private string[] performers;
         public string[] Performers
         {
-            get { return performers; }
-            set { SetProperty(ref performers, value); }
+            get => performers;
+            set => SetProperty(ref performers, value);
         }
         private string[] performersSort;
         public string[] PerformersSort
         {
-            get { return performersSort; }
-            set { SetProperty(ref performersSort, value); }
+            get => performersSort;
+            set => SetProperty(ref performersSort, value);
         }
         private string[] albumArtists;
         public string[] AlbumArtists
         {
-            get { return albumArtists; }
-            set { SetProperty(ref albumArtists, value); }
+            get => albumArtists;
+            set => SetProperty(ref albumArtists, value);
         }
         private string[] albumArtistsSort;
         public string[] AlbumArtistsSort
         {
-            get { return albumArtistsSort; }
-            set { SetProperty(ref albumArtistsSort, value); }
+            get => albumArtistsSort;
+            set => SetProperty(ref albumArtistsSort, value);
         }
         private string[] composers;
         public string[] Composers
         {
-            get { return composers; }
-            set { SetProperty(ref composers, value); }
+            get => composers;
+            set => SetProperty(ref composers, value);
         }
         private string[] composersSort;
         public string[] ComposersSort
         {
-            get { return composersSort; }
-            set { SetProperty(ref composersSort, value); }
+            get => composersSort;
+            set => SetProperty(ref composersSort, value);
         }
         private string album;
         public string Album
         {
-            get { return album; }
+            get => album;
             set
             {
                 SetProperty(ref album, value);
@@ -762,99 +760,99 @@ namespace Aurora.Music.Controls
         private string joinedGenres;
         public string JoinedGenres
         {
-            get { return joinedGenres; }
-            set { SetProperty(ref joinedGenres, value); }
+            get => joinedGenres;
+            set => SetProperty(ref joinedGenres, value);
         }
         private string albumSort;
         public string AlbumSort
         {
-            get { return albumSort; }
-            set { SetProperty(ref albumSort, value); }
+            get => albumSort;
+            set => SetProperty(ref albumSort, value);
         }
         private string[] genres;
         public string[] Genres
         {
-            get { return genres; }
-            set { SetProperty(ref genres, value); }
+            get => genres;
+            set => SetProperty(ref genres, value);
         }
         private uint year;
         public uint Year
         {
-            get { return year; }
-            set { SetProperty(ref year, value); }
+            get => year;
+            set => SetProperty(ref year, value);
         }
         private uint track;
         public uint Track
         {
-            get { return track; }
-            set { SetProperty(ref track, value); }
+            get => track;
+            set => SetProperty(ref track, value);
         }
         private uint trackCount;
         public uint TrackCount
         {
-            get { return trackCount; }
-            set { SetProperty(ref trackCount, value); }
+            get => trackCount;
+            set => SetProperty(ref trackCount, value);
         }
         private uint disc;
         public uint Disc
         {
-            get { return disc; }
-            set { SetProperty(ref disc, value); }
+            get => disc;
+            set => SetProperty(ref disc, value);
         }
         private uint discCount;
         public uint DiscCount
         {
-            get { return discCount; }
-            set { SetProperty(ref discCount, value); }
+            get => discCount;
+            set => SetProperty(ref discCount, value);
         }
         private string lyrics;
         public string Lyrics
         {
-            get { return lyrics; }
-            set { SetProperty(ref lyrics, value); }
+            get => lyrics;
+            set => SetProperty(ref lyrics, value);
         }
         private string grouping;
         public string Grouping
         {
-            get { return grouping; }
-            set { SetProperty(ref grouping, value); }
+            get => grouping;
+            set => SetProperty(ref grouping, value);
         }
         private uint beatsPerMinute;
         public uint BeatsPerMinute
         {
-            get { return beatsPerMinute; }
-            set { SetProperty(ref beatsPerMinute, value); }
+            get => beatsPerMinute;
+            set => SetProperty(ref beatsPerMinute, value);
         }
         private string conductor;
         public string Conductor
         {
-            get { return conductor; }
-            set { SetProperty(ref conductor, value); }
+            get => conductor;
+            set => SetProperty(ref conductor, value);
         }
         private string copyright;
         public string Copyright
         {
-            get { return copyright; }
-            set { SetProperty(ref copyright, value); }
+            get => copyright;
+            set => SetProperty(ref copyright, value);
         }
         private string comment;
         public string Comment
         {
-            get { return comment; }
-            set { SetProperty(ref comment, value); }
+            get => comment;
+            set => SetProperty(ref comment, value);
         }
         public int ID { get; set; }
         private int sampleRate;
         public int SampleRate
         {
-            get { return sampleRate; }
-            set { SetProperty(ref sampleRate, value); }
+            get => sampleRate;
+            set => SetProperty(ref sampleRate, value);
         }
         private int audioChannels;
         public int AudioChannels
         {
-            get { return audioChannels; }
-            set { SetProperty(ref audioChannels, value); }
+            get => audioChannels;
+            set => SetProperty(ref audioChannels, value);
         }
         public bool IsOnline { get; set; }
         public Uri OnlineUri { get; set; }
@@ -864,8 +862,8 @@ namespace Aurora.Music.Controls
 
         public uint Rating
         {
-            get { return newRating; }
-            set { SetProperty(ref newRating, value); }
+            get => newRating;
+            set => SetProperty(ref newRating, value);
         }
         public string OnlineAlbumID { get; set; }
         public string FileType { get; internal set; }

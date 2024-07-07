@@ -6,6 +6,7 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,15 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class ArtistViewModel : ViewModelBase, IKey
+    partial class ArtistViewModel : ViewModelBase, IKey
     {
         public string RawName;
 
         private string description;
         public string Description
         {
-            get { return description.IsNullorEmpty() ? Name : description; }
-            set { SetProperty(ref description, value); }
+            get => description.IsNullorEmpty() ? Name : description;
+            set => SetProperty(ref description, value);
         }
 
         private Uri avatar;
@@ -59,19 +60,15 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        [ObservableProperty]
         private BitmapImage avatarImage;
-        public BitmapImage AvatarImage
-        {
-            get { return avatarImage; }
-            set { SetProperty(ref avatarImage, value); }
-        }
 
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
         private string name;
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 if (value.IsNullorWhiteSpace())
@@ -90,8 +87,8 @@ namespace Aurora.Music.ViewModels
         private int albumCount;
         public int SongsCount
         {
-            get { return albumCount; }
-            set { SetProperty(ref albumCount, value); }
+            get => albumCount;
+            set => SetProperty(ref albumCount, value);
         }
 
         public string Key

@@ -106,7 +106,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
                                            RelativePanel.AlignBottomWithPanel="True"
                                            RelativePanel.AlignLeftWithPanel="True">
-                            <Button Command="{x:Bind Context.PlayAll}" 
+                            <Button Command="{x:Bind Context.PlayAllCommand}" 
                                     Style="{ThemeResource PlayAllButton}" 
                                     FontSize="15" 
                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -274,7 +274,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     HorizontalAlignment="Stretch" VerticalAlignment="Top"
                     Padding="16,0,32,0">
             <AppBarButton x:Uid="PlayAllAppBarButton" 
-                            Label="Play all" Command="{x:Bind Context.PlayAll}">
+                            Label="Play all" Command="{x:Bind Context.PlayAllCommand}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
                 </AppBarButton.Icon>

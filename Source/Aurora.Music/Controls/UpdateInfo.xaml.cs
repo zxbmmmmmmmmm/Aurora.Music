@@ -21,7 +21,7 @@ namespace Aurora.Music.Controls
             InitializeComponent();
             RequestedTheme = Settings.Current.Theme;
             Title = string.Format(Consts.UpdateNoteTitle, SystemInfoHelper.GetPackageVer().ToVersionString());
-            Note.Text = string.IsNullOrEmpty(Consts.UpdateNote) ? "We are continuously providing new features and bug fixes for Aurora Music" : Consts.UpdateNote;
+            Note.Text = string.IsNullOrEmpty(Consts.UpdateNote) ? "We are continuously providing New features and bug fixes for Aurora Music" : Consts.UpdateNote;
         }
 
         private void ContentDialog_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)

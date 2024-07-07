@@ -140,7 +140,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                                x:Name="Buttons" Margin="0,32,0,0"
                                                HorizontalAlignment="Left"
                                                VerticalAlignment="Center">
-                                <Button Command="{x:Bind Context.PlayAll}"
+                                <Button Command="{x:Bind Context.PlayAllCommand}"
                                         Style="{ThemeResource PlayAllButton}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center" 
                                         FontSize="15"/>
@@ -153,12 +153,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     <ComboBoxItem x:Uid="TitleSort" Content="A-Z" Tag="Name"/>
                                     <ComboBoxItem x:Uid="Artist" Content="Artist" Tag="Artists"/>
                                 </ComboBox>
-                                <Button Command="{x:Bind Context.PintoStart}" Style="{ThemeResource RevealRoundCornerButton}">
+                                <Button Command="{x:Bind Context.PinToStartCommand}" Style="{ThemeResource RevealRoundCornerButton}">
                                     <Button.Content>
                                         <TextBlock>
                                             <Run FontSize="13" FontFamily="Segoe MDL2 Assets" 
-                                                 Text="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}" />
-                                            <Run Text="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}"/>
+                                                 Text="{x:Bind Context.PinnedToGlyph(Context.IsPinned),Mode=OneWay}" />
+                                            <Run Text="{x:Bind Context.PinnedToText(Context.IsPinned),Mode=OneWay}"/>
                                         </TextBlock>
                                     </Button.Content>
                                 </Button>
@@ -216,16 +216,16 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     HorizontalAlignment="Stretch" VerticalAlignment="Top"
                     Padding="32,0">
             <AppBarButton x:Uid="PlayAllAppBarButton" 
-                          Label="Play all" Command="{x:Bind Context.PlayAll}">
+                          Label="Play all" Command="{x:Bind Context.PlayAllCommand}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE142;"
                               FontFamily="Segoe MDL2 Assets"/>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Command="{x:Bind Context.PintoStart}" 
-                          Label="{x:Bind Context.PinnedtoText(Context.IsPinned),Mode=OneWay}">
+            <AppBarButton Command="{x:Bind Context.PinToStartCommand}" 
+                          Label="{x:Bind Context.PinnedToText(Context.IsPinned),Mode=OneWay}">
                 <AppBarButton.Icon>
-                    <FontIcon Glyph="{x:Bind Context.PinnedtoGlyph(Context.IsPinned),Mode=OneWay}"
+                    <FontIcon Glyph="{x:Bind Context.PinnedToGlyph(Context.IsPinned),Mode=OneWay}"
                               FontFamily="Segoe MDL2 Assets"/>
                 </AppBarButton.Icon>
             </AppBarButton>

@@ -181,9 +181,9 @@ namespace Aurora.Music.Pages
                     MainPage.Current.SongFlyout.Items.RemoveAt(index + 1);
                 }
 
-                if (!model.Addtional.IsNullorEmpty())
+                if (!model.Additional.IsNullorEmpty())
                 {
-                    var artists = model.Addtional.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+                    var artists = model.Additional.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
                     // add song's performers to flyout
                     if (!artists.IsNullorEmpty())

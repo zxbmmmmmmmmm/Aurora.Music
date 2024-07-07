@@ -30,8 +30,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public GenericMusicItemViewModel Data
         {
-            get { return (GenericMusicItemViewModel)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (GenericMusicItemViewModel)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...

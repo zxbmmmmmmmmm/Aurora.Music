@@ -166,6 +166,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm">
+      <Version>8.2.2</Version>
+    </PackageReference>
     <PackageReference Include="ksemenenko.ColorThief">
       <Version>1.1.1.4</Version>
     </PackageReference>

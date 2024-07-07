@@ -4,6 +4,7 @@
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,28 +13,16 @@ using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
 {
-    class WelcomePageViewModel : ViewModelBase
+    partial class WelcomePageViewModel : ViewModelBase
     {
+        [ObservableProperty]
         private double progress;
-        public double Progress
-        {
-            get { return progress; }
-            set { SetProperty(ref progress, value); }
-        }
 
+        [ObservableProperty]
         private int finish = 0;
-        public int Finish
-        {
-            get { return finish; }
-            set { SetProperty(ref finish, value); }
-        }
 
+        [ObservableProperty]
         private string hint = "Retrieving Files";
-        public string Hint
-        {
-            get { return hint; }
-            set { SetProperty(ref hint, value); }
-        }
 
         private SQLOperator opr = SQLOperator.Current();
 

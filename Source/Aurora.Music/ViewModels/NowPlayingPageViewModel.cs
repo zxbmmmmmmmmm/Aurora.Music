@@ -17,6 +17,8 @@ using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -35,42 +37,26 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class NowPlayingPageViewModel : ViewModelBase, IDisposable
+    partial class NowPlayingPageViewModel : ViewModelBase, IDisposable
     {
         internal event EventHandler SongChanged;
         private Song _lastSong;
         private DataTransferManager dataTransferManager;
         private CastingDevicePicker castingPicker;
 
-        private BitmapImage artwork = new BitmapImage();
-        public BitmapImage CurrentArtwork
-        {
-            get { return artwork; }
-            set { SetProperty(ref artwork, value); }
-        }
+        [ObservableProperty]
+        private BitmapImage currentArtwork = new BitmapImage();
 
         private IPlayer player;
 
+        [ObservableProperty]
         private SongViewModel song;
-        public SongViewModel Song
-        {
-            get { return song; }
-            set { SetProperty(ref song, value); }
-        }
 
+        [ObservableProperty]
         private string lyricHint = Consts.Localizer.GetString("LoadingLyricsText");
-        public string LyricHint
-        {
-            get { return lyricHint; }
-            set { SetProperty(ref lyricHint, value); }
-        }
 
-        private double downloadProgress;
-        public double BufferProgress
-        {
-            get { return downloadProgress; }
-            set { SetProperty(ref downloadProgress, value); }
-        }
+        [ObservableProperty]
+        private double bufferProgress;
 
         public Color[] CurrentColor = new Color[2];
 
@@ -115,30 +101,28 @@ namespace Aurora.Music.ViewModels
 
         private static int lyricEditorId = -1;
 
-
-        public DelegateCommand OpenLyricEditor
+        [RelayCommand]
+        public async Task OpenLyricEditor()
         {
-            get => new DelegateCommand(async () =>
+            if (song.IsPodcast || (lyricEditorId != -1 && LyricEditor.Current != null))
             {
-                if (song.IsPodcast || (lyricEditorId != -1 && LyricEditor.Current != null))
-                {
-                    MainPage.Current.PopMessage("Can't open editor");
-                    return;
-                }
-                await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    var frame = new Frame();
-                    lyricEditorId = ApplicationView.GetForCurrentView().Id;
-                    frame.Navigate(typeof(LyricEditor), (Lyric, TotalDuration, Song.FilePath));
-                    Window.Current.Content = frame;
-                    Window.Current.Activate();
-                });
-                var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
-                prefer.CustomSize = new Size(Window.Current.Bounds.Width, 360);
-                prefer.ViewSizePreference = ViewSizePreference.Custom;
-                bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricEditorId, ApplicationViewMode.Default, prefer);
+                MainPage.Current.PopMessage("Can't open editor");
+                return;
+            }
+            await CoreApplication.CreateNewView().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var frame = new Frame();
+                lyricEditorId = ApplicationView.GetForCurrentView().Id;
+                frame.Navigate(typeof(LyricEditor), (Lyric, TotalDuration, Song.FilePath));
+                Window.Current.Content = frame;
+                Window.Current.Activate();
             });
+            var prefer = ViewModePreferences.CreateDefault(ApplicationViewMode.Default);
+            prefer.CustomSize = new Size(Window.Current.Bounds.Width, 360);
+            prefer.ViewSizePreference = ViewSizePreference.Custom;
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsViewModeAsync(lyricEditorId, ApplicationViewMode.Default, prefer);
         }
+
 
         public void Init(SongViewModel song)
         {
@@ -394,20 +378,13 @@ namespace Aurora.Music.ViewModels
             return new SolidColorBrush(ImagingHelper.ColorFromHSV(h, s, v));
         }
 
+        [ObservableProperty]
         private Uri placeHolder = new Uri(Consts.NowPlaceholder);
-        public Uri PlaceHolder
-        {
-            get { return placeHolder; }
-            set { SetProperty(ref placeHolder, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan currentPosition;
-        public TimeSpan CurrentPosition
-        {
-            get { return currentPosition; }
-            set { SetProperty(ref currentPosition, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan currentDuration;
 
         internal void Unload()
@@ -416,8 +393,6 @@ namespace Aurora.Music.ViewModels
             player.PositionUpdated -= Player_PositionUpdated;
             player.ItemsChanged -= Player_StatusChanged;
             player.PlaybackStatusChanged -= Player_PlaybackStatusChanged;
-
-
             dataTransferManager.DataRequested -= DataTransferManager_DataRequested;
         }
 
@@ -525,12 +500,8 @@ namespace Aurora.Music.ViewModels
             set { SetProperty(ref currentDuration, value); }
         }
 
+        [ObservableProperty]
         private LyricViewModel lyric = new LyricViewModel();
-        public LyricViewModel Lyric
-        {
-            get { return lyric; }
-            set { SetProperty(ref lyric, value); }
-        }
 
         internal void PositionChange(TimeSpan timeSpan)
         {
@@ -541,41 +512,19 @@ namespace Aurora.Music.ViewModels
             player.Seek(timeSpan);
         }
 
+        [ObservableProperty]
         private bool? isPlaying;
-        public bool? IsPlaying
-        {
-            get { return isPlaying; }
-            set { SetProperty(ref isPlaying, value); }
-        }
 
+        [ObservableProperty]
         private int currentIndex = -1;
-        public int CurrentIndex
-        {
-            get { return currentIndex; }
-            set { SetProperty(ref currentIndex, value); }
-        }
 
+        [ObservableProperty]
         private double positionValue;
-        public double PositionValue
-        {
-            get
-            {
-                return positionValue;
-            }
-            set
-            {
-                SetProperty(ref positionValue, value);
-            }
-        }
 
         public ObservableCollection<SongViewModel> NowPlayingList { get; set; } = new ObservableCollection<SongViewModel>();
 
-        private string cuurentListPreview;
-        public string NowListPreview
-        {
-            get { return cuurentListPreview; }
-            set { SetProperty(ref cuurentListPreview, value); }
-        }
+        [ObservableProperty]
+        private string nowListPreview;
 
         public NowPlayingPageViewModel()
         {
@@ -607,8 +556,8 @@ namespace Aurora.Music.ViewModels
                 IsPlaying = e.PlaybackStatus == Windows.Media.Playback.MediaPlaybackState.Playing;
                 isLoop = e.IsLoop;
                 isShuffle = e.IsShuffle;
-                RaisePropertyChanged("IsLoop");
-                RaisePropertyChanged("IsShuffle");
+                OnPropertyChanged("IsLoop");
+                OnPropertyChanged("IsShuffle");
             });
         }
 
@@ -631,7 +580,7 @@ namespace Aurora.Music.ViewModels
                         request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(Song.Song.PicturePath));
                     }
                     request.Data.Properties.Title = $"Share \"{Song.Title}\"";
-                    request.Data.Properties.Description = $"Share link of what you're playing now";
+                    request.Data.Properties.Description = $"Share link of what you're Playing now";
                 }
                 else
                 {
@@ -843,22 +792,13 @@ namespace Aurora.Music.ViewModels
             {
                 if (isShuffle == value) return;
                 SetProperty(ref isShuffle, value);
-                RaisePropertyChanged("IsShuffle");
+                OnPropertyChanged("IsShuffle");
                 player?.Shuffle(value);
             }
         }
 
+        [ObservableProperty]
         private bool? isLoop = MainPageViewModel.Current.IsLoop;
-        public bool? IsLoop
-        {
-            get { return isLoop; }
-            set
-            {
-                SetProperty(ref isLoop, value);
-
-                player?.Loop(value);
-            }
-        }
         public bool IsLoopBool
         {
             get
@@ -868,87 +808,58 @@ namespace Aurora.Music.ViewModels
             set
             {
                 SetProperty(ref isLoop, value);
-                RaisePropertyChanged("IsLoop");
+                OnPropertyChanged("IsLoop");
                 player?.Loop(value);
             }
         }
 
-        public DelegateCommand CompactOverlay
+        [RelayCommand]
+        public async Task EnterCompactOverlay()
         {
-            get
+            await MainPage.Current.GotoComapctOverlay();
+        }
+
+        [RelayCommand]
+        public async Task ShowLyricWindow()
+        {
+            await MainPage.Current.ShowLyricWindow();
+        }
+
+        [RelayCommand]
+        public void ToggleSilence()
+        {
+            if (Volume > 0)
             {
-                return new DelegateCommand(async () =>
-                {
-                    await MainPage.Current.GotoComapctOverlay();
-                });
+                lastVol = Volume;
+                Volume = 0;
+            }
+            else
+            {
+                Volume = lastVol;
             }
         }
 
-        public DelegateCommand ShowLyricWindow
+        [RelayCommand]
+        public async Task ShowSleepTimer()
         {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    await MainPage.Current.ShowLyricWindow();
-                });
-            }
+            var s = new SleepTimer();
+            await s.ShowAsync();
         }
 
-        public DelegateCommand ToggleSilence
+        [RelayCommand]
+        public async Task ShowEqualizer()
         {
-            get
-            {
-                return new DelegateCommand(() =>
-                {
-                    if (Volume > 0)
-                    {
-                        lastVol = Volume;
-                        Volume = 0;
-                    }
-                    else
-                    {
-                        Volume = lastVol;
-                    }
-                });
-            }
+            var s = new EqualizerSettings();
+            await s.ShowAsync();
         }
 
-        public DelegateCommand ShowSleepTimer
+        [RelayCommand]
+        public async Task ShowLimiter()
         {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    var s = new SleepTimer();
-                    await s.ShowAsync();
-                });
-            }
+            var s = new LimiterSettings();
+            await s.ShowAsync();
         }
 
-        public DelegateCommand ShowEqualizer
-        {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    var s = new EqualizerSettings();
-                    await s.ShowAsync();
-                });
-            }
-        }
-
-        public DelegateCommand ShowLimiter
-        {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    var s = new LimiterSettings();
-                    await s.ShowAsync();
-                });
-            }
-        }
 
         public bool IsEqualizerEnabled { get => Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer); }
 
@@ -1020,7 +931,7 @@ namespace Aurora.Music.ViewModels
 
                         SongChanged?.Invoke(Song, EventArgs.Empty);
                         isCurrentFac = await e.CurrentSong.GetFavoriteAsync();
-                        RaisePropertyChanged("IsCurrentFavorite");
+                        OnPropertyChanged("IsCurrentFavorite");
                     }
                 }
 

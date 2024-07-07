@@ -9,6 +9,8 @@ using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,16 +22,12 @@ using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
-    class HomePageViewModel : ViewModelBase
+    partial class HomePageViewModel : ViewModelBase
     {
         private PlayerStatus playerStatus;
 
+        [ObservableProperty]
         private string welcomeTitle;
-        public string WelcomeTitle
-        {
-            get { return welcomeTitle; }
-            set { SetProperty(ref welcomeTitle, value); }
-        }
 
 
         public string GetWelcomeTitle()
@@ -52,44 +50,39 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public DelegateCommand PlayRandom
+        [RelayCommand]
+        public async Task PlayRandom()
         {
-            get => new DelegateCommand(async () =>
+            var list = new List<Song>();
+            foreach (var item in RandomList)
             {
-                var list = new List<Song>();
-                foreach (var item in RandomList)
-                {
-                    list.AddRange(await item.GetSongsAsync());
-                }
-                await MainPageViewModel.Current.InstantPlayAsync(list);
-            });
+                list.AddRange(await item.GetSongsAsync());
+            }
+            await MainPageViewModel.Current.InstantPlayAsync(list);
         }
 
-        public DelegateCommand PlayFav
+        [RelayCommand]
+        public async Task PlayFav()
         {
-            get => new DelegateCommand(async () =>
+            var list = new List<Song>();
+            foreach (var item in FavList)
             {
-                var list = new List<Song>();
-                foreach (var item in FavList)
-                {
-                    list.AddRange(await item.GetSongsAsync());
-                }
-                await MainPageViewModel.Current.InstantPlayAsync(list);
-            });
+                list.AddRange(await item.GetSongsAsync());
+            }
+            await MainPageViewModel.Current.InstantPlayAsync(list);
         }
 
-        public DelegateCommand ReRandom
+        [RelayCommand]
+        public async Task ReRandom()
         {
-            get => new DelegateCommand(async () =>
+            var ran = await FileReader.GetRandomListAsync();
+            RandomList.Clear();
+            foreach (var item in ran)
             {
-                var ran = await FileReader.GetRandomListAsync();
-                RandomList.Clear();
-                foreach (var item in ran)
-                {
-                    RandomList.Add(new GenericMusicItemViewModel(item));
-                }
-            });
+                RandomList.Add(new GenericMusicItemViewModel(item));
+            }
         }
+
 
         public HomePageViewModel()
         {

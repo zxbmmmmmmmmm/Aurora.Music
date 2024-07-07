@@ -10,6 +10,8 @@ using Aurora.Music.Services;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -31,14 +33,14 @@ using Windows.UI.Xaml;
 
 namespace Aurora.Music.ViewModels
 {
-    class SettingsPageViewModel : ViewModelBase
+    partial class SettingsPageViewModel : ViewModelBase
     {
         public event EventHandler InitComplete;
 
         private int audioSelectedIndex = -1;
         public int AudioSelectedIndex
         {
-            get { return audioSelectedIndex; }
+            get => audioSelectedIndex;
             set
             {
                 try
@@ -62,7 +64,7 @@ namespace Aurora.Music.ViewModels
         private bool readOndriveRoaming = Settings.Current.OnedriveRoaming;
         public bool ReadOndriveRoaming
         {
-            get { return readOndriveRoaming; }
+            get => readOndriveRoaming;
             set
             {
                 if (value)
@@ -76,7 +78,7 @@ namespace Aurora.Music.ViewModels
                         await CoreApplication.MainView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                         {
                             readOndriveRoaming = result;
-                            RaisePropertyChanged("ReadOndriveRoaming");
+                            OnPropertyChanged("ReadOndriveRoaming");
                         });
                     });
                 }
@@ -89,60 +91,49 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public DelegateCommand NavigateToPrivacy
+        [RelayCommand]
+        public async Task NavigateToPrivacy()
         {
-            get => new DelegateCommand(async () =>
-            {
-                await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
-            });
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/blob/master/Documentation/Privacy%20Policy.md"));
         }
 
-        public DelegateCommand ShowUpdateInfo
+        [RelayCommand]
+        public async Task ShowUpdateInfo()
         {
-            get => new DelegateCommand(async () =>
-            {
-                var u = new UpdateInfo();
-                await u.ShowAsync();
-            });
+            var u = new UpdateInfo();
+            await u.ShowAsync();
         }
 
-        public DelegateCommand ShowEaseAccess
+        [RelayCommand]
+        public async Task ShowEaseAccess()
         {
-            get => new DelegateCommand(async () =>
-            {
-                var u = new EaseAccess();
-                await u.ShowAsync();
-            });
+            var u = new EaseAccess();
+            await u.ShowAsync();
         }
 
-        public DelegateCommand CommentInStore
+        [RelayCommand]
+        public async Task CommentInStore()
         {
-            get => new DelegateCommand(async () =>
-            {
-                await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://review/?ProductId={Consts.ProductID}"));
-            });
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://review/?ProductId={Consts.ProductID}"));
         }
 
-        public DelegateCommand Github
+        [RelayCommand]
+        public async Task GoGithub()
         {
-            get => new DelegateCommand(async () =>
-            {
-                await Launcher.LaunchUriAsync(new Uri(Consts.Github));
-            });
+            await Launcher.LaunchUriAsync(new Uri(Consts.Github));
         }
 
-        public DelegateCommand ReportABug
+        [RelayCommand]
+        public async Task ReportABug()
         {
-            get => new DelegateCommand(async () =>
-            {
-                await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/issues"));
-            });
+            await Launcher.LaunchUriAsync(new Uri("https://github.com/xiaosu-zhu/Aurora.Music/issues"));
         }
+
 
         private bool nightMode = Settings.Current.NightMode;
         public bool NightMode
         {
-            get { return nightMode; }
+            get => nightMode;
             set
             {
                 Settings.Current.NightMode = value;
@@ -154,7 +145,7 @@ namespace Aurora.Music.ViewModels
         private bool showFeatured = Settings.Current.ShowFeatured;
         public bool ShowFeatured
         {
-            get { return showFeatured; }
+            get => showFeatured;
             set
             {
                 Settings.Current.ShowFeatured = value;
@@ -163,85 +154,73 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        public DelegateCommand GetExtensions
+        [RelayCommand]
+        public async Task GetExtensions()
         {
-            get => new DelegateCommand(async () =>
-            {
-                await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query=Aurora Music Extension"));
-            });
+            await Launcher.LaunchUriAsync(new Uri($"ms-windows-store://search/?query=Aurora Music Extension"));
         }
 
-        public DelegateCommand About
+        [RelayCommand]
+        public async Task NavigateToAbout()
         {
-            get => new DelegateCommand(() =>
-            {
-                MainPage.Current.Navigate(typeof(AboutPage));
-            });
+            MainPage.Current.Navigate(typeof(AboutPage));
         }
 
-        public DelegateCommand OpenExtensionManager
+        [RelayCommand]
+        public async Task OpenExtensionManager()
         {
-            get => new DelegateCommand(async () =>
-            {
-                var mgr = new ExtensionsManager();
-                await mgr.ShowAsync();
-            });
+            var mgr = new ExtensionsManager();
+            await mgr.ShowAsync();
+        }
+
+        [RelayCommand]
+        public async Task ShowEqualizer()
+        {
+            var dialog = new EqualizerSettings();
+            await dialog.ShowAsync();
+        }
+        [RelayCommand]
+        public async Task ShowLimiter()
+        {
+            var dialog = new LimiterSettings();
+            await dialog.ShowAsync();
         }
 
 
-        public DelegateCommand ShowEqualizer
+        [RelayCommand]
+        public async Task SetDownloadPath()
         {
-            get => new DelegateCommand(async () =>
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker
             {
-                var dialog = new EqualizerSettings();
-                await dialog.ShowAsync();
-            });
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
+            };
+            folderPicker.FileTypeFilter.Add(".mp3");
+            folderPicker.FileTypeFilter.Add(".m4a");
+            folderPicker.FileTypeFilter.Add(".wav");
+            folderPicker.FileTypeFilter.Add(".flac");
+            folderPicker.FileTypeFilter.Add(".aac");
+            folderPicker.FileTypeFilter.Add(".wma");
+            folderPicker.FileTypeFilter.Add(".ogg");
+            folderPicker.FileTypeFilter.Add(".oga");
+            folderPicker.FileTypeFilter.Add(".m3u");
+            folderPicker.FileTypeFilter.Add(".m3u8");
+            folderPicker.FileTypeFilter.Add(".wpl");
+            folderPicker.FileTypeFilter.Add(".zpl");
+
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                Settings.Current.DownloadPathToken = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder);
+                Settings.Current.Save();
+                DownloadPathText = folder.Path;
+            }
         }
 
-        public DelegateCommand ShowLimiter
-        {
-            get => new DelegateCommand(async () =>
-            {
-                var dialog = new LimiterSettings();
-                await dialog.ShowAsync();
-            });
-        }
-
-        public DelegateCommand DownloadPath
-        {
-            get => new DelegateCommand(async () =>
-            {
-                var folderPicker = new Windows.Storage.Pickers.FolderPicker
-                {
-                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
-                };
-                folderPicker.FileTypeFilter.Add(".mp3");
-                folderPicker.FileTypeFilter.Add(".m4a");
-                folderPicker.FileTypeFilter.Add(".wav");
-                folderPicker.FileTypeFilter.Add(".flac");
-                folderPicker.FileTypeFilter.Add(".aac");
-                folderPicker.FileTypeFilter.Add(".wma");
-                folderPicker.FileTypeFilter.Add(".ogg");
-                folderPicker.FileTypeFilter.Add(".oga");
-                folderPicker.FileTypeFilter.Add(".m3u");
-                folderPicker.FileTypeFilter.Add(".m3u8");
-                folderPicker.FileTypeFilter.Add(".wpl");
-                folderPicker.FileTypeFilter.Add(".zpl");
-
-                var folder = await folderPicker.PickSingleFolderAsync();
-                if (folder != null)
-                {
-                    Settings.Current.DownloadPathToken = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder);
-                    Settings.Current.Save();
-                    DownloadPathText = folder.Path;
-                }
-            });
-        }
 
         private bool dontOverlay = Settings.Current.DontOverlay;
         public bool DontOverlay
         {
-            get { return dontOverlay; }
+            get => dontOverlay;
             set
             {
                 Settings.Current.DontOverlay = value;
@@ -253,7 +232,7 @@ namespace Aurora.Music.ViewModels
         private bool singleton = Settings.Current.Singleton;
         public bool Singleton
         {
-            get { return singleton; }
+            get => singleton;
             set
             {
                 Settings.Current.Singleton = value;
@@ -272,7 +251,7 @@ namespace Aurora.Music.ViewModels
 
         public bool IsPodcastToast
         {
-            get { return isPodcastToast; }
+            get => isPodcastToast;
             set
             {
                 Settings.Current.IsPodcastToast = value;
@@ -285,7 +264,7 @@ namespace Aurora.Music.ViewModels
         private bool preventScreenLock = Settings.Current.PreventLockscreen;
         public bool PreventScreenLock
         {
-            get { return preventScreenLock; }
+            get => preventScreenLock;
             set
             {
                 Settings.Current.PreventLockscreen = value;
@@ -322,7 +301,7 @@ namespace Aurora.Music.ViewModels
         private TimeSpan riseTime = TimeSpan.FromSeconds(Settings.Current.RiseTime);
         public TimeSpan RiseTime
         {
-            get { return riseTime; }
+            get => riseTime;
             set
             {
                 Settings.Current.RiseTime = value.TotalSeconds;
@@ -335,7 +314,7 @@ namespace Aurora.Music.ViewModels
         private TimeSpan fallTime = TimeSpan.FromSeconds(Settings.Current.FallTime);
         public TimeSpan FallTime
         {
-            get { return fallTime; }
+            get => fallTime;
             set
             {
                 Settings.Current.FallTime = value.TotalSeconds;
@@ -363,7 +342,7 @@ namespace Aurora.Music.ViewModels
         private bool showPodcastsWhenSearch = Settings.Current.ShowPodcastsWhenSearch;
         public bool ShowPodcastsWhenSearch
         {
-            get { return showPodcastsWhenSearch; }
+            get => showPodcastsWhenSearch;
             set
             {
                 Settings.Current.ShowPodcastsWhenSearch = value;
@@ -477,7 +456,7 @@ namespace Aurora.Music.ViewModels
         private double fetchInterval = Settings.Current.FetchInterval;
         public double FetchInterval
         {
-            get { return fetchInterval; }
+            get => fetchInterval;
             set
             {
                 SetProperty(ref fetchInterval, value);
@@ -490,7 +469,7 @@ namespace Aurora.Music.ViewModels
         private bool dataPlayEnabled = Settings.Current.DataPlayEnabled;
         public bool DataPlayEnabled
         {
-            get { return dataPlayEnabled; }
+            get => dataPlayEnabled;
             set
             {
                 Settings.Current.DataPlayEnabled = value;
@@ -501,7 +480,7 @@ namespace Aurora.Music.ViewModels
         private bool dataDownloadEnabled = Settings.Current.DataDownloadEnabled;
         public bool DataDownloadEnabled
         {
-            get { return dataDownloadEnabled; }
+            get => dataDownloadEnabled;
             set
             {
                 Settings.Current.DataDownloadEnabled = value;
@@ -510,34 +489,23 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        [ObservableProperty]
         private string downloadPathText;
-        public string DownloadPathText
-        {
-            get { return downloadPathText; }
-            set { SetProperty(ref downloadPathText, value); }
-        }
 
+        [ObservableProperty]
         private bool canClearCache = true;
-        public bool CanClearCache
-        {
-            get { return canClearCache; }
-            set { SetProperty(ref canClearCache, value); }
-        }
 
-        public DelegateCommand ClearCache
-        {
-            get => new DelegateCommand(async () =>
+        public DelegateCommand ClearCache =>
+            new DelegateCommand(async () =>
             {
                 CanClearCache = false;
                 await ApplicationData.Current.ClearAsync(ApplicationDataLocality.Temporary);
                 CanClearCache = true;
                 MainPage.Current.PopMessage(Consts.Localizer.GetString("ClearCacheText"));
             });
-        }
 
-        public DelegateCommand DeleteAll
-        {
-            get => new DelegateCommand(async () =>
+        public DelegateCommand DeleteAll =>
+            new DelegateCommand(async () =>
             {
                 MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("Deleting"));
                 (PlaybackEngine.PlaybackEngine.Current).Dispose();
@@ -552,27 +520,21 @@ namespace Aurora.Music.ViewModels
                 await ApplicationData.Current.ClearAsync();
                 await CoreApplication.RequestRestartAsync("");
             });
-        }
 
-        public DelegateCommand OpenData
-        {
-            get => new DelegateCommand(async () =>
+        public DelegateCommand OpenData =>
+            new DelegateCommand(async () =>
             {
                 await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
             });
-        }
 
+        [ObservableProperty]
         private bool onlinePurchase = Settings.Current.OnlinePurchase;
-        public bool OnlinePurchase
-        {
-            get { return onlinePurchase; }
-            set { SetProperty(ref onlinePurchase, value); }
-        }
+
 
         private double playerVolume = Settings.Current.PlayerVolume;
         public double PlayerVolume
         {
-            get { return playerVolume; }
+            get => playerVolume;
             set
             {
                 if (!value.AlmostEqualTo(playerVolume))
@@ -596,40 +558,19 @@ namespace Aurora.Music.ViewModels
             return $"{d.ToString("0")} {Consts.Localizer.GetString("MinText")}";
         }
 
-        private int crrentLyricIndex = -1;
-        public int CurrentLyricIndex
-        {
-            get { return crrentLyricIndex; }
-            set
-            {
-                SetProperty(ref crrentLyricIndex, value);
-            }
-        }
+        [ObservableProperty]
+        private int currentLyricIndex = -1;
 
+        [ObservableProperty]
         private int currentOnlineIndex = -1;
-        public int CurrentOnlineIndex
-        {
-            get { return currentOnlineIndex; }
-            set
-            {
-                SetProperty(ref currentOnlineIndex, value);
-            }
-        }
 
+        [ObservableProperty]
         private int currentMetaIndex = -1;
-        public int CurrentMetaIndex
-        {
-            get { return currentMetaIndex; }
-            set
-            {
-                SetProperty(ref currentMetaIndex, value);
-            }
-        }
 
         private bool debugModeEnabled = Settings.Current.DebugModeEnabled;
         public bool DebugModeEnabled
         {
-            get { return debugModeEnabled; }
+            get => debugModeEnabled;
             set
             {
                 Settings.Current.DebugModeEnabled = value;
@@ -638,19 +579,11 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private string acheFolderSize = "Counting";
-        public string CacheFolderSize
-        {
-            get { return acheFolderSize; }
-            set { SetProperty(ref acheFolderSize, value); }
-        }
+        [ObservableProperty]
+        private string cacheFolderSize = "Counting";
 
+        [ObservableProperty]
         private string dataFolderSize = "Counting";
-        public string DataFolderSize
-        {
-            get { return dataFolderSize; }
-            set { SetProperty(ref dataFolderSize, value); }
-        }
 
         internal void ToggleEffectState(string tag)
         {
@@ -775,7 +708,7 @@ namespace Aurora.Music.ViewModels
         private bool equalizerEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Equalizer);
         public bool EqualizerEnabled
         {
-            get { return equalizerEnabled; }
+            get => equalizerEnabled;
             set
             {
                 SetProperty(ref equalizerEnabled, value);
@@ -787,7 +720,7 @@ namespace Aurora.Music.ViewModels
         private bool channelShiftEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.ChannelShift);
         public bool ChannelShiftEnabled
         {
-            get { return channelShiftEnabled; }
+            get => channelShiftEnabled;
             set
             {
                 SetProperty(ref channelShiftEnabled, value);
@@ -799,7 +732,7 @@ namespace Aurora.Music.ViewModels
         private double channelShift = Settings.Current.ChannelShift;
         public double ChannelShift
         {
-            get { return channelShift; }
+            get => channelShift;
             set
             {
                 SetProperty(ref channelShift, value);
@@ -813,7 +746,7 @@ namespace Aurora.Music.ViewModels
         private bool stereoToMono = Settings.Current.StereoToMono;
         public bool StereoToMono
         {
-            get { return stereoToMono; }
+            get => stereoToMono;
             set
             {
                 SetProperty(ref stereoToMono, value);
@@ -829,7 +762,7 @@ namespace Aurora.Music.ViewModels
         private bool threshold = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Limiter);
         public bool ThresholdEnabled
         {
-            get { return threshold; }
+            get => threshold;
             set
             {
                 SetProperty(ref threshold, value);
@@ -838,12 +771,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
-        private bool reverb = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);
-        public bool ReverbEnabled
-        {
-            get { return reverb; }
-            set { SetProperty(ref reverb, value); }
-        }
+        [ObservableProperty]
+        private bool reverbEnabled = Settings.Current.AudioGraphEffects.HasFlag(Core.Models.Effects.Reverb);
 
         public SettingsPageViewModel()
         {
@@ -872,17 +801,13 @@ namespace Aurora.Music.ViewModels
 
         public ObservableCollection<EngineViewModel> EngineList { get; set; } = new ObservableCollection<EngineViewModel>();
 
+        [ObservableProperty]
         private string engineHint;
-        public string EngineHint
-        {
-            get { return engineHint; }
-            set { SetProperty(ref engineHint, value); }
-        }
 
         private int engineIndex;
         public int EngineIndex
         {
-            get { return engineIndex; }
+            get => engineIndex;
             set
             {
                 SetProperty(ref engineIndex, value);

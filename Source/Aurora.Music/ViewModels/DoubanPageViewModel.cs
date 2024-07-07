@@ -10,6 +10,8 @@ using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,46 +27,36 @@ namespace Aurora.Music.ViewModels
 {
     enum ReportType
     {
-        bye, end, @new, playing, skip, rate, unrate
+        Bye, End, New, Playing, Skip, Rate, Unrate
     }
-    class DoubanPageViewModel : ViewModelBase
+    partial class DoubanPageViewModel : ViewModelBase
     {
         Queue<string> playedQueue = new Queue<string>();
 
         public ObservableCollection<ChannelGroup> Channels { get; set; }
+
+        [ObservableProperty]
         private Uri artwork;
-        public Uri Artwork
-        {
-            get { return artwork; }
-            set { SetProperty(ref artwork, value); }
-        }
 
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
         private string sid;
-        private string title;
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
-        }
 
+        [ObservableProperty]
+        private string title;
+
+        [ObservableProperty]
         private List<Color> palette;
-        public List<Color> Palette
-        {
-            get { return palette; }
-            set { SetProperty(ref palette, value); }
-        }
 
         private bool rateToggle;
         public bool RateToggle
         {
-            get { return rateToggle; }
+            get => rateToggle;
             set
             {
                 Task.Run(async () =>
                 {
-                    var list = await Report(value ? ReportType.rate : ReportType.unrate, channel.ToString(), sid);
+                    var list = await Report(value ? ReportType.Rate : ReportType.Unrate, channel.ToString(), sid);
                     if (list.r == 0)
                     {
                         await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
@@ -87,12 +79,8 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        [ObservableProperty]
         private string description;
-        public string Description
-        {
-            get { return description; }
-            set { SetProperty(ref description, value); }
-        }
 
         public DoubanPageViewModel()
         {
@@ -115,13 +103,13 @@ namespace Aurora.Music.ViewModels
             Channels = null;
         }
 
-        private double olume = Settings.Current.PlayerVolume;
+        private double volume = Settings.Current.PlayerVolume;
         public double Volume
         {
-            get { return olume; }
+            get => volume;
             set
             {
-                SetProperty(ref olume, value);
+                SetProperty(ref volume, value);
                 Settings.Current.PlayerVolume = value;
                 PlaybackEngine.PlaybackEngine.Current.ChangeVolume(value);
             }
@@ -149,14 +137,42 @@ namespace Aurora.Music.ViewModels
             return d.ToString("0");
         }
 
-        public DelegateCommand Delete
+        [RelayCommand]
+        public async Task Delete()
         {
-            get => new DelegateCommand(async () =>
+            var list = await Report(ReportType.Bye, channel.ToString(), sid);
+            if (list.r == 0)
             {
-                var list = await Report(ReportType.bye, channel.ToString(), sid);
+                await PlaybackEngine.PlaybackEngine.Current.NewPlayList(list.song.Select(a => new Core.Models.Song()
+                {
+                    Title = a.title,
+                    Album = a.albumtitle,
+                    OnlineUri = new Uri(a.url),
+                    OnlineID = a.sid,
+                    IsOnline = true,
+                    PicturePath = a.picture,
+                    Performers = a.singers.Select(s => s.name).ToArray(),
+                    AlbumArtists = new string[] { a.artist },
+                }).ToList());
+
+                PlaybackEngine.PlaybackEngine.Current.Play();
+            }
+            else
+            {
+                MainPage.Current.PopMessage($"Playing error: {list.err}");
+            }
+        }
+
+        [RelayCommand]
+        public async Task Next()
+        {
+            PlaybackEngine.PlaybackEngine.Current?.Next();
+            if (lastProgress < 0.9)
+            {
+                var list = await Report(ReportType.Skip, channel.ToString(), sid);
                 if (list.r == 0)
                 {
-                    await PlaybackEngine.PlaybackEngine.Current.NewPlayList(list.song.Select(a => new Core.Models.Song()
+                    await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
                     {
                         Title = a.title,
                         Album = a.albumtitle,
@@ -167,46 +183,14 @@ namespace Aurora.Music.ViewModels
                         Performers = a.singers.Select(s => s.name).ToArray(),
                         AlbumArtists = new string[] { a.artist },
                     }).ToList());
-
-                    PlaybackEngine.PlaybackEngine.Current.Play();
-                }
-                else
-                {
-                    MainPage.Current.PopMessage($"Playing error: {list.err}");
-                }
-            });
-        }
-
-        public DelegateCommand Next
-        {
-            get => new DelegateCommand(async () =>
-            {
-                PlaybackEngine.PlaybackEngine.Current?.Next();
-                if (lastProgress < 0.9)
-                {
-                    var list = await Report(ReportType.skip, channel.ToString(), sid);
-                    if (list.r == 0)
+                    if (PlaybackEngine.PlaybackEngine.Current?.IsPlaying == null || !(bool)PlaybackEngine.PlaybackEngine.Current?.IsPlaying)
                     {
-                        await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
-                        {
-                            Title = a.title,
-                            Album = a.albumtitle,
-                            OnlineUri = new Uri(a.url),
-                            OnlineID = a.sid,
-                            IsOnline = true,
-                            PicturePath = a.picture,
-                            Performers = a.singers.Select(s => s.name).ToArray(),
-                            AlbumArtists = new string[] { a.artist },
-                        }).ToList());
-                        if (PlaybackEngine.PlaybackEngine.Current?.IsPlaying == null || !(bool)PlaybackEngine.PlaybackEngine.Current?.IsPlaying)
-                        {
-                            PlaybackEngine.PlaybackEngine.Current?.Play();
-                        }
+                        PlaybackEngine.PlaybackEngine.Current?.Play();
                     }
                 }
-
-            });
+            }
         }
+
 
         async Task<playlist> Report(ReportType type, string channel, string sid = null)
         {
@@ -231,37 +215,37 @@ namespace Aurora.Music.ViewModels
 
             switch (type)
             {
-                case ReportType.bye:
+                case ReportType.Bye:
                     args.Add("type", "b");
                     if (sid == null)
                         throw new ArgumentException("sid is null");
                     args.Add("sid", sid);
                     break;
-                case ReportType.end:
+                case ReportType.End:
                     args.Add("type", "e");
                     if (sid == null)
                         throw new ArgumentException("sid is null");
                     args.Add("sid", sid);
                     break;
-                case ReportType.@new:
+                case ReportType.New:
                     args.Add("type", "n");
                     break;
-                case ReportType.playing:
+                case ReportType.Playing:
                     args.Add("type", "p");
                     break;
-                case ReportType.skip:
+                case ReportType.Skip:
                     args.Add("type", "s");
                     if (sid == null)
                         throw new ArgumentException("sid is null");
                     args.Add("sid", sid);
                     break;
-                case ReportType.rate:
+                case ReportType.Rate:
                     args.Add("type", "r");
                     if (sid == null)
                         throw new ArgumentException("sid is null");
                     args.Add("sid", sid);
                     break;
-                case ReportType.unrate:
+                case ReportType.Unrate:
                     args.Add("type", "u");
                     if (sid == null)
                         throw new ArgumentException("sid is null");
@@ -304,45 +288,36 @@ namespace Aurora.Music.ViewModels
             return null;
         }
 
-        public DelegateCommand PlayPause
+        [RelayCommand]
+        public async Task PlayOrPause()
         {
-            get
+            if (sid == null)
             {
-                return new DelegateCommand(() =>
+                Switch(Channels.First().First());
+                return;
+            }
+            if (IsPlaying is bool b)
+            {
+                if (b)
                 {
-                    if (sid == null)
-                    {
-                        Switch(Channels.First().First());
-                        return;
-                    }
-                    if (IsPlaying is bool b)
-                    {
-                        if (b)
-                        {
-                            PlaybackEngine.PlaybackEngine.Current?.Pause();
-                        }
-                        else
-                        {
-                            PlaybackEngine.PlaybackEngine.Current?.Play();
-                        }
-                    }
-                    else
-                    {
-                        PlaybackEngine.PlaybackEngine.Current?.Play();
-                    }
-                });
+                    PlaybackEngine.PlaybackEngine.Current?.Pause();
+                }
+                else
+                {
+                    PlaybackEngine.PlaybackEngine.Current?.Play();
+                }
+            }
+            else
+            {
+                PlaybackEngine.PlaybackEngine.Current?.Play();
             }
         }
 
+        [ObservableProperty]
         private bool? isPlaying;
         private int channel;
         private double lastProgress;
 
-        public bool? IsPlaying
-        {
-            get { return isPlaying; }
-            set { SetProperty(ref isPlaying, value); }
-        }
 
         private CustomVisualizer isualizer;
         public CustomVisualizer Visualizer
@@ -449,7 +424,7 @@ namespace Aurora.Music.ViewModels
                             playedQueue.Enqueue(p);
                             Task.Run(async () =>
                             {
-                                var list = await Report(ReportType.end, channel.ToString(), p);
+                                var list = await Report(ReportType.End, channel.ToString(), p);
                                 if (list.r == 0)
                                 {
                                     await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
@@ -515,7 +490,7 @@ namespace Aurora.Music.ViewModels
 
                         });
                         rateToggle = false;
-                        RaisePropertyChanged("RateToggle");
+                        OnPropertyChanged("RateToggle");
 
                         Title = e.CurrentSong.Title;
                         Description = string.Format(Consts.Localizer.GetString("TileDesc"), e.CurrentSong.Album, string.Join(Consts.CommaSeparator, e.CurrentSong.Performers ?? new string[] { }));
@@ -535,7 +510,7 @@ namespace Aurora.Music.ViewModels
                                 var p = string.Copy(sid);
                                 playedQueue.Enqueue(p);
 
-                                var list = await Report(ReportType.end, channel.ToString(), p);
+                                var list = await Report(ReportType.End, channel.ToString(), p);
                                 if (list.r == 0)
                                 {
                                     await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
@@ -559,7 +534,7 @@ namespace Aurora.Music.ViewModels
                             }
                             else
                             {
-                                var list = await Report(ReportType.skip, channel.ToString(), sid);
+                                var list = await Report(ReportType.Skip, channel.ToString(), sid);
                                 if (list.r == 0)
                                 {
                                     await PlaybackEngine.PlaybackEngine.Current.AddtoNextPlay(list.song.Select(a => new Core.Models.Song()
@@ -609,7 +584,7 @@ namespace Aurora.Music.ViewModels
 
             }
             channel = model.ID;
-            var liat = await Report(ReportType.@new, model.ID.ToString());
+            var liat = await Report(ReportType.New, model.ID.ToString());
             if (liat.r == 0)
             {
                 await PlaybackEngine.PlaybackEngine.Current.NewPlayList(liat.song.Select(a => new Core.Models.Song()

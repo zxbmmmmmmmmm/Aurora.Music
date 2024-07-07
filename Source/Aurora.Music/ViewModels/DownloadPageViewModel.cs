@@ -5,6 +5,7 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,22 +18,16 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class DownloadPageViewModel : ViewModelBase
+    partial class DownloadPageViewModel : ViewModelBase
     {
         public ObservableCollection<DownloadItemViewModel> DownloadList { get; set; }
 
+        [ObservableProperty]
         private string totalDes;
-        public string TotalDes
-        {
-            get { return totalDes; }
-            set { SetProperty(ref totalDes, value); }
-        }
+
+        [ObservableProperty]
         private double totalProgress;
-        public double TotalProgress
-        {
-            get { return totalProgress; }
-            set { SetProperty(ref totalProgress, value); }
-        }
+
 
         public string TaskDesc(int count)
         {
@@ -158,36 +153,21 @@ namespace Aurora.Music.ViewModels
         }
     }
 
-    class DownloadItemViewModel : ViewModelBase
+    partial class DownloadItemViewModel : ViewModelBase
     {
+        [ObservableProperty]
         private double progress;
-        public double Progress
-        {
-            get { return progress; }
-            set { SetProperty(ref progress, value); }
-        }
+
+        [ObservableProperty]
         private string title;
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
-        }
 
         public Guid Guid { get; internal set; }
 
+        [ObservableProperty]
         private string description;
-        public string Description
-        {
-            get { return description; }
-            set { SetProperty(ref description, value); }
-        }
 
+        [ObservableProperty]
         private BackgroundTransferStatus status;
-        public BackgroundTransferStatus Status
-        {
-            get { return status; }
-            set { SetProperty(ref status, value); }
-        }
 
         public string StatusToString(BackgroundTransferStatus s)
         {

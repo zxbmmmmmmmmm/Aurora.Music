@@ -30,8 +30,8 @@ namespace Aurora.Music.Controls
 
         public object ImageSources
         {
-            get { return (object)GetValue(ImageSourcesProperty); }
-            set { SetValue(ImageSourcesProperty, value); }
+            get => (object)GetValue(ImageSourcesProperty);
+            set => SetValue(ImageSourcesProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ImageSources.  This enables animation, styling, binding, etc...

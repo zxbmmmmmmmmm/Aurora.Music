@@ -7,6 +7,7 @@ using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,73 +18,41 @@ using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
-    public class GenericMusicItemViewModel : ViewModelBase, IPreloadable<GenericMusicItemViewModel>
+    public partial class GenericMusicItemViewModel : ViewModelBase, IPreloadable<GenericMusicItemViewModel>
     {
+        [ObservableProperty]
         private string title;
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
-        }
 
+        [ObservableProperty]
         private bool hasMultipleItem;
-        public bool HasMultipleItem
-        {
-            get { return hasMultipleItem; }
-            set { SetProperty(ref hasMultipleItem, value); }
-        }
 
+        [ObservableProperty]
         private string description;
-        public string Description
-        {
-            get { return description; }
-            set { SetProperty(ref description, value); }
-        }
 
+        [ObservableProperty]
         private string additional;
-        public string Addtional
-        {
-            get { return additional; }
-            set { SetProperty(ref additional, value); }
-        }
 
         public Visibility SearchDeleteVis(string s)
         {
             return s == "\uE16D" ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        public string AddtionalAndDescription(string a, string b)
+        public string AdditionalAndDescription(string a, string b)
         {
             return $"{a} · {b}";
         }
 
+        [ObservableProperty]
         private Uri artwork;
-        public Uri Artwork
-        {
-            get { return artwork; }
-            set { SetProperty(ref artwork, value); }
-        }
 
+        [ObservableProperty]
         private bool isOnline;
-        public bool IsOnline
-        {
-            get { return isOnline; }
-            set { SetProperty(ref isOnline, value); }
-        }
 
+        [ObservableProperty]
         private bool isAvaliable;
-        public bool IsAvaliable
-        {
-            get { return isAvaliable; }
-            set { SetProperty(ref isAvaliable, value); }
-        }
 
+        [ObservableProperty]
         private Color mainColor;
-        public Color MainColor
-        {
-            get { return mainColor; }
-            set { SetProperty(ref mainColor, value); }
-        }
 
         public int[] IDs { get; set; }
         public string[] OnlineIDs { get; set; }
@@ -128,7 +97,7 @@ namespace Aurora.Music.ViewModels
             InnerType = MediaType.Album;
             ContextualID = album.ID;
             Title = album.Name;
-            Addtional = string.Join(Consts.CommaSeparator, album.AlbumArtists);
+            Additional = string.Join(Consts.CommaSeparator, album.AlbumArtists);
             Description = SmartFormat.Smart.Format(Consts.Localizer.GetString("SmartSongs"), (album.Songs.Length + album.Songs.Length));
             Artwork = album.PicturePath.IsNullorEmpty() ? null : new Uri(album.PicturePath);
             IDs = album.Songs;
@@ -140,7 +109,7 @@ namespace Aurora.Music.ViewModels
             InnerType = MediaType.Song;
             ContextualID = song.ID;
             Title = song.Title;
-            Addtional = song.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, song.Performers);
+            Additional = song.Performers.IsNullorEmpty() ? Consts.UnknownArtists : string.Join(Consts.CommaSeparator, song.Performers);
             Description = song.Album;
             Artwork = song.PicturePath.IsNullorEmpty() ? null : new Uri(song.PicturePath);
             IDs = new int[] { song.ID };
@@ -168,7 +137,7 @@ namespace Aurora.Music.ViewModels
             InnerType = item.InnerType;
             Title = item.Title;
             Description = item.Description;
-            Addtional = item.Addtional;
+            Additional = item.Addtional;
             Artwork = item.PicturePath.IsNullorEmpty() ? null : new Uri(item.PicturePath);
         }
 
@@ -265,7 +234,7 @@ namespace Aurora.Music.ViewModels
         public void LoadWithActual(GenericMusicItemViewModel item)
         {
             Title = item.Title;
-            Addtional = item.Addtional;
+            Additional = item.Additional;
             Artwork = item.Artwork;
             ContextualID = item.ContextualID;
             Description = item.Description;
@@ -291,44 +260,44 @@ namespace Aurora.Music.ViewModels
         private Uri artwork1;
         public Uri Artwork1
         {
-            get { return artwork1; }
-            set { SetProperty(ref artwork1, value); }
+            get => artwork1;
+            set => SetProperty(ref artwork1, value);
         }
         private Uri artwork2;
         public Uri Artwork2
         {
-            get { return artwork2; }
-            set { SetProperty(ref artwork2, value); }
+            get => artwork2;
+            set => SetProperty(ref artwork2, value);
         }
         private Uri artwork3;
         public Uri Artwork3
         {
-            get { return artwork3; }
-            set { SetProperty(ref artwork3, value); }
+            get => artwork3;
+            set => SetProperty(ref artwork3, value);
         }
         private Uri artwork4;
         public Uri Artwork4
         {
-            get { return artwork4; }
-            set { SetProperty(ref artwork4, value); }
+            get => artwork4;
+            set => SetProperty(ref artwork4, value);
         }
         private Uri artwork5;
         public Uri Artwork5
         {
-            get { return artwork5; }
-            set { SetProperty(ref artwork5, value); }
+            get => artwork5;
+            set => SetProperty(ref artwork5, value);
         }
         private Uri artwork6;
         public Uri Artwork6
         {
-            get { return artwork6; }
-            set { SetProperty(ref artwork6, value); }
+            get => artwork6;
+            set => SetProperty(ref artwork6, value);
         }
         private Uri artwork7;
         public Uri Artwork7
         {
-            get { return artwork7; }
-            set { SetProperty(ref artwork7, value); }
+            get => artwork7;
+            set => SetProperty(ref artwork7, value);
         }
 
         public Color MainColor1
@@ -357,7 +326,7 @@ namespace Aurora.Music.ViewModels
             Artwork6 = item.Artwork6;
             Artwork7 = item.Artwork7;
 
-            RaisePropertyChanged("MainColor1");
+            OnPropertyChanged("MainColor1");
         }
     }
 }

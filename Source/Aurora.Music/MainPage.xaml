@@ -199,7 +199,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" MaxLines="2" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="8,8,8,0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextWrapping="NoWrap" MaxLines="1"
                                TextTrimming="CharacterEllipsis" Margin="8,0,8,8" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
+                        <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Additional}"/>
                     </TextBlock>
                 </Grid>
             </DataTemplate>
@@ -250,7 +250,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <Run Text="{x:Bind Title}" FontWeight="Bold"/>
                     </TextBlock>
                     <TextBlock Style="{ThemeResource BodyTextBlockStyle}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
-                        <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Addtional}"/>
+                        <Run Text="{x:Bind Description}"/><Run Text=" - "/><Run Text="{x:Bind Additional}"/>
                     </TextBlock>
                     <TextBlock Text="Online Content" Grid.Row="2" Grid.Column="1"  Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlHighlightAccent2RevealBackgroundBrush}" Margin="4,0,4,8" FontSize="10" Visibility="{x:Bind IsOnline}"/>
                 </Grid>

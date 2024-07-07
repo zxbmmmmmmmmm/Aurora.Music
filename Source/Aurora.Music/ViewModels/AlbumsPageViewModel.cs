@@ -5,6 +5,8 @@ using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,43 +17,26 @@ using Windows.UI.StartScreen;
 
 namespace Aurora.Music.ViewModels
 {
-    class AlbumsPageViewModel : ViewModelBase
+    partial class AlbumsPageViewModel : ViewModelBase
     {
+        [ObservableProperty]
         private ObservableCollection<GroupedItem<AlbumViewModel>> albumList;
-        public ObservableCollection<GroupedItem<AlbumViewModel>> AlbumList
-        {
-            get { return albumList; }
-            set { SetProperty(ref albumList, value); }
-        }
 
-        private string genres;
-        public string ArtistsCount
-        {
-            get { return genres; }
-            set { SetProperty(ref genres, value); }
-        }
+        [ObservableProperty]
+        private string artistsCount;//genres
 
+        [ObservableProperty]
         private string songsCount;
-        public string SongsCount
-        {
-            get { return songsCount; }
-            set { SetProperty(ref songsCount, value); }
-        }
 
         public AlbumsPageViewModel()
         {
             AlbumList = new ObservableCollection<GroupedItem<AlbumViewModel>>();
         }
 
-        public DelegateCommand PlayAll
+        [RelayCommand]
+        public async Task PlayAll()
         {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    await MainPageViewModel.Current.InstantPlayAsync(await FileReader.GetAllSongAsync());
-                });
-            }
+            await MainPageViewModel.Current.InstantPlayAsync(await FileReader.GetAllSongAsync());
         }
 
         public int SortIndex { get; internal set; } = 0;
@@ -149,77 +134,71 @@ namespace Aurora.Music.ViewModels
 
 
 
-        public string PinnedtoGlyph(bool b)
+        public string PinnedToGlyph(bool b)
         {
             return b ? "\uE196" : "\uE141";
         }
-        public string PinnedtoText(bool b)
+        public string PinnedToText(bool b)
         {
             return b ? Consts.Localizer.GetString("UnPinText") : Consts.Localizer.GetString("PinText");
         }
 
-        public DelegateCommand PintoStart
+        [RelayCommand]
+        public async Task PinToStart()
         {
-            get => new DelegateCommand(async () =>
+            // Construct a unique tile ID, which you will need to use later for updating the tile
+            var tileId = "albums";
+            if (SecondaryTile.Exists(tileId))
             {
-                // Construct a unique tile ID, which you will need to use later for updating the tile
-                var tileId = "albums";
-                if (SecondaryTile.Exists(tileId))
+                // Initialize a secondary tile with the same tile ID you want removed
+                var toBeDeleted = new SecondaryTile(tileId);
+
+                // And then unpin the tile
+                await toBeDeleted.RequestDeleteAsync();
+            }
+            else
+            {
+                // Use a display name you like
+                var displayName = Consts.Localizer.GetString("AlbumsText");
+
+                // Provide all the required info in arguments so that when user
+                // clicks your tile, you can navigate them to the correct content
+                var arguments = $"as-music:///library/albums";
+
+                // Initialize the tile with required arguments
+                var tile = new SecondaryTile
                 {
-                    // Initialize a secondary tile with the same tile ID you want removed
-                    var toBeDeleted = new SecondaryTile(tileId);
+                    Arguments = arguments,
+                    TileId = tileId,
+                    DisplayName = displayName
+                };
+                tile.VisualElements.Square150x150Logo = new Uri("ms-appx:///Assets/Square150x150Logo.png");
+                // Enable wide and large tile sizes
+                tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.png");
+                tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/LargeTile.png");
 
-                    // And then unpin the tile
-                    await toBeDeleted.RequestDeleteAsync();
-                }
-                else
-                {
-                    // Use a display name you like
-                    var displayName = Consts.Localizer.GetString("AlbumsText");
+                // Add a small size logo for better looking small tile
+                tile.VisualElements.Square71x71Logo = new Uri("ms-appx:///Assets/SmallTile.png");
 
-                    // Provide all the required info in arguments so that when user
-                    // clicks your tile, you can navigate them to the correct content
-                    var arguments = $"as-music:///library/albums";
+                // Add a unique corner logo for the secondary tile
+                tile.VisualElements.Square44x44Logo = new Uri("ms-appx:///Assets/Square44x44Logo.png");
 
-                    // Initialize the tile with required arguments
-                    var tile = new SecondaryTile
-                    {
-                        Arguments = arguments,
-                        TileId = tileId,
-                        DisplayName = displayName
-                    };
-                    tile.VisualElements.Square150x150Logo = new Uri("ms-appx:///Assets/Square150x150Logo.png");
-                    // Enable wide and large tile sizes
-                    tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.png");
-                    tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/LargeTile.png");
+                tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+                tile.VisualElements.ShowNameOnWide310x150Logo = true;
+                tile.VisualElements.ShowNameOnSquare310x310Logo = true;
 
-                    // Add a small size logo for better looking small tile
-                    tile.VisualElements.Square71x71Logo = new Uri("ms-appx:///Assets/SmallTile.png");
+                // Pin the tile
+                await tile.RequestCreateAsync();
+            }
 
-                    // Add a unique corner logo for the secondary tile
-                    tile.VisualElements.Square44x44Logo = new Uri("ms-appx:///Assets/Square44x44Logo.png");
-
-                    tile.VisualElements.ShowNameOnSquare150x150Logo = true;
-                    tile.VisualElements.ShowNameOnWide310x150Logo = true;
-                    tile.VisualElements.ShowNameOnSquare310x310Logo = true;
-
-                    // Pin the tile
-                    await tile.RequestCreateAsync();
-                }
-
-                IsPinned = SecondaryTile.Exists(tileId);
-                if (IsPinned)
-                {
-                    Core.Tools.Tile.UpdateImage(tileId, AlbumList.SelectMany(a => a.Where(c => c.ArtworkUri != null).Select(b => b.ArtworkUri.OriginalString)).Distinct().OrderBy(x => Guid.NewGuid()).Take(10).ToList(), Consts.Localizer.GetString("AlbumsText"), Consts.Localizer.GetString("AlbumsTile"));
-                }
-            });
+            IsPinned = SecondaryTile.Exists(tileId);
+            if (IsPinned)
+            {
+                Core.Tools.Tile.UpdateImage(tileId, AlbumList.SelectMany(a => a.Where(c => c.ArtworkUri != null).Select(b => b.ArtworkUri.OriginalString)).Distinct().OrderBy(x => Guid.NewGuid()).Take(10).ToList(), Consts.Localizer.GetString("AlbumsText"), Consts.Localizer.GetString("AlbumsTile"));
+            }
         }
 
+        [ObservableProperty]
         private bool isPinned;
-        public bool IsPinned
-        {
-            get { return isPinned; }
-            set { SetProperty(ref isPinned, value); }
-        }
     }
 }

@@ -7,6 +7,8 @@ using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,108 +21,99 @@ using Windows.UI.Xaml.Media;
 
 namespace Aurora.Music.ViewModels
 {
-    class AddFoldersViewViewModel : ViewModelBase
+    partial class AddFoldersViewViewModel : ViewModelBase
     {
-        public DelegateCommand AddFolderCommand
+        [RelayCommand]
+        public async Task AddFolder()
         {
-            get
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker
             {
-                return new DelegateCommand(async () =>
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
+            };
+            foreach (var ext in Consts.PlaylistType)
+            {
+                folderPicker.FileTypeFilter.Add(ext);
+            }
+            foreach (var ext in Consts.FileTypes)
+            {
+                folderPicker.FileTypeFilter.Add(ext);
+            }
+
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                var opr = SQLOperator.Current();
+                if (await opr.AddFolderAsync(folder, false))
                 {
-                    var folderPicker = new Windows.Storage.Pickers.FolderPicker
+                    var l = await opr.GetFolderAsync(folder.Path);
+                    foreach (var item in l)
                     {
-                        SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
-                    };
-                    foreach (var ext in Consts.PlaylistType)
-                    {
-                        folderPicker.FileTypeFilter.Add(ext);
+                        Folders.Add(new FolderViewModel(item));
                     }
-                    foreach (var ext in Consts.FileTypes)
-                    {
-                        folderPicker.FileTypeFilter.Add(ext);
-                    }
+                }
+            }
+            else
+            {
+                return;
+            }
 
-                    var folder = await folderPicker.PickSingleFolderAsync();
-                    if (folder != null)
-                    {
-                        var opr = SQLOperator.Current();
-                        if (await opr.AddFolderAsync(folder, false))
-                        {
-                            var l = await opr.GetFolderAsync(folder.Path);
-                            foreach (var item in l)
-                            {
-                                Folders.Add(new FolderViewModel(item));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    if (MainPageViewModel.Current != null)
-                    {
-                        var t = Task.Run(async () =>
-                        {
-                            await MainPageViewModel.Current.FilesChangedAsync();
-                        });
-                    }
+            if (MainPageViewModel.Current != null)
+            {
+                var t = Task.Run(async () =>
+                {
+                    await MainPageViewModel.Current.FilesChangedAsync();
                 });
             }
         }
 
-        public DelegateCommand FilterFolderCommand
+        [RelayCommand]
+        public async Task FilterFolder()
         {
-            get
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker
             {
-                return new DelegateCommand(async () =>
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
+            };
+            foreach (var ext in Consts.PlaylistType)
+            {
+                folderPicker.FileTypeFilter.Add(ext);
+            }
+            foreach (var ext in Consts.FileTypes)
+            {
+                folderPicker.FileTypeFilter.Add(ext);
+            }
+
+            var folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                var opr = SQLOperator.Current();
+                if (await opr.AddFolderAsync(folder, true))
                 {
-                    var folderPicker = new Windows.Storage.Pickers.FolderPicker
+                    var l = await opr.GetFolderAsync(folder.Path);
+                    foreach (var item in l)
                     {
-                        SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder
-                    };
-                    foreach (var ext in Consts.PlaylistType)
-                    {
-                        folderPicker.FileTypeFilter.Add(ext);
+                        Folders.Add(new FolderViewModel(item));
                     }
-                    foreach (var ext in Consts.FileTypes)
-                    {
-                        folderPicker.FileTypeFilter.Add(ext);
-                    }
+                }
+            }
+            else
+            {
+                return;
+            }
 
-                    var folder = await folderPicker.PickSingleFolderAsync();
-                    if (folder != null)
-                    {
-                        var opr = SQLOperator.Current();
-                        if (await opr.AddFolderAsync(folder, true))
-                        {
-                            var l = await opr.GetFolderAsync(folder.Path);
-                            foreach (var item in l)
-                            {
-                                Folders.Add(new FolderViewModel(item));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    if (MainPageViewModel.Current != null)
-                    {
-                        var t = Task.Run(async () =>
-                        {
-                            await MainPageViewModel.Current.FilesChangedAsync();
-                        });
-                    }
+            if (MainPageViewModel.Current != null)
+            {
+                var t = Task.Run(async () =>
+                {
+                    await MainPageViewModel.Current.FilesChangedAsync();
                 });
             }
         }
+
 
         private bool durationFilterEnabled = Settings.Current.FileDurationFilterEnabled;
         public bool DurationFilterEnabled
         {
-            get { return durationFilterEnabled; }
+            get => durationFilterEnabled;
             set
             {
                 Settings.Current.FileDurationFilterEnabled = value;
@@ -132,7 +125,7 @@ namespace Aurora.Music.ViewModels
         private bool sizeFilterEnabled = Settings.Current.FileSizeFilterEnabled;
         public bool SizeFilterEnabled
         {
-            get { return sizeFilterEnabled; }
+            get => sizeFilterEnabled;
             set
             {
                 Settings.Current.FileSizeFilterEnabled = value;
@@ -144,7 +137,7 @@ namespace Aurora.Music.ViewModels
         private double duration = Settings.Current.FileDurationFilter;
         public double Duration
         {
-            get { return duration; }
+            get => duration;
             set
             {
                 Settings.Current.FileDurationFilter = Convert.ToUInt32(value);
@@ -162,7 +155,7 @@ namespace Aurora.Music.ViewModels
         private double size = Math.Round(Settings.Current.FileSizeFilter / 1024d);
         public double Size
         {
-            get { return size; }
+            get => size;
             set
             {
                 Settings.Current.FileSizeFilter = Convert.ToUInt32(value * 1024);
@@ -202,18 +195,14 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        [ObservableProperty]
         private ElementTheme foreground = ElementTheme.Default;
-        public ElementTheme Foreground
-        {
-            get { return foreground; }
-            set { SetProperty(ref foreground, value); }
-        }
 
 
         private bool includeMusicLibrary = Settings.Current.IncludeMusicLibrary;
         public bool IncludeMusicLibrary
         {
-            get { return includeMusicLibrary; }
+            get => includeMusicLibrary;
             set
             {
                 SetProperty(ref includeMusicLibrary, value);
@@ -254,7 +243,7 @@ namespace Aurora.Music.ViewModels
         }
     }
 
-    class FolderViewModel : ViewModelBase
+    partial class FolderViewModel : ViewModelBase
     {
         public FolderViewModel(FOLDER item)
         {
@@ -276,27 +265,14 @@ namespace Aurora.Music.ViewModels
             IsFiltered = item.IsFiltered;
         }
 
+        [ObservableProperty]
         private bool isFiltered;
-        public bool IsFiltered
-        {
-            get { return isFiltered; }
-            set { SetProperty(ref isFiltered, value); }
-        }
 
-        private bool notAva;
-        public bool NotAvaliable
-        {
-            get { return notAva; }
-            set { SetProperty(ref notAva, value); }
-        }
+        [ObservableProperty]
+        private bool notAvaliable;
 
+        [ObservableProperty]
         private bool isOpened;
-
-        public bool IsOpened
-        {
-            get { return isOpened; }
-            set { SetProperty(ref isOpened, value); }
-        }
 
         public FolderViewModel() { }
 

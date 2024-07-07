@@ -158,7 +158,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <toolkit:WrapPanel HorizontalSpacing="8" VerticalSpacing="8"
                                                Orientation="Horizontal" 
                                                HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Button Command="{x:Bind Context.PlayAll}" Style="{ThemeResource PlayAllButton}"/>
+                                <Button Command="{x:Bind Context.PlayAllCommand}" Style="{ThemeResource PlayAllButton}"/>
                                 <ComboBox x:Uid="SortBox" x:Name="SortBox"
                                           SelectedIndex="0"
                                           Style="{StaticResource HorizontalComboBox}" 
@@ -180,7 +180,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                             <StackPanel Orientation="Vertical">
                                                 <TextBlock Text="This action can't restore"/>
                                                 <Button Background="#ff4343" Foreground="White" 
-                                                        Content="Confirm Delete" Command="{x:Bind Context.Delete}"/>
+                                                        Content="Confirm Delete" Command="{x:Bind Context.DeleteCommand}"/>
                                             </StackPanel>
                                         </Flyout>
                                     </Button.Flyout>
@@ -253,7 +253,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                           Visibility="{x:Bind SelectionModeToOther(AlbumList.SelectionMode),Mode=OneWay}"/>
 
             <AppBarButton x:Uid="PlayAllAppBarButton" 
-                          Label="Play all" Command="{x:Bind Context.PlayAll}"
+                          Label="Play all" Command="{x:Bind Context.PlayAllCommand}"
                           Visibility="{x:Bind SelectionModeToTitle(AlbumList.SelectionMode),Mode=OneWay}">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
@@ -269,7 +269,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="This action can't restore"/>
                             <Button Background="#ff4343" Foreground="White" 
-                                    Content="Confirm Delete" Command="{x:Bind Context.Delete}"/>
+                                    Content="Confirm Delete" Command="{x:Bind Context.DeleteCommand}"/>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>

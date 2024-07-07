@@ -23,8 +23,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public HeroItemViewModel Data
         {
-            get { return (HeroItemViewModel)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (HeroItemViewModel)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
         }
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataProperty =

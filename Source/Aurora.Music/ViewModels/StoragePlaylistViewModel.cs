@@ -6,6 +6,8 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Music.Pages;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,69 +21,40 @@ using Windows.Storage;
 
 namespace Aurora.Music.ViewModels
 {
-    internal class StoragePlaylistViewModel : ViewModelBase
+    internal partial class StoragePlaylistViewModel : ViewModelBase
     {
         private Playlist playlist;
 
         private ObservableCollection<GroupedItem<StorageSongViewModel>> songsList;
         public ObservableCollection<GroupedItem<StorageSongViewModel>> SongsList
         {
-            get { return songsList; }
-            set { SetProperty(ref songsList, value); }
+            get => songsList;
+            set => SetProperty(ref songsList, value);
         }
-
+        [ObservableProperty]
         private List<Uri> heroImage;
-        public List<Uri> HeroImage
-        {
-            get { return heroImage; }
-            set { SetProperty(ref heroImage, value); }
-        }
 
-        private string desc;
-        public string Description
-        {
-            get { return desc; }
-            set { SetProperty(ref desc, value); }
-        }
+        [ObservableProperty]
+        private string description;
 
+        [ObservableProperty]
         private string songsCount;
-        public string SongsCount
-        {
-            get { return songsCount; }
-            set { SetProperty(ref songsCount, value); }
-        }
 
+        [ObservableProperty]
         private string title;
         private StorageFile playlistFile;
 
-        public string Title
+        [RelayCommand]
+        public async Task PlayAll()
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(b => b.File)).ToList());
         }
 
-        public DelegateCommand PlayAll
+        [RelayCommand]
+        public async Task Delete()
         {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(b => b.File)).ToList());
-                });
-            }
-        }
-
-
-        public DelegateCommand Delete
-        {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    await playlistFile.DeleteAsync();
-                    LibraryPage.Current.RemoveStoragePlayList(playlistFile.Name);
-                });
-            }
+            await playlistFile.DeleteAsync();
+            LibraryPage.Current.RemoveStoragePlayList(playlistFile.Name);
         }
 
         public StoragePlaylistViewModel()

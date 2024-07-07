@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppExtensions;
@@ -12,80 +13,49 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class ExtensionViewModel : ViewModelBase
+    partial class ExtensionViewModel : ViewModelBase
     {
         public AppExtension AppExtension { get; private set; }
 
+        [ObservableProperty]
         private string uniqueId;
-        public string UniqueId
-        {
-            get { return uniqueId; }
-            set { SetProperty(ref uniqueId, value); }
-        }
 
+        [ObservableProperty]
         private bool isCurrent;
-        public bool IsCurrent
-        {
-            get { return isCurrent; }
-            set { SetProperty(ref isCurrent, value); }
-        }
 
+        [ObservableProperty]
         private bool canLaunch;
-        public bool CanLaunch
-        {
-            get { return canLaunch; }
-            set { SetProperty(ref canLaunch, value); }
-        }
 
+        [ObservableProperty]
         private bool canUninstall = true;
-        public bool CanUninstall
-        {
-            get { return canUninstall; }
-            set { SetProperty(ref canUninstall, value); }
-        }
 
-        private bool avaliable;
-        public bool Avaliable
-        {
-            get { return avaliable; }
-            set { SetProperty(ref avaliable, value); }
-        }
+        [ObservableProperty]
+        private bool available;
 
         private BitmapImage logo;
         public BitmapImage Logo
         {
-            get { return logo; }
-            set { SetProperty(ref logo, value); }
+            get => logo;
+            set => SetProperty(ref logo, value);
         }
 
         private string name;
         public string Name
         {
-            get { return Avaliable ? name : Consts.Localizer.GetString("NotAvaliableText"); }
-            set { SetProperty(ref name, value); }
+            get => Available ? name : Consts.Localizer.GetString("NotAvaliableText");//typo here
+            set => SetProperty(ref name, value);
         }
 
+        [ObservableProperty]
         private string service;
-        public string Service
-        {
-            get { return service; }
-            set { SetProperty(ref service, value); }
-        }
 
         private string _launchUri;
-        private string descri;
-        public string Description
-        {
-            get { return descri; }
-            set { SetProperty(ref descri, value); }
-        }
 
+        [ObservableProperty]
+        private string description;
+
+        [ObservableProperty]
         private ExtType type;
-        public ExtType ExtType
-        {
-            get { return type; }
-            set { SetProperty(ref type, value); }
-        }
 
         public override string ToString()
         {
@@ -102,16 +72,14 @@ namespace Aurora.Music.ViewModels
         }
         public bool MetaEnabled(ExtType type)
         {
-            return type.HasFlag(ExtType.OnlieMetaData);
+            return type.HasFlag(ExtType.OnlineMetaData);
         }
 
-        public DelegateCommand LaunchUri
-        {
-            get => new DelegateCommand(async () =>
+        public DelegateCommand LaunchUri =>
+            new DelegateCommand(async () =>
             {
                 await Launcher.LaunchUriAsync(new Uri(_launchUri));
             });
-        }
 
         public ExtensionViewModel(AppExtension ext, PropertySet properties)
         {
@@ -122,7 +90,7 @@ namespace Aurora.Music.ViewModels
             }
 
             AppExtension = ext;
-            Avaliable = ext.Package.Status.VerifyIsOK();
+            Available = ext.Package.Status.VerifyIsOK();
 
             var cates = ((properties["Category"] as PropertySet)["#text"] as string).Split(';');
             if (cates != null && cates.Length > 0)
@@ -132,11 +100,11 @@ namespace Aurora.Music.ViewModels
                     switch (item)
                     {
                         case "Lyric":
-                            ExtType |= ExtType.Lyric; break;
+                            Type |= ExtType.Lyric; break;
                         case "OnlineMusic":
-                            ExtType |= ExtType.OnlineMusic; break;
+                            Type |= ExtType.OnlineMusic; break;
                         case "OnlineMeta":
-                            ExtType |= ExtType.OnlieMetaData; break;
+                            Type |= ExtType.OnlineMetaData; break;
                         default:
                             break;
                     }
@@ -144,7 +112,7 @@ namespace Aurora.Music.ViewModels
             }
             else
             {
-                ExtType = ExtType.NotSpecific;
+                Type = ExtType.NotSpecific;
             }
 
             Name = ext.DisplayName;
@@ -189,7 +157,7 @@ namespace Aurora.Music.ViewModels
 
         internal void Unload()
         {
-            Avaliable = false;
+            Available = false;
         }
 
         internal async Task Update(AppExtension ext)
@@ -205,7 +173,7 @@ namespace Aurora.Music.ViewModels
             }
 
             AppExtension = ext;
-            Avaliable = ext.Package.Status.VerifyIsOK();
+            Available = ext.Package.Status.VerifyIsOK();
 
             var cates = ((properties["Category"] as PropertySet)["#text"] as string).Split(';');
             if (cates != null && cates.Length > 0)
@@ -215,11 +183,11 @@ namespace Aurora.Music.ViewModels
                     switch (item)
                     {
                         case "Lyric":
-                            ExtType |= ExtType.Lyric; break;
+                            Type |= ExtType.Lyric; break;
                         case "OnlineMusic":
-                            ExtType |= ExtType.OnlineMusic; break;
+                            Type |= ExtType.OnlineMusic; break;
                         case "OnlineMeta":
-                            ExtType |= ExtType.OnlieMetaData; break;
+                            Type |= ExtType.OnlineMetaData; break;
                         default:
                             break;
                     }
@@ -227,7 +195,7 @@ namespace Aurora.Music.ViewModels
             }
             else
             {
-                ExtType = ExtType.NotSpecific;
+                Type = ExtType.NotSpecific;
             }
 
             Name = ext.DisplayName;
@@ -254,5 +222,5 @@ namespace Aurora.Music.ViewModels
     }
 
     [Flags]
-    public enum ExtType { NotSpecific = 1, Lyric = 2, OnlineMusic = 4, OnlieMetaData = 8 }
+    public enum ExtType { NotSpecific = 1, Lyric = 2, OnlineMusic = 4, OnlineMetaData = 8 }
 }

@@ -6,6 +6,7 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,10 @@ using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
-    public class AlbumViewModel : ViewModelBase, IKey
+    public partial class AlbumViewModel : ViewModelBase, IKey
     {
-
+        [ObservableProperty]
         private bool isOnedrive;
-        public bool IsOnedrive
-        {
-            get { return isOnedrive; }
-            set { SetProperty(ref isOnedrive, value); }
-        }
 
         public AlbumViewModel(Album album)
         {
@@ -54,12 +50,8 @@ namespace Aurora.Music.ViewModels
             ID = album.ID;
         }
 
+        [ObservableProperty]
         private bool isOnline;
-        public bool IsOnline
-        {
-            get { return isOnline; }
-            set { SetProperty(ref isOnline, value); }
-        }
 
         public AlbumViewModel() { }
 
@@ -67,12 +59,8 @@ namespace Aurora.Music.ViewModels
 
         public List<Song> Songs { get; set; } = new List<Song>();
 
+        [ObservableProperty]
         private Uri artworkUri;
-        public Uri ArtworkUri
-        {
-            get { return artworkUri; }
-            set { SetProperty(ref artworkUri, value); }
-        }
 
 
         private const string splitter = " · ";
@@ -101,18 +89,8 @@ namespace Aurora.Music.ViewModels
             return b;
         }
 
-        private string title;
-        public string Name
-        {
-            get
-            {
-                return title;
-            }
-            set
-            {
-                SetProperty(ref title, value);
-            }
-        }
+        [ObservableProperty]
+        private string name;
 
         public virtual string[] Genres { get; set; }
         public uint Year { get; set; }
@@ -158,8 +136,8 @@ namespace Aurora.Music.ViewModels
         private string description;
         public string Description
         {
-            get { return description; }
-            set { SetProperty(ref description, value); }
+            get => description;
+            set => SetProperty(ref description, value);
         }
 
         public string[] OnlieIDs { get; }

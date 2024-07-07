@@ -4,33 +4,23 @@
 using Aurora.Music.Core;
 using Aurora.Music.Core.Models;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
 using Windows.UI.Text;
 
 namespace Aurora.Music.ViewModels
 {
-    class LyricViewModel : ViewModelBase
+    partial class LyricViewModel : ViewModelBase
     {
-        private ObservableCollection<LrcContent> content;
-        public ObservableCollection<LrcContent> Contents
-        {
-            get { return content; }
-            set { SetProperty(ref content, value); }
-        }
-        private int index = -1;
-        public int CurrentIndex
-        {
-            get { return index; }
-            set { SetProperty(ref index, value); }
-        }
+        [ObservableProperty]
+        private ObservableCollection<LrcContent> contents;
 
-        private bool hasLryic;
-        public bool HasLyric
-        {
-            get { return hasLryic; }
-            set { SetProperty(ref hasLryic, value); }
-        }
+        [ObservableProperty]
+        private int currentIndex = -1;
+
+        [ObservableProperty]
+        private bool hasLyric;
 
         public string GetCurrent(int p)
         {

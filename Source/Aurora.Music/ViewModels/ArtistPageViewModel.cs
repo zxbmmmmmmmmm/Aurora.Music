@@ -6,6 +6,8 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,44 +20,25 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class ArtistPageViewModel : ViewModelBase, IKey
+    partial class ArtistPageViewModel : ViewModelBase, IKey
     {
+        [ObservableProperty]
         private ObservableCollection<AlbumViewModel> albumList;
-        public ObservableCollection<AlbumViewModel> AlbumList
-        {
-            get { return albumList; }
-            set { SetProperty(ref albumList, value); }
-        }
 
+        [ObservableProperty]
         private ObservableCollection<GroupedItem<SongViewModel>> songsList;
-        public ObservableCollection<GroupedItem<SongViewModel>> SongsList
-        {
-            get { return songsList; }
-            set { SetProperty(ref songsList, value); }
-        }
+
 
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
+        [ObservableProperty]
         private ArtistViewModel artist;
-        public ArtistViewModel Artist
-        {
-            get { return artist; }
-            set { SetProperty(ref artist, value); }
-        }
 
+        [ObservableProperty]
         private string genres;
-        public string Genres
-        {
-            get { return genres; }
-            set { SetProperty(ref genres, value); }
-        }
 
+        [ObservableProperty]
         private string songsCount;
-        public string SongsCount
-        {
-            get { return songsCount; }
-            set { SetProperty(ref songsCount, value); }
-        }
 
         public string Key => Artist.Name;
 
@@ -65,15 +48,10 @@ namespace Aurora.Music.ViewModels
             SongsList = new ObservableCollection<GroupedItem<SongViewModel>>();
         }
 
-        public DelegateCommand PlayAll
+        [RelayCommand]
+        public async Task PlayAll()
         {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
-                });
-            }
+            await MainPageViewModel.Current.InstantPlayAsync(SongsList.SelectMany(a => a.Select(s => s.Song)).ToList());
         }
 
         internal async Task PlayAt(SongViewModel songViewModel)

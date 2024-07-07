@@ -68,17 +68,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="0" IsChecked="{x:Bind LyricEnabled(ExtType), Mode=OneWay}">
+                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="0" IsChecked="{x:Bind LyricEnabled(Type), Mode=OneWay}">
                             <CheckBox.Content>
                                 <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE71D;" />
                             </CheckBox.Content>
                         </CheckBox>
-                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="1" IsChecked="{x:Bind MusicEnabled(ExtType), Mode=OneWay}">
+                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="1" IsChecked="{x:Bind MusicEnabled(Type), Mode=OneWay}">
                             <CheckBox.Content>
                                 <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
                             </CheckBox.Content>
                         </CheckBox>
-                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="2" IsChecked="{x:Bind MetaEnabled(ExtType), Mode=OneWay}">
+                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="2" IsChecked="{x:Bind MetaEnabled(Type), Mode=OneWay}">
                             <CheckBox.Content>
                                 <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
                             </CheckBox.Content>

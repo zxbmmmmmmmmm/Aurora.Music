@@ -24,8 +24,8 @@ namespace Aurora.Music.Controls.ListItems
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
         public GenericMusicItemViewModel Data
         {
-            get { return (GenericMusicItemViewModel)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (GenericMusicItemViewModel)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
         }
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataProperty =
@@ -33,8 +33,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public BitmapImage DataArtwork
         {
-            get { return (BitmapImage)GetValue(DataArtworkProperty); }
-            set { SetValue(DataArtworkProperty, value); }
+            get => (BitmapImage)GetValue(DataArtworkProperty);
+            set => SetValue(DataArtworkProperty, value);
         }
         // Using a DependencyProperty as the backing store for DataArtwork.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataArtworkProperty =

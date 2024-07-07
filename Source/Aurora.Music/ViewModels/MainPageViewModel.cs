@@ -19,7 +19,7 @@ using Aurora.Music.PlaybackEngine;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
-
+using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.UserActivities;
 using Windows.Foundation.Collections;
@@ -38,7 +38,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Aurora.Music.ViewModels
 {
-    class MainPageViewModel : ViewModelBase, IDisposable
+    partial class MainPageViewModel : ViewModelBase, IDisposable
     {
         private Windows.System.Display.DisplayRequest _displayRequest;
         private int _displayRequestCount = 0;
@@ -172,33 +172,17 @@ namespace Aurora.Music.ViewModels
 
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
+        [ObservableProperty]
         private BitmapImage currentArtwork = new BitmapImage(new Uri(Consts.BlackPlaceholder));
-        public BitmapImage CurrentArtwork
-        {
-            get { return currentArtwork; }
-            set { SetProperty(ref currentArtwork, value); }
-        }
 
+        [ObservableProperty]
         private bool needShowBack;
-        public bool NeedShowBack
-        {
-            get { return needShowBack; }
-            set { SetProperty(ref needShowBack, value); }
-        }
 
+        [ObservableProperty]
         private double nowPlayingPosition;
-        public double NowPlayingPosition
-        {
-            get { return nowPlayingPosition; }
-            set { SetProperty(ref nowPlayingPosition, value); }
-        }
 
+        [ObservableProperty]
         private bool? isPlaying;
-        public bool? IsPlaying
-        {
-            get { return isPlaying; }
-            set { SetProperty(ref isPlaying, value); }
-        }
 
         internal void RestoreLastTitle()
         {
@@ -210,33 +194,17 @@ namespace Aurora.Music.ViewModels
             Title = _lasttitle;
         }
 
+        [ObservableProperty]
         private string placeholderText = Consts.Localizer.GetString("SearchInLibraryText");
-        public string PlaceholderText
-        {
-            get { return placeholderText; }
-            set { SetProperty(ref placeholderText, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan currentPosition;
-        public TimeSpan CurrentPosition
-        {
-            get { return currentPosition; }
-            set { SetProperty(ref currentPosition, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan totalDuration;
-        public TimeSpan TotalDuration
-        {
-            get { return totalDuration; }
-            set { SetProperty(ref totalDuration, value); }
-        }
 
+        [ObservableProperty]
         private string currentTitle;
-        public string CurrentTitle
-        {
-            get { return currentTitle.IsNullorEmpty() ? Consts.Localizer.GetString("AppNameText") : currentTitle; }
-            set { SetProperty(ref currentTitle, value); }
-        }
 
         public string CurrentPlayingDesc()
         {
@@ -250,52 +218,24 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        [ObservableProperty]
         private bool isPodcast;
-        public bool IsPodcast
-        {
-            get { return isPodcast; }
-            set { SetProperty(ref isPodcast, value); }
-        }
 
+        [ObservableProperty]
         private string currentAlbum;
-        public string CurrentAlbum
-        {
-            get { return currentAlbum.IsNullorEmpty() ? Consts.Localizer.GetString("NotPlayingText") : currentAlbum; }
-            set { SetProperty(ref currentAlbum, value); }
-        }
 
+        [ObservableProperty]
         private string currentArtist;
-        public string CurrentArtist
-        {
-            get { return currentArtist; }
-            set { SetProperty(ref currentArtist, value); }
-        }
 
+        [ObservableProperty]
         private string nowListPreview = "-/-";
-        public string NowListPreview
-        {
-            get { return nowListPreview; }
-            set { SetProperty(ref nowListPreview, value); }
-        }
 
+        [ObservableProperty]
         private int currentIndex = -1;
-        public int CurrentIndex
-        {
-            get { return currentIndex; }
-            set { SetProperty(ref currentIndex, value); }
-        }
 
         private bool _lastneedshow;
-        private bool needHeader;
-        public bool NeedShowTitle
-        {
-            get { return needHeader; }
-            set
-            {
-                _lastneedshow = needHeader;
-                SetProperty(ref needHeader, value);
-            }
-        }
+        [ObservableProperty]
+        private bool needShowTitle;
 
         public Visibility TitlebarVisibility(bool b)
         {
@@ -303,16 +243,9 @@ namespace Aurora.Music.ViewModels
         }
 
         private string _lasttitle;
+
+        [ObservableProperty]
         private string title;
-        public string Title
-        {
-            get { return title; }
-            set
-            {
-                _lasttitle = title;
-                SetProperty(ref title, value);
-            }
-        }
 
         internal async Task<Song> GetOnlineSongAsync(string id)
         {
@@ -701,8 +634,8 @@ namespace Aurora.Music.ViewModels
                 IsPlaying = e.PlaybackStatus == MediaPlaybackState.Playing;
                 isLoop = e.IsLoop;
                 isShuffle = e.IsShuffle;
-                RaisePropertyChanged("IsLoop");
-                RaisePropertyChanged("IsShuffle");
+                OnPropertyChanged("IsLoop");
+                OnPropertyChanged("IsShuffle");
 
                 if (e.PlaybackStatus == MediaPlaybackState.Playing && Settings.Current.PreventLockscreen)
                 {

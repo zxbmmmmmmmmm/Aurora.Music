@@ -6,6 +6,8 @@ using Aurora.Music.Core.Models;
 using Aurora.Music.Core.Storage;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SmartFormat;
 using System;
 using System.Collections.Generic;
@@ -17,30 +19,18 @@ using Windows.System.Threading;
 
 namespace Aurora.Music.ViewModels
 {
-    class AlbumDetailViewModel : ViewModelBase
+    partial class AlbumDetailViewModel : ViewModelBase
     {
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
 
+        [ObservableProperty]
         private ObservableCollection<GroupedItem<SongViewModel>> songList;
-        public ObservableCollection<GroupedItem<SongViewModel>> SongList
-        {
-            get { return songList; }
-            set { SetProperty(ref songList, value); }
-        }
 
+        [ObservableProperty]
         private AlbumViewModel album;
-        public AlbumViewModel Album
-        {
-            get { return album; }
-            set { SetProperty(ref album, value); }
-        }
 
+        [ObservableProperty]
         private Uri heroImage;
-        public Uri HeroImage
-        {
-            get { return heroImage; }
-            set { SetProperty(ref heroImage, value); }
-        }
 
         public string SongsCount(AlbumViewModel a)
         {
@@ -60,15 +50,10 @@ namespace Aurora.Music.ViewModels
             return Consts.Localizer.GetString("VariousGenresText");
         }
 
-        public DelegateCommand PlayAll
+        [RelayCommand]
+        public async Task PlayAll()
         {
-            get
-            {
-                return new DelegateCommand(async () =>
-                {
-                    await MainPageViewModel.Current.InstantPlayAsync(await Album.GetSongsAsync());
-                });
-            }
+            await MainPageViewModel.Current.InstantPlayAsync(await Album.GetSongsAsync());
         }
 
         public AlbumDetailViewModel()

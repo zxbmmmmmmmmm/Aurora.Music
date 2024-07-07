@@ -480,7 +480,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     <TextBlock x:Uid="Favorite" Text="Your Favorite" x:Name="FavoritTitle" 
                                Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
                     <Button Visibility="{x:Bind Context.CollapseIfZero(Context.FavList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
-                            Style="{ThemeResource PlayAllButton}" Command="{x:Bind Context.PlayFav}"
+                            Style="{ThemeResource PlayAllButton}" Command="{x:Bind Context.PlayFavCommand}"
                             Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ListView Margin="0,8" IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" ItemClick="FavList_ItemClick"
@@ -508,12 +508,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </ListView>
                 <StackPanel x:Name="RandomPanel" Orientation="Horizontal" Margin="60,16,16,8">
                     <TextBlock x:Uid="Lucky" Text="Feeling Lucky" x:Name="RandomTitle" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
-                    <Button Command="{x:Bind Context.PlayRandom}" Style="{ThemeResource PlayAllButton}"
+                    <Button Command="{x:Bind Context.PlayRandomCommand}" Style="{ThemeResource PlayAllButton}"
                             Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
                             Margin="8,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     </Button>
                     <Button Visibility="{x:Bind Context.CollapseIfZero(Context.RandomList.Count),Mode=OneWay,FallbackValue=Collapsed}" 
-                            Style="{ThemeResource RevealRoundCornerButton}" Command="{x:Bind Context.ReRandom}" 
+                            Style="{ThemeResource RevealRoundCornerButton}" Command="{x:Bind Context.ReRandomCommand}" 
                             HorizontalAlignment="Center" Margin="8,0,0,0" VerticalAlignment="Center">
                         <Button.Content>
                             <TextBlock>

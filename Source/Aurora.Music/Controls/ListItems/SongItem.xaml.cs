@@ -16,8 +16,8 @@ namespace Aurora.Music.Controls.ListItems
     {
         public SongViewModel Data
         {
-            get { return (SongViewModel)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get => (SongViewModel)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
         }
         // Using a DependencyProperty as the backing store for Data.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataProperty =
@@ -25,8 +25,8 @@ namespace Aurora.Music.Controls.ListItems
 
         public bool IsMultiSelect
         {
-            get { return (bool)GetValue(IsMultiSelectProperty); }
-            set { SetValue(IsMultiSelectProperty, value); }
+            get => (bool)GetValue(IsMultiSelectProperty);
+            set => SetValue(IsMultiSelectProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsMultiSelect.  This enables animation, styling, binding, etc...

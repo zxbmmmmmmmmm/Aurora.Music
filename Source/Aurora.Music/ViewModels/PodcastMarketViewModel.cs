@@ -108,7 +108,7 @@ namespace Aurora.Music.ViewModels
                 {
                     Title = a.Name.label,
                     Description = a.Summary?.label,
-                    Addtional = a.Artist.label,
+                    Additional = a.Artist.label,
                     OnlineAlbumID = a.ID.attributes["im:id"],
                     Artwork = new Uri(a.Image[2].label)
                 });

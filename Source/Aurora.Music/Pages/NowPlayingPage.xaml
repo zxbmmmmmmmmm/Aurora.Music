@@ -379,7 +379,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </ListView.Footer>
         </ListView>
         <Grid x:Name="LrcViewOverlay" Background="Transparent" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,32,32,64">
-            <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" Command="{x:Bind Context.OpenLyricEditor}" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Button Style="{ThemeResource RevealRectangleButton}" BorderThickness="0" Command="{x:Bind Context.OpenLyricEditorCommand}" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <FontIcon FontSize="16" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
             </Button>
         </Grid>
@@ -517,7 +517,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4">
                 <StackPanel Orientation="Horizontal" x:Name="VolumeSlider" Visibility="Collapsed" Margin="4">
-                    <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ToggleSilence}"
+                    <Button Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind Context.ToggleSilenceCommand}"
                             Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" >
                         <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="22"
                                   Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}"/>
@@ -530,7 +530,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </StackPanel>
                 <Button x:Uid="LyricWindow" IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Name="LrcBtn" Style="{ThemeResource RevealRoundButton}" 
                         Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
-                        ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}"
+                        ToolTipService.ToolTip="Lyric Window" Command="{x:Bind Context.ShowLyricWindowCommand}"
                         Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
@@ -538,7 +538,7 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 </Button>
                 <Button x:Uid="SmallWindow" x:Name="SmallWindow" Style="{ThemeResource RevealRoundButton}" 
                         Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush),Mode=OneWay}" 
-                        Command="{x:Bind Context.CompactOverlay}" ToolTipService.ToolTip="Small Window"
+                        Command="{x:Bind Context.EnterCompactOverlayCommand}" ToolTipService.ToolTip="Small Window"
                                 Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
@@ -581,17 +581,17 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Uid="Equalizer" IsEnabled="{x:Bind Context.IsEqualizerEnabled}" Command="{x:Bind Context.ShowEqualizer}" Text="Equalizer">
+                                <MenuFlyoutItem x:Uid="Equalizer" IsEnabled="{x:Bind Context.IsEqualizerEnabled}" Command="{x:Bind Context.ShowEqualizerCommand}" Text="Equalizer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Uid="Limiter" IsEnabled="{x:Bind Context.IsLimiterEnabled}" Command="{x:Bind Context.ShowLimiter}" Text="Limiter">
+                                <MenuFlyoutItem x:Uid="Limiter" IsEnabled="{x:Bind Context.IsLimiterEnabled}" Command="{x:Bind Context.ShowLimiterCommand}" Text="Limiter">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Uid="Timer" Command="{x:Bind Context.ShowSleepTimer}" Text="Sleep Timer">
+                                <MenuFlyoutItem x:Uid="Timer" Command="{x:Bind Context.ShowSleepTimerCommand}" Text="Sleep Timer">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />
                                     </MenuFlyoutItem.Icon>
@@ -607,12 +607,12 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="LyricWindowFlyout" x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindow}">
+                                <MenuFlyoutItem IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast),Mode=OneWay}" x:Uid="LyricWindowFlyout" x:Name="NarrowLrcBtn" Text="Lyric Window" Command="{x:Bind Context.ShowLyricWindowCommand}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Uid="SmallWindowFlyout" x:Name="NarrowSmallWindow" Text="Small Window" Command="{x:Bind Context.CompactOverlay}">
+                                <MenuFlyoutItem x:Uid="SmallWindowFlyout" x:Name="NarrowSmallWindow" Text="Small Window" Command="{x:Bind Context.EnterCompactOverlayCommand}">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
                                     </MenuFlyoutItem.Icon>

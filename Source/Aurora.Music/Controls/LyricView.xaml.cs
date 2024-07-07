@@ -45,10 +45,7 @@ namespace Aurora.Music.Controls
 
         internal SongViewModel Model
         {
-            get => model; set
-            {
-                SetProperty(ref model, value);
-            }
+            get => model; set => SetProperty(ref model, value);
         }
 
         internal LyricViewModel Lyric = new LyricViewModel();
@@ -56,7 +53,7 @@ namespace Aurora.Music.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private void RaisePropertyChanged(string propertyName = null)
+        private void OnPropertyChanged(string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -67,7 +64,7 @@ namespace Aurora.Music.Controls
             if (changed)
             {
                 backingField = Value;
-                this.RaisePropertyChanged(propertyName);
+                this.OnPropertyChanged(propertyName);
             }
             return changed;
         }

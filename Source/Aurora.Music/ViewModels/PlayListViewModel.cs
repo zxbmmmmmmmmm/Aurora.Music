@@ -23,8 +23,8 @@ namespace Aurora.Music.ViewModels
         private List<Uri> heroArtworks = new List<Uri>();
         public List<Uri> HeroArtworks
         {
-            get { return heroArtworks; }
-            set { SetProperty(ref heroArtworks, value); }
+            get => heroArtworks;
+            set => SetProperty(ref heroArtworks, value);
         }
 
         internal PlayListViewModel(PlayList p)

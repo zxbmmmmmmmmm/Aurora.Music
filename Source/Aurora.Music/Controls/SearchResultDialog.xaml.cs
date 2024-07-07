@@ -36,7 +36,7 @@ namespace Aurora.Music.Controls
             Artwork.Source = param.Artwork == null ? new BitmapImage(new Uri(Consts.NowPlaceholder)) : new BitmapImage(param.Artwork);
             TitleText.Text = param.Title;
             Description.Text = param.Description;
-            Addtional.Text = param.Addtional;
+            Addtional.Text = param.Additional;
             OnlineIndicator.Visibility = param.IsOnline ? Visibility.Visible : Visibility.Collapsed;
             currentItem = param;
         }

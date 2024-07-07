@@ -9,34 +9,19 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using CommunityToolkit.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Aurora.Shared.MVVM
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : ObservableObject
     {
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private bool isAccentDark = Palette.IsDarkColor(new UISettings().GetColorValue(UIColorType.Accent));
         public bool IsAccentDark
         {
             get { return isAccentDark; }
             set { SetProperty(ref isAccentDark, value); }
-        }
-
-        protected void RaisePropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetProperty<T>(ref T backingField, T Value, [CallerMemberName] string propertyName = null)
-        {
-            var changed = !EqualityComparer<T>.Default.Equals(backingField, Value);
-            if (changed)
-            {
-                backingField = Value;
-                RaisePropertyChanged(propertyName);
-            }
-            return changed;
         }
 
         public bool NullableBooltoBool(bool? b)

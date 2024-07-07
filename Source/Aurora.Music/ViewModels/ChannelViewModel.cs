@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 using Aurora.Music.Core.Models;
 using Aurora.Shared.MVVM;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,21 +11,12 @@ using System.Linq;
 
 namespace Aurora.Music.ViewModels
 {
-    class ChannelGroup : List<ChannelViewModel>, IGrouping<string, ChannelViewModel>, INotifyPropertyChanged
+    [ObservableObject]
+    partial class ChannelGroup : List<ChannelViewModel>, IGrouping<string, ChannelViewModel>
     {
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Key))]
         private string name;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Key"));
-            }
-        }
 
         public int ID { get; set; }
 
@@ -35,30 +27,19 @@ namespace Aurora.Music.ViewModels
         }
     }
 
-    class ChannelViewModel : ViewModelBase
+    partial class ChannelViewModel : ViewModelBase
     {
+        [ObservableProperty]
         private string name;
-        public string Name
-        {
-            get { return name; }
-            set { SetProperty(ref name, value); }
-        }
 
-        private string desc;
-        public string Description
-        {
-            get { return desc; }
-            set { SetProperty(ref desc, value); }
-        }
+        [ObservableProperty]
+        private string description;
+
 
         public int ID { get; set; }
 
+        [ObservableProperty]
         private Uri cover;
-        public Uri Cover
-        {
-            get { return cover; }
-            set { SetProperty(ref cover, value); }
-        }
 
         public bool NightModeEnabled { get; set; } = Settings.Current.NightMode;
     }
