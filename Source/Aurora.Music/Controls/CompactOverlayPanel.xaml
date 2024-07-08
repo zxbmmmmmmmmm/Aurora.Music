@@ -1,21 +1,23 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<Page x:Class="Aurora.Music.Controls.CompactOverlayPanel"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:Aurora.Music.Controls"
-      xmlns:model="using:Aurora.Music.Core.Models"
-      xmlns:vm="using:Aurora.Music.ViewModels"
-      xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
-      Unloaded="Page_Unloaded"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+<Page
+    x:Class="Aurora.Music.Controls.CompactOverlayPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Aurora.Music.Core.Models"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:vm="using:Aurora.Music.ViewModels"
+    Unloaded="Page_Unloaded"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -23,10 +25,8 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                 <ResourceDictionary Source="../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light"
-                                    Source="../Themes/Light.xaml" />
-                <ResourceDictionary x:Key="Dark"
-                                    Source="../Themes/Dark.xaml" />
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml" />
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -38,343 +38,385 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <RelativePanel x:Name="Root">
         <RelativePanel.Resources>
             <Style BasedOn="{StaticResource RevealRoundButton}" TargetType="Button">
-                <Setter Property="Background" Value="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundBaseHighBrush}"/>
-                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}"/>
+                <Setter Property="Background" Value="{ThemeResource SystemControlTransparentRevealBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundBaseHighBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundListMediumRevealBorderBrush}" />
             </Style>
             <Storyboard x:Name="PointerIn">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior"
-                                               Storyboard.TargetProperty="Value">
-                    <DiscreteObjectKeyFrame Value="32" KeyTime="0"/>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior" Storyboard.TargetProperty="Value">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="32" />
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation Storyboard.TargetName="ArtworkBGBlur"
-                                 Storyboard.TargetProperty="Opacity"
-                                 Duration="0:0:0.96"
-                                 To="1">
+                <DoubleAnimation
+                    Storyboard.TargetName="ArtworkBGBlur"
+                    Storyboard.TargetProperty="Opacity"
+                    To="1"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Left"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="Left"
+                    Storyboard.TargetProperty="X"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LeftTop"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="LeftTop"
+                    Storyboard.TargetProperty="X"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LeftTop"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="LeftTop"
+                    Storyboard.TargetProperty="Y"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Top"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="Top"
+                    Storyboard.TargetProperty="Y"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="RightTop"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="RightTop"
+                    Storyboard.TargetProperty="X"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="RightTop"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="RightTop"
+                    Storyboard.TargetProperty="Y"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Right"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="Right"
+                    Storyboard.TargetProperty="X"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Bottom"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="Bottom"
+                    Storyboard.TargetProperty="Y"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
             </Storyboard>
             <Storyboard x:Name="PointerOut">
-                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior"
-                                               Storyboard.TargetProperty="Value">
-                    <DiscreteObjectKeyFrame Value="0" KeyTime="0"/>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BlurBehavior" Storyboard.TargetProperty="Value">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
                 </ObjectAnimationUsingKeyFrames>
-                <DoubleAnimation Storyboard.TargetName="ArtworkBGBlur"
-                                 Storyboard.TargetProperty="Opacity"
-                                 Duration="0:0:0.96"
-                                 To="0">
+                <DoubleAnimation
+                    Storyboard.TargetName="ArtworkBGBlur"
+                    Storyboard.TargetProperty="Opacity"
+                    To="0"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Left"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="-640">
+                <DoubleAnimation
+                    Storyboard.TargetName="Left"
+                    Storyboard.TargetProperty="X"
+                    To="-640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LeftTop"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="-640">
+                <DoubleAnimation
+                    Storyboard.TargetName="LeftTop"
+                    Storyboard.TargetProperty="X"
+                    To="-640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="LeftTop"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="-640">
+                <DoubleAnimation
+                    Storyboard.TargetName="LeftTop"
+                    Storyboard.TargetProperty="Y"
+                    To="-640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Top"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="-640">
+                <DoubleAnimation
+                    Storyboard.TargetName="Top"
+                    Storyboard.TargetProperty="Y"
+                    To="-640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="RightTop"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="+640">
+                <DoubleAnimation
+                    Storyboard.TargetName="RightTop"
+                    Storyboard.TargetProperty="X"
+                    To="+640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="RightTop"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="-640">
+                <DoubleAnimation
+                    Storyboard.TargetName="RightTop"
+                    Storyboard.TargetProperty="Y"
+                    To="-640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Right"
-                                 Storyboard.TargetProperty="X"
-                                 Duration="0:0:0.96"
-                                 To="+640">
+                <DoubleAnimation
+                    Storyboard.TargetName="Right"
+                    Storyboard.TargetProperty="X"
+                    To="+640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="Bottom"
-                                 Storyboard.TargetProperty="Y"
-                                 Duration="0:0:0.96"
-                                 To="+640">
+                <DoubleAnimation
+                    Storyboard.TargetName="Bottom"
+                    Storyboard.TargetProperty="Y"
+                    To="+640"
+                    Duration="0:0:0.96">
                     <DoubleAnimation.EasingFunction>
-                        <QuinticEase/>
+                        <QuinticEase />
                     </DoubleAnimation.EasingFunction>
                 </DoubleAnimation>
             </Storyboard>
         </RelativePanel.Resources>
 
-        <Grid x:Name="ArtworkBG"
-              RelativePanel.AlignBottomWithPanel="True"
-              RelativePanel.AlignLeftWithPanel="True"
-              RelativePanel.AlignRightWithPanel="True"
-              RelativePanel.AlignTopWithPanel="True">
+        <Grid
+            x:Name="ArtworkBG"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True">
             <Grid.Background>
-                <ImageBrush AlignmentX="Center"
-                            AlignmentY="Center"
-                            Stretch="UniformToFill"
-                            ImageSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" />
+                <ImageBrush
+                    AlignmentX="Center"
+                    AlignmentY="Center"
+                    ImageSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"
+                    Stretch="UniformToFill" />
             </Grid.Background>
         </Grid>
 
-        <Grid x:Name="ArtworkBGBlur" Opacity="0"
-              RelativePanel.AlignBottomWithPanel="True"
-              RelativePanel.AlignLeftWithPanel="True"
-              RelativePanel.AlignRightWithPanel="True"
-              RelativePanel.AlignTopWithPanel="True">
-            <Grid HorizontalAlignment="Stretch" Loaded="ArtworkBGBlur_Loaded"
-                  VerticalAlignment="Stretch" x:Name="BG"
-                  Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-                <interactivity:Interaction.Behaviors>
+        <Grid
+            x:Name="ArtworkBGBlur"
+            Opacity="0"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True">
+            <Grid
+                x:Name="BG"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+                Loaded="ArtworkBGBlur_Loaded">
+                <!--<interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior"
-                                    Duration="960" 
-                                    Value="0" 
+                                    Duration="960"
+                                    Value="0"
                                     Delay="0"
                                     EasingType="Quintic"
                                     EasingMode="EaseOut"
                                     AutomaticallyStart="True"/>
-                </interactivity:Interaction.Behaviors>
+                </interactivity:Interaction.Behaviors>-->
             </Grid>
         </Grid>
 
-        <Grid RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True"
-              RelativePanel.AlignRightWithPanel="True" Height="32" x:Name="TitleBar"
-              Background="Transparent"/>
+        <Grid
+            x:Name="TitleBar"
+            Height="32"
+            Background="Transparent"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True" />
 
-        <toolkit:WrapPanel x:Name="ButtonsPanel"
-                           RelativePanel.AlignHorizontalCenterWithPanel="True"
-                           RelativePanel.AlignVerticalCenterWithPanel="True"
-                           Orientation="Horizontal" 
-                           Margin="8"
-                           HorizontalSpacing="2" 
-                           VerticalSpacing="2">
-            <Viewbox Height="48" Width="48"
-                     Stretch="Uniform"
-                     HorizontalAlignment="Center"
-                     VerticalAlignment="Center">
+        <toolkit:WrapPanel
+            x:Name="ButtonsPanel"
+            Margin="8"
+            HorizontalSpacing="2"
+            Orientation="Horizontal"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.AlignVerticalCenterWithPanel="True"
+            VerticalSpacing="2">
+            <Viewbox
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="Uniform">
                 <Viewbox.RenderTransform>
-                    <TranslateTransform x:Name="Left" X="-640"/>
+                    <TranslateTransform x:Name="Left" X="-640" />
                 </Viewbox.RenderTransform>
-                <TextBlock x:Name="PlayListFull"
-                           TextAlignment="Center"
-                           TextTrimming="None"
-                           TextWrapping="NoWrap"
-                           MaxLines="1"
-                           Margin="0,8"
-                           Text="{x:Bind Context.NowListPreview,Mode=OneWay}"
-                           Style="{ThemeResource BodyTextBlockStyle}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center" />
-            </Viewbox>
-            <Button x:Uid="Previous"
-                    x:Name="Previous"
-                    Command="{x:Bind Context.GoPrevious}"
-                    ToolTipService.ToolTip="Previous"
-                    Width="48"
-                    Height="48"
+                <TextBlock
+                    x:Name="PlayListFull"
+                    Margin="0,8"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch">
+                    VerticalAlignment="Center"
+                    MaxLines="1"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{x:Bind Context.NowListPreview, Mode=OneWay}"
+                    TextAlignment="Center"
+                    TextTrimming="None"
+                    TextWrapping="NoWrap" />
+            </Viewbox>
+            <Button
+                x:Name="Previous"
+                x:Uid="Previous"
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Command="{x:Bind Context.GoPrevious}"
+                ToolTipService.ToolTip="Previous">
                 <Button.RenderTransform>
-                    <TranslateTransform x:Name="LeftTop" Y="-640" X="-640"/>
+                    <TranslateTransform x:Name="LeftTop" X="-640" Y="-640" />
                 </Button.RenderTransform>
                 <Button.Content>
                     <SymbolIcon Symbol="Previous" />
                 </Button.Content>
             </Button>
-            <Button Command="{x:Bind Context.PlayPause}"
-                    ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
-                    Width="48"
-                    Height="48"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch">
+            <Button
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Command="{x:Bind Context.PlayPause}"
+                ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}">
                 <Button.RenderTransform>
-                    <TranslateTransform x:Name="Top" Y="-640"/>
+                    <TranslateTransform x:Name="Top" Y="-640" />
                 </Button.RenderTransform>
                 <Button.Content>
                     <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
                 </Button.Content>
             </Button>
-            <Button x:Uid="Next"
-                    Command="{x:Bind Context.GoNext}"
-                    ToolTipService.ToolTip="Next"
-                    Width="48"
-                    Height="48"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch">
+            <Button
+                x:Uid="Next"
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Command="{x:Bind Context.GoNext}"
+                ToolTipService.ToolTip="Next">
                 <Button.RenderTransform>
-                    <TranslateTransform x:Name="RightTop" Y="-640" X="+640"/>
+                    <TranslateTransform x:Name="RightTop" X="+640" Y="-640" />
                 </Button.RenderTransform>
                 <Button.Content>
                     <SymbolIcon Symbol="Next" />
                 </Button.Content>
             </Button>
 
-            <Button x:Uid="GoBack"
-                    Command="{x:Bind Context.ReturnNormal}"
-                    ToolTipService.ToolTip="Go Back"
-                    Width="48"
-                    Height="48"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch">
+            <Button
+                x:Uid="GoBack"
+                Width="48"
+                Height="48"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Command="{x:Bind Context.ReturnNormal}"
+                ToolTipService.ToolTip="Go Back">
                 <Button.RenderTransform>
-                    <TranslateTransform x:Name="Right" X="+640"/>
+                    <TranslateTransform x:Name="Right" X="+640" />
                 </Button.RenderTransform>
                 <Button.Content>
-                    <FontIcon FontFamily="Segoe MDL2 Assets"
-                              Glyph="&#xE2B3;" />
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B3;" />
                 </Button.Content>
             </Button>
         </toolkit:WrapPanel>
-        <StackPanel x:Name="ContentPanel"
-                    Margin="8"
-                    RelativePanel.Below="ButtonsPanel"
-                    RelativePanel.AlignHorizontalCenterWithPanel="True">
+        <StackPanel
+            x:Name="ContentPanel"
+            Margin="8"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Below="ButtonsPanel">
             <StackPanel.RenderTransform>
-                <TranslateTransform x:Name="Bottom" Y="640"/>
+                <TranslateTransform x:Name="Bottom" Y="640" />
             </StackPanel.RenderTransform>
-            <TextBlock x:Name="Title"
-                       FontWeight="Bold"
-                       Text="{x:Bind Context.Song.Title, Mode=OneWay}"
-                       Style="{ThemeResource SubtitleTextBlockStyle}"
-                       FontSize="24"
-                       MaxLines="2"
-                       TextWrapping="WrapWholeWords"
-                       TextTrimming="CharacterEllipsis"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-            <TextBlock x:Name="Description"
-                       Text="{x:Bind Context.Song.Album,Mode=OneWay}"
-                       Style="{ThemeResource BodyTextBlockStyle}"
-                       Margin="0,4"
-                       Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
-                       MaxLines="1"
-                       FontSize="16"
-                       TextWrapping="NoWrap"
-                       TextTrimming="CharacterEllipsis"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-            <TextBlock x:Name="Addtional"
-                       Text="{x:Bind Context.Song.GetFormattedArtists(),Mode=OneWay}"
-                       Style="{ThemeResource BodyTextBlockStyle}"
-                       MaxLines="1"
-                       Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
-                       FontSize="16"
-                       TextWrapping="NoWrap"
-                       TextTrimming="CharacterEllipsis"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
+            <TextBlock
+                x:Name="Title"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="24"
+                FontWeight="Bold"
+                MaxLines="2"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                Text="{x:Bind Context.Song.Title, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="WrapWholeWords" />
+            <TextBlock
+                x:Name="Description"
+                Margin="0,4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="16"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                MaxLines="1"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="{x:Bind Context.Song.Album, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
+            <TextBlock
+                x:Name="Addtional"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="16"
+                Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                MaxLines="1"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="{x:Bind Context.Song.GetFormattedArtists(), Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
         </StackPanel>
-        <Border Height="4" RelativePanel.AlignBottomWithPanel="True" 
-                RelativePanel.AlignLeftWithPanel="True"
-                RelativePanel.AlignRightWithPanel="True">
+        <Border
+            Height="4"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True">
             <Border.Background>
-                <AcrylicBrush TintOpacity="0" 
-                              FallbackColor="Transparent" 
-                              TintColor="Transparent"
-                              BackgroundSource="Backdrop"/>
+                <AcrylicBrush
+                    BackgroundSource="Backdrop"
+                    FallbackColor="Transparent"
+                    TintColor="Transparent"
+                    TintOpacity="0" />
             </Border.Background>
         </Border>
-        <ProgressBar Height="4" RelativePanel.AlignBottomWithPanel="True" 
-                     RelativePanel.AlignLeftWithPanel="True"
-                     RelativePanel.AlignRightWithPanel="True"
-                     Background="{x:Null}"
-                     Value="{x:Bind Context.PositionValue, Mode=OneWay}">
-        </ProgressBar>
+        <ProgressBar
+            Height="4"
+            Background="{x:Null}"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            Value="{x:Bind Context.PositionValue, Mode=OneWay}" />
     </RelativePanel>
 </Page>

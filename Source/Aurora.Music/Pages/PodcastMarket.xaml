@@ -1,99 +1,145 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <Page
     x:Class="Aurora.Music.Pages.PodcastMarket"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:local="using:Aurora.Music.Pages"
-    xmlns:list="using:Aurora.Music.Controls.ListItems"
-    xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:list="using:Aurora.Music.Controls.ListItems"
+    xmlns:local="using:Aurora.Music.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>
-            <NavigationThemeTransition/>
+            <NavigationThemeTransition />
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
     <Page.DataContext>
-        <vm:PodcastMarketViewModel x:Name="Context"/>
+        <vm:PodcastMarketViewModel x:Name="Context" />
     </Page.DataContext>
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+                <ResourceDictionary Source="../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
-                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml" />
             </ResourceDictionary.ThemeDictionaries>
-            <CollectionViewSource x:Name="GenresGroup" IsSourceGrouped="True" Source="{x:Bind Context.Genres}" ItemsPath="Items"/>
+            <CollectionViewSource
+                x:Name="GenresGroup"
+                IsSourceGrouped="True"
+                ItemsPath="Items"
+                Source="{x:Bind Context.Genres}" />
         </ResourceDictionary>
     </Page.Resources>
 
-    <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="ScrollViewer_SizeChanged"
-                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden">
-        <StackPanel x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <ScrollViewer
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        HorizontalScrollBarVisibility="Hidden"
+        HorizontalScrollMode="Disabled"
+        SizeChanged="ScrollViewer_SizeChanged">
+        <StackPanel
+            x:Name="Main"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
-                    <RepositionThemeTransition IsStaggeringEnabled="False"/>
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-            <StackPanel Margin="16,40,0,16" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" x:Uid="RssInput" PlaceholderText="Enter an valid rss address to view podcasts:" Width="320" x:Name="UrlBox" InputScope="Url"/>
-                <Button Style="{ThemeResource RevealRectangleButton}" Height="32" Width="48" 
-                        VerticalAlignment="Bottom" Click="Button_Click"
-                        Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}">
+            <StackPanel
+                Margin="16,40,0,16"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Orientation="Horizontal">
+                <TextBox
+                    x:Name="UrlBox"
+                    x:Uid="RssInput"
+                    Width="320"
+                    BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+                    BorderThickness="1"
+                    InputScope="Url"
+                    PlaceholderText="Enter an valid rss address to view podcasts:" />
+                <Button
+                    Width="48"
+                    Height="32"
+                    VerticalAlignment="Bottom"
+                    Click="Button_Click"
+                    Foreground="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+                    Style="{ThemeResource RevealRectangleButton}">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE10B;" />
                     </Button.Content>
                 </Button>
             </StackPanel>
-            <TextBlock x:Uid="TopCharts" Margin="20,0,0,16" Text="Top Charts" Style="{ThemeResource SubheaderTextBlockStyle}" FontWeight="Bold"/>
-            <ListView Padding="0,0,0,32" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" 
-                      ItemContainerStyle="{ThemeResource ListViewItemRevealBackgroundShowsAboveContentStyle}" HorizontalAlignment="Stretch" 
-                      ItemsSource="{x:Bind Context.TopList}" VerticalAlignment="Stretch" Style="{ThemeResource HorizontalListView}">
+            <TextBlock
+                x:Uid="TopCharts"
+                Margin="20,0,0,16"
+                FontWeight="Bold"
+                Style="{ThemeResource SubheaderTextBlockStyle}"
+                Text="Top Charts" />
+            <ListView
+                Padding="0,0,0,32"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                IsItemClickEnabled="True"
+                ItemClick="ListView_ItemClick"
+                ItemContainerStyle="{ThemeResource ListViewItemRevealBackgroundShowsAboveContentStyle}"
+                ItemsSource="{x:Bind Context.TopList}"
+                SelectionMode="None"
+                Style="{ThemeResource HorizontalListView}">
                 <ListView.Header>
-                    <Border Width="4"/>
+                    <Border Width="4" />
                 </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                        <list:PodacastItem Data="{x:Bind}"/>
+                        <list:PodacastItem Data="{x:Bind}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <GridView Margin="12,0" SelectionMode="None" IsItemClickEnabled="True"
-                      ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" 
-                      ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}" 
-                      VerticalAlignment="Stretch" ItemsSource="{x:Bind GenresGroup.View, Mode=OneWay}">
+            <GridView
+                Margin="12,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                IsItemClickEnabled="True"
+                ItemClick="ListView_ItemClick"
+                ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}"
+                ItemsSource="{x:Bind GenresGroup.View, Mode=OneWay}"
+                SelectionMode="None">
                 <GridView.ItemContainerTransitions>
                     <TransitionCollection>
-                        <RepositionThemeTransition/>
+                        <RepositionThemeTransition />
                     </TransitionCollection>
                 </GridView.ItemContainerTransitions>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:GenericMusicItemViewModel">
-                        <list:PodacastItem Data="{x:Bind}"/>
+                        <list:PodacastItem Data="{x:Bind}" />
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <GridView.GroupStyle>
                     <GroupStyle x:Name="GroupStyle">
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate x:DataType="vm:PodcastGroup">
-                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold"/>
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Style="{ThemeResource TitleTextBlockStyle}"
+                                    Text="{x:Bind Title}" />
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
                     </GroupStyle>
                 </GridView.GroupStyle>
             </GridView>
-            <Border Height="160"/>
+            <Border Height="160" />
         </StackPanel>
     </ScrollViewer>
 </Page>

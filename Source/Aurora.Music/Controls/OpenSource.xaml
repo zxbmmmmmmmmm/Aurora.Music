@@ -1,24 +1,31 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<ContentDialog Unloaded="ContentDialog_Unloaded"
+<ContentDialog
     x:Class="Aurora.Music.Controls.OpenSource"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Aurora.Music.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ContentDialogBackground}"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Title="Open Source"
+    Background="{ThemeResource ContentDialogBackground}"
     CloseButtonText="Close"
-    DefaultButton="Close">
-    <ScrollViewer x:Name="Root" HorizontalScrollMode="Disabled" Padding="0,0,20,0">
-        <toolkit:MarkdownTextBlock Loaded="Main_Loaded" LinkClicked="Main_LinkClicked" 
-                                   Background="{x:Null}"
-                                   x:Name="Main" MinWidth="360"/>
+    DefaultButton="Close"
+    Unloaded="ContentDialog_Unloaded"
+    mc:Ignorable="d">
+    <ScrollViewer
+        x:Name="Root"
+        Padding="0,0,20,0"
+        HorizontalScrollMode="Disabled">
+        <toolkit:MarkdownTextBlock
+            x:Name="Main"
+            MinWidth="360"
+            Background="{x:Null}"
+            LinkClicked="Main_LinkClicked"
+            Loaded="Main_Loaded" />
     </ScrollViewer>
-    </ContentDialog>
+</ContentDialog>

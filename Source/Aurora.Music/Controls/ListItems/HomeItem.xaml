@@ -1,159 +1,188 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<UserControl Unloaded="UserControl_Unloaded"
-             x:Class="Aurora.Music.Controls.ListItems.HomeItem"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ext="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" MaxWidth="150"
-             d:DesignHeight="300"
-             d:DesignWidth="400">
+<UserControl
+    x:Class="Aurora.Music.Controls.ListItems.HomeItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    MaxWidth="150"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Themes/Styles.xaml"/>
+                <ResourceDictionary Source="../../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light" Source="../../Themes/Light.xaml"/>
-                <ResourceDictionary x:Key="Dark" Source="../../Themes/Dark.xaml"/>
+                <ResourceDictionary x:Key="Light" Source="../../Themes/Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="../../Themes/Dark.xaml" />
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid PointerEntered="Grid_PointerEntered" 
-          PointerExited="Grid_PointerExited" 
-          PointerPressed="Grid_PointerPressed"
-          PointerReleased="Grid_PointerReleased" 
-          PointerCanceled="Grid_PointerExited" 
-          PointerCaptureLost="Grid_PointerExited"
-          x:Name="Root" Height="210"
-          Background="Transparent">
+    <Grid
+        x:Name="Root"
+        Height="210"
+        Background="Transparent"
+        PointerCanceled="Grid_PointerExited"
+        PointerCaptureLost="Grid_PointerExited"
+        PointerEntered="Grid_PointerEntered"
+        PointerExited="Grid_PointerExited"
+        PointerPressed="Grid_PointerPressed"
+        PointerReleased="Grid_PointerReleased">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Image
+            x:Name="Artwork"
+            Width="150"
+            Height="150"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ui:FrameworkElementExtensions.EnableActualSizeBinding="True"
+            Source="{x:Bind DataArtwork, TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png, Mode=OneWay}"
+            Stretch="Uniform"
+            ToolTipService.ToolTip="{x:Bind Data.Title, Mode=OneWay}"
+            Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}" />
+        <Border
+            Height="150"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource ImageDarkOverlay}"
+            Visibility="{x:Bind NightModeEnabled}" />
+        <Grid
+            Grid.Row="1"
+            Width="{Binding ElementName=Artwork, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <TextBlock
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                MaxLines="2"
+                Style="{ThemeResource BaseTextBlockStyle}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="WrapWholeWords"
+                ToolTipService.ToolTip="{x:Bind Data.Title, Mode=OneWay}"
+                Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}">
+                <Run Text="{x:Bind AlbumIndicate(Data.HasMultipleItem), Mode=OneWay}" /><Run Text="{x:Bind Data.Title, Mode=OneWay}" />
+            </TextBlock>
+            <FontIcon
+                Margin="0,3,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="15"
+                Glyph="&#xE93C;"
+                Visibility="{x:Bind Data.HasMultipleItem, Mode=OneWay}" />
+        </Grid>
+        <TextBlock
+            Grid.Row="2"
+            Width="{Binding ElementName=Artwork, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="13"
+            Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
+            MaxLines="1"
+            Style="{ThemeResource BodyTextBlockStyle}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap"
+            ToolTipService.ToolTip="{x:Bind Data.AdditionalAndDescription(Data.Additional, Data.Description), Mode=OneWay}"
+            Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}">
+            <Run Text="{x:Bind Data.Additional, Mode=OneWay}" />
+            <Run Text="·" />
+            <Run Text="{x:Bind Data.Description, Mode=OneWay}" />
+        </TextBlock>
+        <Grid
+            x:Name="PlaceholderBG"
+            Grid.RowSpan="3"
+            Height="210"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}"
+            Visibility="{x:Bind NotPlaceholder(Data.InnerType), Mode=OneWay}">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <FontIcon
+                    x:Name="PlaceholderSymbol"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="24"
+                    Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                    Glyph="&#xE712;" />
+                <TextBlock
+                    x:Name="PlaceholderText"
+                    x:Uid="MoreButton"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Text="More" />
+            </StackPanel>
+        </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Target="Root.Background" Value="{x:Null}"/>
+                        <Setter Target="Root.Background" Value="{x:Null}" />
                     </VisualState.Setters>
-                    <Storyboard>
-                    </Storyboard>
+                    <Storyboard />
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
-                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
-                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlAccentAcrylicWindowAccentLowBrush}"/>
+                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
+                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlAccentAcrylicWindowAccentLowBrush}" />
                     </VisualState.Setters>
-                    <Storyboard>
-                    </Storyboard>
+                    <Storyboard />
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
-                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
-                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
-                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}"/>
-                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}"/>
+                        <Setter Target="Root.Background" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
+                        <Setter Target="PlaceholderBG.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                        <Setter Target="PlaceholderSymbol.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}" />
+                        <Setter Target="PlaceholderText.Foreground" Value="{ThemeResource SystemControlForegroundAltMediumHighBrush}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="Adaptive">
                 <VisualState x:Name="Wide">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
+                        <AdaptiveTrigger MinWindowWidth="1008" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="Medium">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641"/>
+                        <AdaptiveTrigger MinWindowWidth="641" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Artwork.Height" Value="144"/>
-                        <Setter Target="Title.MaxHeight" Value="144"/>
-                        <Setter Target="Title.MaxWidth" Value="144"/>
+                        <Setter Target="Artwork.Height" Value="144" />
+                        <Setter Target="Title.MaxHeight" Value="144" />
+                        <Setter Target="Title.MaxWidth" Value="144" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="Artwork.Height" Value="128"/>
-                        <Setter Target="Title.MaxHeight" Value="128"/>
-                        <Setter Target="Title.MaxWidth" Value="128"/>
+                        <Setter Target="Artwork.Height" Value="128" />
+                        <Setter Target="Title.MaxHeight" Value="128" />
+                        <Setter Target="Title.MaxWidth" Value="128" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Image x:Name="Artwork" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="150" Stretch="Uniform"
-               Source="{x:Bind DataArtwork,TargetNullValue=ms-appx:///Assets/Images/placeholder_b.png,Mode=OneWay}"
-               ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}" Width="150"
-               Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
-               ext:FrameworkElementExtensions.EnableActualSizeBinding="True"/>
-        <Border Visibility="{x:Bind NightModeEnabled}" 
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                Height="150" Background="{ThemeResource ImageDarkOverlay}"/>
-        <Grid HorizontalAlignment="Stretch" 
-              VerticalAlignment="Stretch"
-              Grid.Row="1"
-              Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}">
-            <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
-                       ToolTipService.ToolTip="{x:Bind Data.Title,Mode=OneWay}"
-                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                       MaxLines="2" TextWrapping="WrapWholeWords"
-                       TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
-                       Margin="0">
-                <Run Text="{x:Bind AlbumIndicate(Data.HasMultipleItem),Mode=OneWay}"/><Run Text="{x:Bind Data.Title,Mode=OneWay}"/>
-            </TextBlock>
-            <FontIcon FontSize="15" Glyph="&#xE93C;" Margin="0,3,0,0"
-                      HorizontalAlignment="Left" VerticalAlignment="Top"
-                      Visibility="{x:Bind Data.HasMultipleItem, Mode=OneWay}"/>
-        </Grid>
-        <TextBlock FontSize="13" 
-                   Style="{ThemeResource BodyTextBlockStyle}" 
-                   ToolTipService.ToolTip="{x:Bind Data.AdditionalAndDescription(Data.Additional, Data.Description), Mode=OneWay}"
-                   HorizontalAlignment="Left" VerticalAlignment="Center" 
-                   MaxLines="1" TextWrapping="NoWrap" 
-                   Grid.Row="2"
-                   Width="{Binding ElementName=Artwork, Path=(ext:FrameworkElementExtensions.ActualWidth)}"
-                   TextTrimming="CharacterEllipsis"
-                   Visibility="{x:Bind Placeholder(Data.InnerType), Mode=OneWay}"
-                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
-            <Run Text="{x:Bind Data.Additional,Mode=OneWay}"/>
-            <Run Text="·"/>
-            <Run Text="{x:Bind Data.Description,Mode=OneWay}"/>
-        </TextBlock>
-        <Grid Grid.RowSpan="3" Height="210" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              Background="{ThemeResource SystemControlAccentDark2AcrylicWindowAccentDark2MediumHighBrush}"
-              x:Name="PlaceholderBG"
-              Visibility="{x:Bind NotPlaceholder(Data.InnerType), Mode=OneWay}">
-            <StackPanel Orientation="Vertical" 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center">
-                <FontIcon HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          FontSize="24" 
-                          x:Name="PlaceholderSymbol"
-                          Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                          FontFamily="Segoe MDL2 Assets"
-                          Glyph="&#xE712;" />
-                <TextBlock x:Uid="MoreButton" 
-                           Text="More" 
-                           x:Name="PlaceholderText"
-                           Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center"
-                           Style="{ThemeResource SubtitleTextBlockStyle}"/>
-            </StackPanel>
-        </Grid>
     </Grid>
 </UserControl>

@@ -498,7 +498,7 @@ namespace Aurora.Music.Pages
 
         }
 
-        private void CustomVisualizer_Draw(IVisualizer sender, VisualizerDrawEventArgs args)
+        private void CustomVisualizer_Draw(object sender, VisualizerDrawEventArgs args)
         {
             if (!MainPageViewModel.Current.IsVisualizing)
                 return;

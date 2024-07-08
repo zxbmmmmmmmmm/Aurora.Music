@@ -1,94 +1,135 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <ContentDialog
     x:Class="Aurora.Music.Controls.ArtistViewDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
-    xmlns:vm="using:Aurora.Music.ViewModels"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:controls="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ContentDialogBackground}"
     xmlns:list="using:Aurora.Music.Controls.ListItems"
-    MinWidth="240"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     x:Uid="ArtistDialog"
     Title="Artist"
+    MinWidth="240"
+    Background="{ThemeResource ContentDialogBackground}"
     CloseButtonText="Close"
-    PrimaryButtonText="Play"
+    DefaultButton="Primary"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    DefaultButton="Primary">
+    PrimaryButtonText="Play"
+    mc:Ignorable="d">
     <ContentDialog.DataContext>
-        <vm:ArtistPageViewModel x:Name="Context"/>
+        <vm:ArtistPageViewModel x:Name="Context" />
     </ContentDialog.DataContext>
     <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+                <ResourceDictionary Source="../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
-                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml" />
             </ResourceDictionary.ThemeDictionaries>
 
-            <Style TargetType="GridViewItem" x:Key="GridViewItemRevealBackgroundShowsAboveContentStyle">
-                <Setter Property="Padding" Value="0,12"/>
+            <Style x:Key="GridViewItemRevealBackgroundShowsAboveContentStyle" TargetType="GridViewItem">
+                <Setter Property="Padding" Value="0,12" />
             </Style>
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <GridView animations:ReorderGridAnimation.Duration="360" ShowsScrollingPlaceholders="True" ItemClick="AlbumList_ItemClick"
-              IsSynchronizedWithCurrentItem="False" IsItemClickEnabled="True" Padding="0,0,20,0"
-              SelectionMode="None" ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}" ContextCanceled="AlbumList_ContextCanceled"
-              ItemContainerStyle="{StaticResource GridViewItemRevealBackgroundShowsAboveContentStyle}" ContextRequested="AlbumList_ContextRequested"
-              Style="{StaticResource GeneralGridViewStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-              x:Name="AlbumList">
+    <GridView
+        x:Name="AlbumList"
+        Padding="0,0,20,0"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        animations:ItemsReorderAnimation.Duration="360"
+        ContextCanceled="AlbumList_ContextCanceled"
+        ContextRequested="AlbumList_ContextRequested"
+        IsItemClickEnabled="True"
+        IsSynchronizedWithCurrentItem="False"
+        ItemClick="AlbumList_ItemClick"
+        ItemContainerStyle="{StaticResource GridViewItemRevealBackgroundShowsAboveContentStyle}"
+        ItemsSource="{x:Bind Context.AlbumList, Mode=OneWay}"
+        SelectionMode="None"
+        ShowsScrollingPlaceholders="True"
+        Style="{StaticResource GeneralGridViewStyle}">
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="vm:AlbumViewModel">
-                <Viewbox Height="160" Width="150" Stretch="Uniform">
-                    <list:AlbumItem Data="{x:Bind }" PlayAlbum="PlayAlbum_Click" FlyoutRequired="Flyout_Click"/>
+                <Viewbox
+                    Width="150"
+                    Height="160"
+                    Stretch="Uniform">
+                    <list:AlbumItem
+                        Data="{x:Bind}"
+                        FlyoutRequired="Flyout_Click"
+                        PlayAlbum="PlayAlbum_Click" />
                 </Viewbox>
             </DataTemplate>
         </GridView.ItemTemplate>
         <GridView.Header>
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical">
+            <StackPanel
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Orientation="Vertical">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <toolkit:ImageEx x:Name="AvatarImage" Style="{ThemeResource QuickLoadImageEx}" PlaceholderSource="/Assets/Images/artist_placeholder.png"
-                                 Stretch="Uniform" PlaceholderStretch="Uniform"  Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}" 
-                                 CornerRadius="999" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Height="120">
-                    </toolkit:ImageEx>
-                    <TextBlock Grid.Column="1" Margin="8,0"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Top" MaxLines="1"
-                               Style="{ThemeResource TitleTextBlockStyle}" 
-                               Text="{x:Bind Context.Artist.Name, Mode=OneWay}"/>
-                    <TextBlock Grid.Column="1" Margin="8,0"
-                               HorizontalAlignment="Stretch" 
-                               VerticalAlignment="Bottom" MaxLines="1"
-                               Style="{ThemeResource BodyTextBlockStyle}" 
-                               Text="{x:Bind AlbumCount(Context.AlbumList.Count),Mode=OneWay}"/>
+                    <toolkit:ImageEx
+                        x:Name="AvatarImage"
+                        Width="120"
+                        Height="120"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        CornerRadius="999"
+                        PlaceholderSource="/Assets/Images/artist_placeholder.png"
+                        PlaceholderStretch="Uniform"
+                        Source="{x:Bind Context.Artist.AvatarImage, Mode=OneWay}"
+                        Stretch="Uniform"
+                        Style="{ThemeResource QuickLoadImageEx}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="8,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        MaxLines="1"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="{x:Bind Context.Artist.Name, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="8,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        MaxLines="1"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind AlbumCount(Context.AlbumList.Count), Mode=OneWay}" />
                 </Grid>
-                <Button Click="Button_Click" Margin="8" Style="{ThemeResource TextBlockButtonStyle}"
-                        HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch" 
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Content="{x:Bind MoreButtonText(Descriptions.MaxHeight), Mode=OneWay}"/>
-                <toolkit:MarkdownTextBlock IsTextSelectionEnabled="False"
-                                           LinkClicked="Descriptions_LinkClicked"
-                                           Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
-                                           x:Name="Descriptions" Background="{x:Null}"
-                                           MaxHeight="{StaticResource DescriptionHeight}"
-                                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                           TextWrapping="WrapWholeWords"/>
+                <Button
+                    Margin="8"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    VerticalContentAlignment="Stretch"
+                    Click="Button_Click"
+                    Content="{x:Bind MoreButtonText(Descriptions.MaxHeight), Mode=OneWay}"
+                    Style="{ThemeResource TextBlockButtonStyle}" />
+                <toolkit:MarkdownTextBlock
+                    x:Name="Descriptions"
+                    MaxHeight="{StaticResource DescriptionHeight}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="{x:Null}"
+                    IsTextSelectionEnabled="False"
+                    LinkClicked="Descriptions_LinkClicked"
+                    Text="{x:Bind Context.Artist.Description, Mode=OneWay}"
+                    TextWrapping="WrapWholeWords" />
             </StackPanel>
         </GridView.Header>
     </GridView>

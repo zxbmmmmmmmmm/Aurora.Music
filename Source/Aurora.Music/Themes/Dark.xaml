@@ -1,56 +1,125 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
--->
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <LinearGradientBrush x:Key="ArtistsPageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="Black" Offset="1"/>
-        <GradientStop Color="#AA000000" Offset="0.667"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="HomePageGradient" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF000000"/>
-        <GradientStop Color="Transparent" Offset="1"/>
-    </LinearGradientBrush>
-
-    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeMediumColor}" />
-    <AcrylicBrush x:Key="SystemControlAltTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemChromeAltHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemChromeMediumColor}" />
-
-
-    <AcrylicBrush x:Key="SystemControlBaseTranslucentAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemBaseLowColor}" />
-    <AcrylicBrush x:Key="SystemControlBaseTranslucentAcrylicWindowBrush" BackgroundSource="HostBackdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.5" FallbackColor="{StaticResource SystemBaseLowColor}" />
-
-    <AcrylicBrush x:Key="SystemControlBlackAcrylicElementBrush" BackgroundSource="Backdrop" TintColor="{StaticResource SystemBaseHighColor}" TintOpacity="0.33333" FallbackColor="{StaticResource SystemBaseMediumColor}" />
-
-    <RevealBorderBrush x:Key="SystemControlBackgroundAltLowRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltLowColor}" FallbackColor="{StaticResource SystemRevealAltLowColor}" />
-    <RevealBorderBrush x:Key="SystemControlBackgroundAltHighRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
-    <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
-    <RevealBorderBrush x:Key="SystemControlBackgroundAltMediumHighRevealBrush" TargetTheme="Dark" Color="{StaticResource SystemRevealAltMediumHighColor}" FallbackColor="{StaticResource SystemAltHighColor}" />
-
-    <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="{StaticResource SystemAltLowColor}"/>
-    <RevealBackgroundBrush x:Key="RevealRoundBackground" FallbackColor="{StaticResource SystemChromeMediumColor}" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.5"/>
-
-    <SolidColorBrush x:Key="SongListEvenBrush" Color="{StaticResource SystemChromeMediumLowColor}" Opacity="0.5"/>
-    <SolidColorBrush x:Key="SongListOddBrush" Color="Transparent" Opacity="0.3333"/>
-    <SolidColorBrush x:Key="SongListEvenPressedBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="1"/>
-    <SolidColorBrush x:Key="SongListOddPressedBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="1"/>
-    <SolidColorBrush x:Key="SongListEvenPointerOverBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.666666"/>
-    <SolidColorBrush x:Key="SongListOddPointerOverBrush" Color="{StaticResource SystemChromeDisabledHighColor}" Opacity="0.6666666"/>
-
-    <SolidColorBrush x:Key="AccentForText" Color="{ThemeResource SystemAccentColorLight2}"/>
-    <SolidColorBrush x:Key="AccentForTextPointerOver" Color="{ThemeResource SystemAccentColor}"/>
-    <SolidColorBrush x:Key="AccentForTextPressed" Color="{ThemeResource SystemAccentColorLight1}"/>
+    Copyright (c) Aurora Studio. All rights reserved.
     
-    <SolidColorBrush x:Key="AccentDarkBackground" Color="{ThemeResource SystemAccentColorLight2}" Opacity="0.666667"/>
+    Licensed under the MIT License. See LICENSE in the project root for license information.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <RevealBorderBrush x:Key="TextRevealAccentForeground" 
-                       FallbackColor="{ThemeResource SystemAccentColorLight2}"
-                       Color="{ThemeResource SystemAccentColorLight2}" 
-                       TargetTheme="Dark"/>
+    <LinearGradientBrush x:Key="ArtistsPageGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="1" Color="Black" />
+        <GradientStop Offset="0.667" Color="#AA000000" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HomePageGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF000000" />
+        <GradientStop Offset="1" Color="Transparent" />
+    </LinearGradientBrush>
 
-    <RevealBorderBrush x:Key="AlbumItemBorder" TargetTheme="Dark" Color="#80000000" FallbackColor="#80000000" />
-    <SolidColorBrush x:Key="ImageDarkOverlay" Color="#33000000"/>
+    <AcrylicBrush
+        x:Key="SystemControlAltTranslucentAcrylicElementBrush"
+        BackgroundSource="Backdrop"
+        FallbackColor="{StaticResource SystemChromeMediumColor}"
+        TintColor="{StaticResource SystemChromeAltHighColor}"
+        TintOpacity="0.5" />
+    <AcrylicBrush
+        x:Key="SystemControlAltTranslucentAcrylicWindowBrush"
+        BackgroundSource="HostBackdrop"
+        FallbackColor="{StaticResource SystemChromeMediumColor}"
+        TintColor="{StaticResource SystemChromeAltHighColor}"
+        TintOpacity="0.5" />
+
+
+    <AcrylicBrush
+        x:Key="SystemControlBaseTranslucentAcrylicElementBrush"
+        BackgroundSource="Backdrop"
+        FallbackColor="{StaticResource SystemBaseLowColor}"
+        TintColor="{StaticResource SystemBaseHighColor}"
+        TintOpacity="0.5" />
+    <AcrylicBrush
+        x:Key="SystemControlBaseTranslucentAcrylicWindowBrush"
+        BackgroundSource="HostBackdrop"
+        FallbackColor="{StaticResource SystemBaseLowColor}"
+        TintColor="{StaticResource SystemBaseHighColor}"
+        TintOpacity="0.5" />
+
+    <AcrylicBrush
+        x:Key="SystemControlBlackAcrylicElementBrush"
+        BackgroundSource="Backdrop"
+        FallbackColor="{StaticResource SystemBaseMediumColor}"
+        TintColor="{StaticResource SystemBaseHighColor}"
+        TintOpacity="0.33333" />
+
+    <RevealBorderBrush
+        x:Key="SystemControlBackgroundAltLowRevealBrush"
+        FallbackColor="{StaticResource SystemRevealAltLowColor}"
+        TargetTheme="Dark"
+        Color="{StaticResource SystemRevealAltLowColor}" />
+    <RevealBorderBrush
+        x:Key="SystemControlBackgroundAltHighRevealBrush"
+        FallbackColor="{StaticResource SystemAltHighColor}"
+        TargetTheme="Dark"
+        Color="{StaticResource SystemRevealAltHighColor}" />
+    <RevealBorderBrush
+        x:Key="SystemControlBackgroundAltMediumRevealBrush"
+        FallbackColor="{StaticResource SystemAltHighColor}"
+        TargetTheme="Dark"
+        Color="{StaticResource SystemRevealAltMediumColor}" />
+    <RevealBorderBrush
+        x:Key="SystemControlBackgroundAltMediumHighRevealBrush"
+        FallbackColor="{StaticResource SystemAltHighColor}"
+        TargetTheme="Dark"
+        Color="{StaticResource SystemRevealAltMediumHighColor}" />
+
+    <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="{StaticResource SystemAltLowColor}" />
+    <RevealBackgroundBrush
+        x:Key="RevealRoundBackground"
+        FallbackColor="{StaticResource SystemChromeMediumColor}"
+        Opacity="0.5"
+        Color="{StaticResource SystemChromeMediumColor}" />
+
+    <SolidColorBrush
+        x:Key="SongListEvenBrush"
+        Opacity="0.5"
+        Color="{StaticResource SystemChromeMediumLowColor}" />
+    <SolidColorBrush
+        x:Key="SongListOddBrush"
+        Opacity="0.3333"
+        Color="Transparent" />
+    <SolidColorBrush
+        x:Key="SongListEvenPressedBrush"
+        Opacity="1"
+        Color="{StaticResource SystemChromeDisabledHighColor}" />
+    <SolidColorBrush
+        x:Key="SongListOddPressedBrush"
+        Opacity="1"
+        Color="{StaticResource SystemChromeDisabledHighColor}" />
+    <SolidColorBrush
+        x:Key="SongListEvenPointerOverBrush"
+        Opacity="0.666666"
+        Color="{StaticResource SystemChromeDisabledHighColor}" />
+    <SolidColorBrush
+        x:Key="SongListOddPointerOverBrush"
+        Opacity="0.6666666"
+        Color="{StaticResource SystemChromeDisabledHighColor}" />
+
+    <SolidColorBrush x:Key="AccentForText" Color="{ThemeResource SystemAccentColorLight2}" />
+    <SolidColorBrush x:Key="AccentForTextPointerOver" Color="{ThemeResource SystemAccentColor}" />
+    <SolidColorBrush x:Key="AccentForTextPressed" Color="{ThemeResource SystemAccentColorLight1}" />
+
+    <SolidColorBrush
+        x:Key="AccentDarkBackground"
+        Opacity="0.666667"
+        Color="{ThemeResource SystemAccentColorLight2}" />
+
+    <RevealBorderBrush
+        x:Key="TextRevealAccentForeground"
+        FallbackColor="{ThemeResource SystemAccentColorLight2}"
+        TargetTheme="Dark"
+        Color="{ThemeResource SystemAccentColorLight2}" />
+
+    <RevealBorderBrush
+        x:Key="AlbumItemBorder"
+        FallbackColor="#80000000"
+        TargetTheme="Dark"
+        Color="#80000000" />
+    <SolidColorBrush x:Key="ImageDarkOverlay" Color="#33000000" />
 </ResourceDictionary>

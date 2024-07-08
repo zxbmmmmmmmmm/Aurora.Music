@@ -1,76 +1,79 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <Page
     x:Class="Aurora.Music.Pages.DoubanPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:audio="using:AudioVisualizer"
-    xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:audio="using:AudioVisualizer"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:star="using:StarButton"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
 
     <Page.DataContext>
-        <vm:DoubanPageViewModel x:Name="Context"/>
+        <vm:DoubanPageViewModel x:Name="Context" />
     </Page.DataContext>
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+                <ResourceDictionary Source="../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
-                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml" />
             </ResourceDictionary.ThemeDictionaries>
-            <Style TargetType="GridViewItem" x:Key="GridItem">
+            <Style x:Key="GridItem" TargetType="GridViewItem">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="GridViewItem">
-                            <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
-                        x:Name="Root" Margin="0,0,-6,-6" Padding="0" BorderThickness="1"
-                        Control.IsTemplateFocusTarget="True"
-                        FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
-                        FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
-                        FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
-                        FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
-                        FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
-                        SelectionCheckMarkVisualEnabled="{ThemeResource GridViewItemSelectionCheckMarkVisualEnabled}"
-                        CheckBrush="{ThemeResource GridViewItemCheckBrush}"
-                        CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
-                        DragBackground="{ThemeResource GridViewItemDragBackground}"
-                        DragForeground="{ThemeResource GridViewItemDragForeground}"
-                        FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
-                        FocusSecondaryBorderBrush="{ThemeResource GridViewItemFocusSecondaryBorderBrush}"
-                        PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
-                        PointerOverBackground="{ThemeResource GridViewItemBackgroundPointerOver}"
-                        PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
-                        SelectedBackground="{ThemeResource GridViewItemBackgroundSelected}"
-                        SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
-                        SelectedPointerOverBackground="{ThemeResource GridViewItemBackgroundSelectedPointerOver}"
-                        PressedBackground="{ThemeResource GridViewItemBackgroundPressed}"
-                        SelectedPressedBackground="{ThemeResource GridViewItemBackgroundSelectedPressed}"
-                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
-                        ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                        ContentMargin="0"
-                        CheckMode="{ThemeResource GridViewItemCheckMode}"
-                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"
-                        RevealBorderThickness="{ThemeResource GridViewItemRevealBorderThemeThickness}"
-                        RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
-                        RevealBackgroundShowsAboveContent="True">
-
+                            <ListViewItemPresenter
+                                x:Name="Root"
+                                Margin="0,0,-6,-6"
+                                Padding="0"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                BorderThickness="1"
+                                CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
+                                CheckBrush="{ThemeResource GridViewItemCheckBrush}"
+                                CheckMode="{ThemeResource GridViewItemCheckMode}"
+                                ContentMargin="0"
+                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                Control.IsTemplateFocusTarget="True"
+                                DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                DragBackground="{ThemeResource GridViewItemDragBackground}"
+                                DragForeground="{ThemeResource GridViewItemDragForeground}"
+                                DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
+                                FocusSecondaryBorderBrush="{ThemeResource GridViewItemFocusSecondaryBorderBrush}"
+                                FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+                                FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+                                FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+                                FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+                                PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
+                                PointerOverBackground="{ThemeResource GridViewItemBackgroundPointerOver}"
+                                PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
+                                PressedBackground="{ThemeResource GridViewItemBackgroundPressed}"
+                                ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+                                RevealBackground="{ThemeResource GridViewItemRevealBackground}"
+                                RevealBackgroundShowsAboveContent="True"
+                                RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                RevealBorderThickness="{ThemeResource GridViewItemRevealBorderThemeThickness}"
+                                SelectedBackground="{ThemeResource GridViewItemBackgroundSelected}"
+                                SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
+                                SelectedPointerOverBackground="{ThemeResource GridViewItemBackgroundSelectedPointerOver}"
+                                SelectedPressedBackground="{ThemeResource GridViewItemBackgroundSelectedPressed}"
+                                SelectionCheckMarkVisualEnabled="{ThemeResource GridViewItemSelectionCheckMarkVisualEnabled}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal" />
@@ -122,216 +125,446 @@ Licensed under the MIT License. See LICENSE in the project root for license info
                     </Setter.Value>
                 </Setter>
             </Style>
-            <CollectionViewSource x:Name="ChannelList" x:Key="ChannelList" Source="{x:Bind Context.Channels}" IsSourceGrouped="True"/>
+            <CollectionViewSource
+                x:Key="ChannelList"
+                x:Name="ChannelList"
+                IsSourceGrouped="True"
+                Source="{x:Bind Context.Channels}" />
             <DataTemplate x:Key="NormalGroupHeader">
-                <TextBlock FontWeight="Bold" Text="{Binding Key}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <TextBlock
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                    Text="{Binding Key}" />
             </DataTemplate>
 
             <DataTemplate x:Key="NarrowGroupHeader">
-                <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Key}" 
-                   Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <TextBlock
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                    Text="{Binding Key}" />
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="Adaptive" CurrentStateChanged="Adaptive_CurrentStateChanged">
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Medium">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Col1.Width" Value="auto"/>
-                        <Setter Target="MainList.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomList.Visibility" Value="Visible"/>
-                        <Setter Target="Visualizer.(Grid.Column)" Value="0"/>
-                        <Setter Target="MainPanel.(Grid.Column)" Value="0"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="Col1.Width" Value="auto"/>
-                        <Setter Target="MainList.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomList.Visibility" Value="Visible"/>
-                        <Setter Target="Visualizer.(Grid.Column)" Value="0"/>
-                        <Setter Target="MainPanel.(Grid.Column)" Value="0"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="Col0" Width="*"/>
-            <ColumnDefinition x:Name="Col1" Width="2*"/>
+            <ColumnDefinition x:Name="Col0" Width="*" />
+            <ColumnDefinition x:Name="Col1" Width="2*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition x:Name="Row1" Height="auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition x:Name="Row1" Height="auto" />
         </Grid.RowDefinitions>
-        <GridView animations:ReorderGridAnimation.Duration="360"
-                  ItemClick="GridView_ItemClick" Padding="0,32,0,0"
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  SelectionMode="None" IsItemClickEnabled="True" 
-                  x:Name="MainList"
-                  Background="{ThemeResource SystemControlAcrylicWindowBrush}"
-                  IsSynchronizedWithCurrentItem="False"
-                  ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
+        <GridView
+            x:Name="MainList"
+            Padding="0,32,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            animations:ItemsReorderAnimation.Duration="360"
+            Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+            IsItemClickEnabled="True"
+            IsSynchronizedWithCurrentItem="False"
+            ItemClick="GridView_ItemClick"
+            ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}"
+            SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ChannelViewModel">
                     <StackPanel Padding="12" Orientation="Vertical">
-                        <Grid Margin="8" Width="80" Height="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="999">
-                            <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
+                        <Grid
+                            Width="80"
+                            Height="80"
+                            Margin="8"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            CornerRadius="999">
+                            <Image
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Stretch="UniformToFill">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
+                                    <BitmapImage
+                                        DecodePixelHeight="80"
+                                        DecodePixelType="Logical"
+                                        UriSource="{x:Bind Cover}" />
                                 </Image.Source>
                             </Image>
-                            <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
+                            <Border
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{ThemeResource ImageDarkOverlay}"
+                                Visibility="{x:Bind NightModeEnabled}" />
                         </Grid>
-                        <TextBlock TextAlignment="Center" Width="96" FontSize="15" TextWrapping="NoWrap" 
-                                   TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                   FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
-                        <TextBlock TextAlignment="Center" Width="96" FontSize="13" TextWrapping="WrapWholeWords" Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
-                                   Height="36" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"/>
+                        <TextBlock
+                            Width="96"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="{x:Bind Name}"
+                            TextAlignment="Center"
+                            TextTrimming="Clip"
+                            TextWrapping="NoWrap" />
+                        <TextBlock
+                            Width="96"
+                            Height="36"
+                            FontSize="13"
+                            Foreground="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Text="{x:Bind Description}"
+                            TextAlignment="Center"
+                            TextTrimming="Clip"
+                            TextWrapping="WrapWholeWords" />
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.GroupStyle>
-                <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}" />
             </GridView.GroupStyle>
         </GridView>
-        <ListView ItemClick="GridView_ItemClick" Style="{ThemeResource HorizontalListView}" Grid.ColumnSpan="2" Grid.Row="1"
-                  HorizontalAlignment="Stretch" SelectionMode="None" IsItemClickEnabled="True" x:Name="BottomList" 
-                  Background="{ThemeResource SystemControlAcrylicWindowBrush}" Visibility="Collapsed" Height="160"
-                  VerticalAlignment="Stretch" IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}"
-                  ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}">
+        <ListView
+            x:Name="BottomList"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Height="160"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+            IsItemClickEnabled="True"
+            IsSynchronizedWithCurrentItem="False"
+            ItemClick="GridView_ItemClick"
+            ItemContainerStyle="{ThemeResource GeneralListViewItemStyle}"
+            ItemsSource="{x:Bind ChannelList.View, Mode=OneWay}"
+            SelectionMode="None"
+            Style="{ThemeResource HorizontalListView}"
+            Visibility="Collapsed">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ChannelViewModel">
                     <StackPanel Padding="4,0" Orientation="Horizontal">
-                        <Grid Margin="4,0" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="999">
-                            <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill">
+                        <Grid
+                            Width="80"
+                            Height="80"
+                            Margin="4,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="999">
+                            <Image
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Stretch="UniformToFill">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="80" DecodePixelType="Logical" UriSource="{x:Bind Cover}"/>
+                                    <BitmapImage
+                                        DecodePixelHeight="80"
+                                        DecodePixelType="Logical"
+                                        UriSource="{x:Bind Cover}" />
                                 </Image.Source>
                             </Image>
-                            <Border Visibility="{x:Bind NightModeEnabled}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource ImageDarkOverlay}"/>
+                            <Border
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{ThemeResource ImageDarkOverlay}"
+                                Visibility="{x:Bind NightModeEnabled}" />
                         </Grid>
-                        <StackPanel Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="160">
-                            <TextBlock TextAlignment="Left" Width="160" FontSize="15" TextWrapping="NoWrap" TextTrimming="Clip" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Name}"/>
-                            <TextBlock TextAlignment="Left" Width="160" FontSize="13" TextWrapping="WrapWholeWords" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Description}"/>
+                        <StackPanel
+                            Width="160"
+                            Margin="4,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <TextBlock
+                                Width="160"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="{x:Bind Name}"
+                                TextAlignment="Left"
+                                TextTrimming="Clip"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                Width="160"
+                                FontSize="13"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Text="{x:Bind Description}"
+                                TextAlignment="Left"
+                                TextTrimming="Clip"
+                                TextWrapping="WrapWholeWords" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.GroupStyle>
-                <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}"/>
+                <GroupStyle HeaderTemplate="{StaticResource NormalGroupHeader}" />
             </ListView.GroupStyle>
         </ListView>
-        <Grid x:Name="MainPanel" Grid.Column="1" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid
+            x:Name="MainPanel"
+            Grid.Column="1"
+            Padding="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="36"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="36" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <TextBlock x:Uid="Now" Margin="0,32" Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" Text="正在播放" FontWeight="Bold" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Grid Grid.Row="1" Margin="-40" Width="320" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock
+                x:Uid="Now"
+                Margin="0,32"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="正在播放"
+                Visibility="{x:Bind Context.NullableBooltoVisibility(Context.IsPlaying), Mode=OneWay}" />
+            <Grid
+                Grid.Row="1"
+                Width="320"
+                Height="320"
+                Margin="-40"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
                 <Grid.RenderTransform>
-                    <TranslateTransform Y="16"/>
+                    <TranslateTransform Y="16" />
                 </Grid.RenderTransform>
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:Blur Value="16" Duration="0"
-                                    EasingType="Quintic"
-                                    EasingMode="EaseOut"
-                                    Delay="0" 
-                                    AutomaticallyStart="True"/>
+                    <!--<behaviors:Blur
+                        AutomaticallyStart="True"
+                        Delay="0"
+                        EasingMode="EaseOut"
+                        EasingType="Quintic"
+                        Value="16"
+                        Duration="0" />-->
                 </interactivity:Interaction.Behaviors>
-                <Grid Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid
+                    Width="240"
+                    Height="240"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <Image
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Stretch="UniformToFill">
                         <Image.Source>
-                            <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
+                            <BitmapImage
+                                DecodePixelHeight="240"
+                                DecodePixelType="Logical"
+                                UriSource="{x:Bind Context.Artwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" />
                         </Image.Source>
                     </Image>
-                    <Border Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Border
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                 </Grid>
             </Grid>
-            <Image Grid.Row="1" Width="240" Height="240" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image
+                Grid.Row="1"
+                Width="240"
+                Height="240"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="UniformToFill">
                 <Image.Source>
-                    <BitmapImage UriSource="{x:Bind Context.Artwork, Mode=OneWay,TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" DecodePixelHeight="240" DecodePixelType="Logical"/>
+                    <BitmapImage
+                        DecodePixelHeight="240"
+                        DecodePixelType="Logical"
+                        UriSource="{x:Bind Context.Artwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}" />
                 </Image.Source>
             </Image>
-            <Border Visibility="{x:Bind Context.NightModeEnabled}" Grid.Row="1" Width="240" Height="240" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ImageDarkOverlay}"/>
-            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,24,12,12">
-                <TextBlock Text="{x:Bind Context.Title, Mode=OneWay}" FontWeight="Bold" FontSize="32" Style="{ThemeResource TitleTextBlockStyle}" MaxLines="2" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind Context.Description, Mode=OneWay}" FontSize="16" Style="{ThemeResource BodyTextBlockStyle}" Margin="4" MaxLines="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Border
+                Grid.Row="1"
+                Width="240"
+                Height="240"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{ThemeResource ImageDarkOverlay}"
+                Visibility="{x:Bind Context.NightModeEnabled}" />
+            <StackPanel
+                Grid.Row="2"
+                Margin="12,24,12,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="32"
+                    FontWeight="Bold"
+                    MaxLines="2"
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="{x:Bind Context.Title, Mode=OneWay}" />
+                <TextBlock
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    MaxLines="2"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{x:Bind Context.Description, Mode=OneWay}" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">
-                <Button x:Name="Volume" Style="{ThemeResource RevealRoundButton}"
-                        x:Uid="VolumeButton" ToolTipService.ToolTip="Volume" Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+            <StackPanel
+                Grid.Row="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="Volume"
+                    x:Uid="VolumeButton"
+                    Width="48"
+                    Height="48"
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Style="{ThemeResource RevealRoundButton}"
+                    ToolTipService.ToolTip="Volume">
                     <Button.Content>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
                     </Button.Content>
                     <Button.Flyout>
                         <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                            <StackPanel Padding="4,4,4,-4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
-                                <Slider Style="{ThemeResource RoundSlider}" 
-                                        BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" 
-                                        IsThumbToolTipEnabled="False" MinWidth="240" 
-                                        HorizontalAlignment="Stretch" VerticalAlignment="Center" 
-                                        Minimum="0" Maximum="100" StepFrequency="1" 
-                                        Value="{x:Bind Context.Volume, Mode=TwoWay}"/>
-                                <TextBlock Margin="4,0,0,10" Width="36" TextAlignment="Right" VerticalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" TextWrapping="NoWrap" TextTrimming="None" MaxLines="1" HorizontalAlignment="Stretch" Text="{x:Bind Context.VolumeToString(Context.Volume), Mode=OneWay}"/>
+                            <StackPanel
+                                Padding="4,4,4,-4"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Orientation="Horizontal">
+                                <Slider
+                                    MinWidth="240"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                    IsThumbToolTipEnabled="False"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    StepFrequency="1"
+                                    Style="{ThemeResource RoundSlider}"
+                                    Value="{x:Bind Context.Volume, Mode=TwoWay}" />
+                                <TextBlock
+                                    Width="36"
+                                    Margin="4,0,0,10"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    MaxLines="1"
+                                    Style="{ThemeResource TitleTextBlockStyle}"
+                                    Text="{x:Bind Context.VolumeToString(Context.Volume), Mode=OneWay}"
+                                    TextAlignment="Right"
+                                    TextTrimming="None"
+                                    TextWrapping="NoWrap" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="[" x:Uid="DropBtn" Command="{x:Bind Context.DeleteCommand}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
-                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Button
+                    x:Uid="DropBtn"
+                    Width="48"
+                    Height="48"
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    AccessKey="["
+                    Command="{x:Bind Context.DeleteCommand}"
+                    IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}"
+                    Style="{ThemeResource RevealRoundButton}"
+                    ToolTipService.ToolTip="Next">
                     <Button.Content>
-                        <SymbolIcon Symbol="Delete"/>
+                        <SymbolIcon Symbol="Delete" />
                     </Button.Content>
                     <Button.KeyboardAccelerators>
                         <KeyboardAccelerator Key="Delete" />
                         <KeyboardAccelerator Key="F1" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button AccessKey="P" Style="{ThemeResource RevealRoundButton}" Command="{x:Bind Context.PlayOrPauseCommand}" ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}"
-                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Button
+                    Width="48"
+                    Height="48"
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    AccessKey="P"
+                    Command="{x:Bind Context.PlayOrPauseCommand}"
+                    Style="{ThemeResource RevealRoundButton}"
+                    ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}">
                     <Button.Content>
-                        <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}"/>
+                        <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
                     </Button.Content>
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Modifiers="Control" Key="P" />
+                        <KeyboardAccelerator Key="P" Modifiers="Control" />
                         <KeyboardAccelerator Key="F2" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <Button IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" AccessKey="]" x:Uid="Next" Command="{x:Bind Context.NextCommand}" Style="{ThemeResource RevealRoundButton}" ToolTipService.ToolTip="Next"
-                                Width="48" Height="48" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <Button
+                    x:Uid="Next"
+                    Width="48"
+                    Height="48"
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    AccessKey="]"
+                    Command="{x:Bind Context.NextCommand}"
+                    IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}"
+                    Style="{ThemeResource RevealRoundButton}"
+                    ToolTipService.ToolTip="Next">
                     <Button.Content>
-                        <SymbolIcon Symbol="Next"/>
+                        <SymbolIcon Symbol="Next" />
                     </Button.Content>
                     <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Modifiers="Control" Key="N" />
+                        <KeyboardAccelerator Key="N" Modifiers="Control" />
                         <KeyboardAccelerator Key="F3" />
                     </Button.KeyboardAccelerators>
                 </Button>
-                <star:StarButton IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}" 
-                                 IsThreeState="False" IsChecked="{x:Bind Context.RateToggle, Mode=TwoWay}" 
-                                 FontSize="24" Margin="12,4" 
-                                 VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <star:StarButton
+                    Margin="12,4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="24"
+                    IsChecked="{x:Bind Context.RateToggle, Mode=TwoWay}"
+                    IsEnabled="{x:Bind Context.NullableBooltoBool(Context.IsPlaying), Mode=OneWay}"
+                    IsThreeState="False" />
             </StackPanel>
         </Grid>
-        <audio:CustomVisualizer Loaded="CustomVisualizer_Loaded"
-                                Grid.Column="1" x:Name="Visualizer"
-                                HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                CreateResources="CustomVisualizer_CreateResources" 
-                                Draw="Visualizer_Draw"/>
+        <audio:CustomVisualizer
+            x:Name="Visualizer"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            CreateResources="CustomVisualizer_CreateResources"
+            Draw="Visualizer_Draw"
+            Loaded="CustomVisualizer_Loaded" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Adaptive" CurrentStateChanged="Adaptive_CurrentStateChanged">
+                <VisualState x:Name="Full">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Col1.Width" Value="auto" />
+                        <Setter Target="MainList.Visibility" Value="Collapsed" />
+                        <Setter Target="BottomList.Visibility" Value="Visible" />
+                        <Setter Target="Visualizer.(Grid.Column)" Value="0" />
+                        <Setter Target="MainPanel.(Grid.Column)" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Col1.Width" Value="auto" />
+                        <Setter Target="MainList.Visibility" Value="Collapsed" />
+                        <Setter Target="BottomList.Visibility" Value="Visible" />
+                        <Setter Target="Visualizer.(Grid.Column)" Value="0" />
+                        <Setter Target="MainPanel.(Grid.Column)" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </Page>

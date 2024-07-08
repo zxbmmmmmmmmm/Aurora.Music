@@ -1,92 +1,194 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <ContentDialog
     x:Class="Aurora.Music.Controls.ExtensionsManager"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music"
-    xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Aurora.Music"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ContentDialogBackground}"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     x:Uid="ExtensionManager"
     Title="Extension Manager"
+    Background="{ThemeResource ContentDialogBackground}"
     CloseButtonText="Close"
     DefaultButton="Close"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    mc:Ignorable="d">
 
     <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+                <ResourceDictionary Source="../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentDialog.Resources>
 
-    <ListView ItemClick="ListView_ItemClick" SelectionMode="None" Padding="0,0,20,0" IsItemClickEnabled="True" ItemsSource="{x:Bind ExtensionList}">
+    <ListView
+        Padding="0,0,20,0"
+        IsItemClickEnabled="True"
+        ItemClick="ListView_ItemClick"
+        ItemsSource="{x:Bind ExtensionList}"
+        SelectionMode="None">
         <ListView.Header>
-            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="0,8">
-                <Run x:Uid="ExtensionDesc" Text="Hover over icons to see tips, click to show more actions"/>
+            <TextBlock Margin="0,8" Style="{ThemeResource BodyTextBlockStyle}">
+                <Run x:Uid="ExtensionDesc" Text="Hover over icons to see tips, click to show more actions" />
             </TextBlock>
         </ListView.Header>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vm:ExtensionViewModel">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.RowSpan="3" Width="40" Height="40" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{x:Null}" StrokeThickness="0" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                    <Image Visibility="{x:Bind BoolNottoVisibility(IsCurrent),Mode=OneWay}" Margin="20" Source="{x:Bind Logo, Mode=OneWay}" Grid.RowSpan="3" Width="40" Height="40" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Grid Visibility="{x:Bind IsCurrent,Mode=OneWay}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="80" Height="80" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Rectangle
+                        Grid.RowSpan="3"
+                        Width="40"
+                        Height="40"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Fill="{ThemeResource SystemControlBackgroundAccentBrush}"
+                        Stroke="{x:Null}"
+                        StrokeThickness="0" />
+                    <Image
+                        Grid.RowSpan="3"
+                        Width="40"
+                        Height="40"
+                        Margin="20"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind Logo, Mode=OneWay}"
+                        Stretch="Uniform"
+                        Visibility="{x:Bind BoolNottoVisibility(IsCurrent), Mode=OneWay}" />
+                    <Grid
+                        Grid.RowSpan="3"
+                        Width="80"
+                        Height="80"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                        Visibility="{x:Bind IsCurrent, Mode=OneWay}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Button x:Uid="ExtensionLaunch" Command="{x:Bind LaunchUri}" IsEnabled="{x:Bind CanLaunch,Mode=OneWay}" ToolTipService.ToolTip="Launch" Style="{ThemeResource ButtonRevealStyle}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button
+                            x:Uid="ExtensionLaunch"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                            Command="{x:Bind LaunchUri}"
+                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                            IsEnabled="{x:Bind CanLaunch, Mode=OneWay}"
+                            Style="{ThemeResource ButtonRevealStyle}"
+                            ToolTipService.ToolTip="Launch">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE115;" />
                         </Button>
-                        <Button x:Uid="ExtensionRemove" Click="Button_Click" IsEnabled="{x:Bind CanUninstall,Mode=OneWay}" ToolTipService.ToolTip="Remove" Style="{ThemeResource ButtonRevealStyle}" Grid.Row="1" Background="#ff4343" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button
+                            x:Uid="ExtensionRemove"
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="#ff4343"
+                            Click="Button_Click"
+                            Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                            IsEnabled="{x:Bind CanUninstall, Mode=OneWay}"
+                            Style="{ThemeResource ButtonRevealStyle}"
+                            ToolTipService.ToolTip="Remove">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                         </Button>
                     </Grid>
-                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" Grid.Column="1" VerticalAlignment="Center" Margin="4,0,4,-4" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <TextBlock FontSize="13" Text="{x:Bind Description, Mode=OneWay}" Grid.Column="1" Grid.Row="1" Margin="4,-4,4,0" VerticalAlignment="Center" Style="{ThemeResource BodyTextBlockStyle}"/>
-                    <Grid Margin="4,0" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="4,0,4,-4"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource TitleTextBlockStyle}"
+                        Text="{x:Bind Name, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="4,-4,4,0"
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        Style="{ThemeResource BodyTextBlockStyle}"
+                        Text="{x:Bind Description, Mode=OneWay}" />
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="4,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="0" IsChecked="{x:Bind LyricEnabled(Type), Mode=OneWay}">
+                        <CheckBox
+                            Grid.Column="0"
+                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                            IsChecked="{x:Bind LyricEnabled(Type), Mode=OneWay}">
                             <CheckBox.Content>
-                                <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE71D;" />
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Glyph="&#xE71D;" />
                             </CheckBox.Content>
                         </CheckBox>
-                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="1" IsChecked="{x:Bind MusicEnabled(Type), Mode=OneWay}">
+                        <CheckBox
+                            Grid.Column="1"
+                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                            IsChecked="{x:Bind MusicEnabled(Type), Mode=OneWay}">
                             <CheckBox.Content>
-                                <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Glyph="&#xE753;" />
                             </CheckBox.Content>
                         </CheckBox>
-                        <CheckBox Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="2" IsChecked="{x:Bind MetaEnabled(Type), Mode=OneWay}">
+                        <CheckBox
+                            Grid.Column="2"
+                            Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                            IsChecked="{x:Bind MetaEnabled(Type), Mode=OneWay}">
                             <CheckBox.Content>
-                                <FontIcon Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                                    Glyph="&#xE93C;" />
                             </CheckBox.Content>
                         </CheckBox>
 
-                        <Grid x:Uid="LyricProvider" ToolTipService.ToolTip="Lyric Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Background="Transparent"/>
-                        <Grid x:Uid="OnlineProvider" ToolTipService.ToolTip="Online Music Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Background="Transparent"/>
-                        <Grid x:Uid="MetaProvider" ToolTipService.ToolTip="Meta-data Provider" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" Background="Transparent"/>
+                        <Grid
+                            x:Uid="LyricProvider"
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            ToolTipService.ToolTip="Lyric Provider" />
+                        <Grid
+                            x:Uid="OnlineProvider"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            ToolTipService.ToolTip="Online Music Provider" />
+                        <Grid
+                            x:Uid="MetaProvider"
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            ToolTipService.ToolTip="Meta-data Provider" />
                     </Grid>
                 </Grid>
             </DataTemplate>

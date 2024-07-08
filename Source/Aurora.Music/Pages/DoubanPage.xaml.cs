@@ -50,7 +50,7 @@ namespace Aurora.Music.Pages
             Context.Detach();
             SizeChanged -= Visualizer_SizeChanged;
             MainPageViewModel.Current.IsVisualizing = false;
-            Visualizer.Draw -= CustomVisualizer_Draw;
+            //Visualizer.Draw -= CustomVisualizer_Draw;
         }
         private void CustomVisualizer_Loaded(object sender, RoutedEventArgs e)
         {
@@ -101,54 +101,54 @@ namespace Aurora.Music.Pages
         static readonly TimeSpan _peakFallTime = TimeSpan.FromMilliseconds(120 * fps);
         static readonly TimeSpan _frameDuration = TimeSpan.FromMilliseconds(fps);
 
-        private void CustomVisualizer_Draw(IVisualizer sender, VisualizerDrawEventArgs args)
-        {
-            if (!MainPageViewModel.Current.IsVisualizing || Context.Palette == null)
-                return;
+        //private void CustomVisualizer_Draw(IVisualizer sender, VisualizerDrawEventArgs args)
+        //{
+        //    if (!MainPageViewModel.Current.IsVisualizing || Context.Palette == null)
+        //        return;
 
-            lock (drawingLock)
-            {
-                var drawingSession = (CanvasDrawingSession)args.DrawingSession;
-                float barWidth = canvasWidth / barCount;
-                // Calculate spectum metrics
-                var barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
+        //    lock (drawingLock)
+        //    {
+        //        var drawingSession = (CanvasDrawingSession)args.DrawingSession;
+        //        float barWidth = canvasWidth / barCount;
+        //        // Calculate spectum metrics
+        //        var barSize = new Vector2(barWidth, canvasHeight - 2 * barWidth);
 
-                // Get the data if data exists and source is in play state, else use empty
-                var spectrumData = args.Data != null && Visualizer.Source?.PlaybackState == SourcePlaybackState.Playing ?
-                                                args.Data.Spectrum.LogarithmicTransform(barCount, 20f, 20000f) : _emptySpectrum;
+        //        // Get the data if data exists and source is in play state, else use empty
+        //        var spectrumData = args.Data != null && Visualizer.Source?.PlaybackState == SourcePlaybackState.Playing ?
+        //                                        args.Data.Spectrum.LogarithmicTransform(barCount, 20f, 20000f) : _emptySpectrum;
 
-                _previousSpectrum = spectrumData.ApplyRiseAndFall(_previousSpectrum, _rmsRiseTime, _rmsFallTime, _frameDuration);
-                _previousPeakSpectrum = spectrumData.ApplyRiseAndFall(_previousPeakSpectrum, _peakRiseTime, _peakFallTime, _frameDuration);
+        //        _previousSpectrum = spectrumData.ApplyRiseAndFall(_previousSpectrum, _rmsRiseTime, _rmsFallTime, _frameDuration);
+        //        _previousPeakSpectrum = spectrumData.ApplyRiseAndFall(_previousPeakSpectrum, _peakRiseTime, _peakFallTime, _frameDuration);
 
-                var logSpectrum = _previousSpectrum.ConvertToDecibels(-50, 0);
-                var logPeakSpectrum = _previousPeakSpectrum.ConvertToDecibels(-50, 0);
+        //        var logSpectrum = _previousSpectrum.ConvertToDecibels(-50, 0);
+        //        var logPeakSpectrum = _previousPeakSpectrum.ConvertToDecibels(-50, 0);
 
-                var step = canvasWidth / barCount;
-                var flaw = (step - barSize.X) / 2;
-                // Draw spectrum bars
-                for (int index = 0, j = 0; index < barCount; index++, j++)
-                {
-                    float barX = step * index + flaw;
+        //        var step = canvasWidth / barCount;
+        //        var flaw = (step - barSize.X) / 2;
+        //        // Draw spectrum bars
+        //        for (int index = 0, j = 0; index < barCount; index++, j++)
+        //        {
+        //            float barX = step * index + flaw;
 
-                    // use average of 2 channel and add a offset to pretty
-                    float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f) + barSize.X;
+        //            // use average of 2 channel and add a offset to pretty
+        //            float spectrumBarHeight = barSize.Y * (1.0f - (logSpectrum[0][index] + logSpectrum[1][index]) / -100.0f) + barSize.X;
 
-                    if (j >= Context.Palette.Count)
-                    {
-                        j = 0;
-                    }
+        //            if (j >= Context.Palette.Count)
+        //            {
+        //                j = 0;
+        //            }
 
-                    drawingSession.FillRoundedRectangle(barX, 0, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2, Context.Palette[j]);
-                    drawingSession.FillRectangle(barX, 0, barSize.X, spectrumBarHeight - barSize.X / 2, Context.Palette[j]);
-                }
-            }
-        }
+        //            drawingSession.FillRoundedRectangle(barX, 0, barSize.X, spectrumBarHeight, barSize.X / 2, barSize.X / 2, Context.Palette[j]);
+        //            drawingSession.FillRectangle(barX, 0, barSize.X, spectrumBarHeight - barSize.X / 2, Context.Palette[j]);
+        //        }
+        //    }
+        //}
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             Visualizer.SizeChanged -= Visualizer_SizeChanged;
             MainPageViewModel.Current.IsVisualizing = false;
-            Visualizer.Draw -= CustomVisualizer_Draw;
+            //Visualizer.Draw -= CustomVisualizer_Draw;
         }
 
         private void Adaptive_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)

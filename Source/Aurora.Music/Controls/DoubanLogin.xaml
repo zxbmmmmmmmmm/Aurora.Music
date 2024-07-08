@@ -1,42 +1,79 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <ContentDialog
     x:Class="Aurora.Music.Controls.DoubanLogin"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    mc:Ignorable="d"
-    Background="{ThemeResource ContentDialogBackground}"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="DoubanLogin"
-    PrimaryButtonText="Login"
-    IsPrimaryButtonEnabled="False"
+    Background="{ThemeResource ContentDialogBackground}"
     CloseButtonText="Cancel"
     DefaultButton="Primary"
+    IsPrimaryButtonEnabled="False"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    PrimaryButtonText="Login"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    mc:Ignorable="d">
 
     <StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" FontWeight="Bold" FontSize="24" Margin="12" CharacterSpacing="-128">
-                <Run Foreground="#1b9336" Text="豆"/>
-                <Run Foreground="#1b9336" Text="瓣"/>
-                <Run Text="  "/>
-                <Run Foreground="#1b9336" Text="d"/>
-                <Run Foreground="#0092c8" Text="o"/>
-                <Run Foreground="#ffad68" Text="u"/>
-                <Run Foreground="#1b9336" Text="b"/>
-                <Run Foreground="#0092c8" Text="a"/>
-                <Run Foreground="#ffad68" Text="n"/>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="12"
+                CharacterSpacing="-128"
+                FontSize="24"
+                FontWeight="Bold"
+                Style="{ThemeResource TitleTextBlockStyle}">
+                <Run Foreground="#1b9336" Text="豆" />
+                <Run Foreground="#1b9336" Text="瓣" />
+                <Run Text="  " />
+                <Run Foreground="#1b9336" Text="d" />
+                <Run Foreground="#0092c8" Text="o" />
+                <Run Foreground="#ffad68" Text="u" />
+                <Run Foreground="#1b9336" Text="b" />
+                <Run Foreground="#0092c8" Text="a" />
+                <Run Foreground="#ffad68" Text="n" />
             </TextBlock>
         </StackPanel>
-        <TextBox x:Uid="AccountBox" IsSpellCheckEnabled="False" TextChanged="Account_TextChanged" x:Name="Account" Header="Account" Margin="0,8" BorderThickness="0,0,0,1" Background="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" VerticalContentAlignment="Center" PlaceholderText="E-mail/Phone" InputScope="EmailNameOrAddress"/>
-        <PasswordBox x:Uid="PasswordBox" x:Name="Password" Header="Password" BorderThickness="0,0,0,1" Margin="0,8" Background="{ThemeResource SystemControlTransparentRevealBorderBrush}" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" VerticalAlignment="Center" PasswordChanged="Password_PasswordChanged" PlaceholderText="8 or More Characters" InputScope="Password"/>
-        <TextBlock x:Name="FailText" Text="Error" Visibility="Collapsed" Style="{ThemeResource BaseTextBlockStyle}" Foreground="#ff4300" Margin="8"/>
+        <TextBox
+            x:Name="Account"
+            x:Uid="AccountBox"
+            Margin="0,8"
+            VerticalContentAlignment="Center"
+            Background="{ThemeResource SystemControlTransparentRevealBorderBrush}"
+            BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Header="Account"
+            InputScope="EmailNameOrAddress"
+            IsSpellCheckEnabled="False"
+            PlaceholderText="E-mail/Phone"
+            TextChanged="Account_TextChanged" />
+        <PasswordBox
+            x:Name="Password"
+            x:Uid="PasswordBox"
+            Margin="0,8"
+            VerticalAlignment="Center"
+            Background="{ThemeResource SystemControlTransparentRevealBorderBrush}"
+            BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+            BorderThickness="0,0,0,1"
+            Header="Password"
+            InputScope="Password"
+            PasswordChanged="Password_PasswordChanged"
+            PlaceholderText="8 or More Characters" />
+        <TextBlock
+            x:Name="FailText"
+            Margin="8"
+            Foreground="#ff4300"
+            Style="{ThemeResource BaseTextBlockStyle}"
+            Text="Error"
+            Visibility="Collapsed" />
     </StackPanel>
 </ContentDialog>

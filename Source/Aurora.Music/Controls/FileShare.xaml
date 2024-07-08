@@ -1,21 +1,32 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <Page
     x:Class="Aurora.Music.Controls.FileShare"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Aurora.Music.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock HorizontalAlignment="Center" Margin="32"
-                   x:Name="Message" Text="File Sharing" Style="{ThemeResource BodyTextBlockStyle}" 
-                   TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="4"/>
-        <Button Style="{ThemeResource ButtonRevealStyle}" Click="Button_Click" Content="Finish" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock
+            x:Name="Message"
+            Margin="32"
+            HorizontalAlignment="Center"
+            MaxLines="4"
+            Style="{ThemeResource BodyTextBlockStyle}"
+            Text="File Sharing"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="WrapWholeWords" />
+        <Button
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Click="Button_Click"
+            Content="Finish"
+            Style="{ThemeResource ButtonRevealStyle}" />
     </StackPanel>
 </Page>

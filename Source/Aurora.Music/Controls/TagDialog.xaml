@@ -1,39 +1,39 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <ContentDialog
     x:Class="Aurora.Music.Controls.TagDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
-    xmlns:vm="using:Aurora.Music.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Aurora.Music.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ContentDialogBackground}"
+    xmlns:vm="using:Aurora.Music.ViewModels"
     x:Uid="TagDialog"
     Title="Properties"
-    PrimaryButtonText="Confirm"
+    Background="{ThemeResource ContentDialogBackground}"
     CloseButtonText="Cancel"
     DefaultButton="Primary"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    PrimaryButtonText="Confirm"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    mc:Ignorable="d">
 
     <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Themes/Styles.xaml"/>
+                <ResourceDictionary Source="../Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml"/>
-                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml"/>
+                <ResourceDictionary x:Key="Light" Source="../Themes/Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="../Themes/Dark.xaml" />
             </ResourceDictionary.ThemeDictionaries>
             <Style TargetType="TextBox">
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}" />
             </Style>
         </ResourceDictionary>
     </ContentDialog.Resources>
@@ -41,32 +41,77 @@ Licensed under the MIT License. See LICENSE in the project root for license info
     <StackPanel Orientation="Vertical">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
-                <TextBlock x:Uid="Title" Text="Title" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox Text="{x:Bind SongTitle, Mode=TwoWay}"/>
+            <StackPanel
+                Grid.Column="1"
+                Margin="4"
+                Orientation="Vertical">
+                <TextBlock
+                    x:Uid="Title"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Title" />
+                <TextBox Text="{x:Bind SongTitle, Mode=TwoWay}" />
             </StackPanel>
-            <StackPanel Margin="4" Grid.Column="1" Grid.Row="1" Orientation="Vertical">
-                <TextBlock x:Uid="AlbumName" Text="Album Name"/>
-                <TextBox Text="{x:Bind Album, Mode=TwoWay}"/>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="4"
+                Orientation="Vertical">
+                <TextBlock x:Uid="AlbumName" Text="Album Name" />
+                <TextBox Text="{x:Bind Album, Mode=TwoWay}" />
             </StackPanel>
-            <Button Command="{x:Bind ChangeArtwork}" 
-                    PointerEntered="Button_PointerEntered" PointerReleased="Button_PointerEntered" PointerExited="Button_PointerExited" 
-                    PointerCanceled="Button_PointerExited" PointerCaptureLost="Button_PointerExited" Margin="4" Grid.RowSpan="2" 
-                    MaxWidth="150" MaxHeight="150" HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{ThemeResource RevealRectangleButton}" 
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" Background="Transparent">
+            <Button
+                Grid.RowSpan="2"
+                MaxWidth="150"
+                MaxHeight="150"
+                Margin="4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Stretch"
+                Background="Transparent"
+                Command="{x:Bind ChangeArtwork}"
+                PointerCanceled="Button_PointerExited"
+                PointerCaptureLost="Button_PointerExited"
+                PointerEntered="Button_PointerEntered"
+                PointerExited="Button_PointerExited"
+                PointerReleased="Button_PointerEntered"
+                Style="{ThemeResource RevealRectangleButton}">
                 <Button.Content>
                     <Grid>
-                        <Image Source="{x:Bind Artwork, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform"/>
-                        <StackPanel Orientation="Vertical" Visibility="Collapsed" x:Name="ForeGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBaseTranslucentAcrylicElementBrush}" BorderBrush="{x:Null}" BorderThickness="0">
-                            <FontIcon Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Margin="0,12,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Glyph="&#xE104;" />
-                            <TextBlock x:Uid="Instantly" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="Instantly" Style="{ThemeResource BaseTextBlockStyle}" Margin="8,4,8,12"/>
+                        <Image
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Source="{x:Bind Artwork, Mode=OneWay}"
+                            Stretch="Uniform" />
+                        <StackPanel
+                            x:Name="ForeGrid"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{ThemeResource SystemControlBaseTranslucentAcrylicElementBrush}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Orientation="Vertical"
+                            Visibility="Collapsed">
+                            <FontIcon
+                                Margin="0,12,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe MDL2 Assets"
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                Glyph="&#xE104;" />
+                            <TextBlock
+                                x:Uid="Instantly"
+                                Margin="8,4,8,12"
+                                Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Text="Instantly" />
                         </StackPanel>
                     </Grid>
                 </Button.Content>
@@ -74,66 +119,114 @@ Licensed under the MIT License. See LICENSE in the project root for license info
         </Grid>
         <Grid>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock x:Uid="Performers" Text="Performers" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox Text="{x:Bind StrArrToString(Performers), BindBack=StringToPerformers, Mode=TwoWay}"/>
+                <TextBlock
+                    x:Uid="Performers"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Performers" />
+                <TextBox Text="{x:Bind StrArrToString(Performers), BindBack=StringToPerformers, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
         <Grid>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock x:Uid="AlbumArtists" Text="Album Artists" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox Text="{x:Bind StrArrToString(AlbumArtists), BindBack=StringToAlbumArtists, Mode=TwoWay}"/>
+                <TextBlock
+                    x:Uid="AlbumArtists"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Album Artists" />
+                <TextBox Text="{x:Bind StrArrToString(AlbumArtists), BindBack=StringToAlbumArtists, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
         <Grid>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock x:Uid="Genres" Text="Genres" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox Text="{x:Bind StrArrToString(Genres), BindBack=StringToGenres, Mode=TwoWay}"/>
+                <TextBlock
+                    x:Uid="Genres"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Genres" />
+                <TextBox Text="{x:Bind StrArrToString(Genres), BindBack=StringToGenres, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
         <StackPanel Margin="4" Orientation="Vertical">
-            <TextBlock x:Uid="Track" Text="Track" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock
+                x:Uid="Track"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="Track" />
             <StackPanel Orientation="Horizontal">
-                <TextBox InputScope="Number" Text="{x:Bind Track.ToString(),BindBack=StringToTrack,Mode=TwoWay}"/>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Text="/" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox InputScope="Number" Text="{x:Bind TrackCount.ToString(),BindBack=StringToTrackCount,Mode=TwoWay}"/>
+                <TextBox InputScope="Number" Text="{x:Bind Track.ToString(), BindBack=StringToTrack, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="/" />
+                <TextBox InputScope="Number" Text="{x:Bind TrackCount.ToString(), BindBack=StringToTrackCount, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="4" Orientation="Vertical">
-            <TextBlock x:Uid="Disc" Text="Disc" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock
+                x:Uid="Disc"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="Disc" />
             <StackPanel Orientation="Horizontal">
-                <TextBox InputScope="Number" Text="{x:Bind Disc.ToString(), BindBack=StringToDisc,Mode=TwoWay}"/>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Text="/" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox InputScope="Number" Text="{x:Bind DiscCount.ToString(),BindBack=StringToDiscCount,Mode=TwoWay}"/>
+                <TextBox InputScope="Number" Text="{x:Bind Disc.ToString(), BindBack=StringToDisc, Mode=TwoWay}" />
+                <TextBlock
+                    Margin="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="/" />
+                <TextBox InputScope="Number" Text="{x:Bind DiscCount.ToString(), BindBack=StringToDiscCount, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock x:Uid="Rating" Text="Rating" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBox Text="{x:Bind Rating.ToString(),BindBack=StringToRating,Mode=TwoWay}"/>
+                <TextBlock
+                    x:Uid="Rating"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Rating" />
+                <TextBox Text="{x:Bind Rating.ToString(), BindBack=StringToRating, Mode=TwoWay}" />
             </StackPanel>
-            <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
-                <TextBlock x:Uid="YearText" Text="Year"/>
-                <TextBox Text="{x:Bind Year.ToString(),BindBack=StringToYear,Mode=TwoWay}"/>
+            <StackPanel
+                Grid.Column="1"
+                Margin="4"
+                Orientation="Vertical">
+                <TextBlock x:Uid="YearText" Text="Year" />
+                <TextBox Text="{x:Bind Year.ToString(), BindBack=StringToYear, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Margin="4" Orientation="Vertical">
-                <TextBlock x:Uid="BitRate" Text="Bit Rate" Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock
+                    x:Uid="BitRate"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="Bit Rate" />
+                <TextBlock
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{x:Bind BitRateToString(BitRate), Mode=OneWay}" />
             </StackPanel>
-            <StackPanel Margin="4" Grid.Column="1" Orientation="Vertical">
-                <TextBlock x:Uid="Duration" Text="Duration"/>
-                <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind DurationtoString(Duration),Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <StackPanel
+                Grid.Column="1"
+                Margin="4"
+                Orientation="Vertical">
+                <TextBlock x:Uid="Duration" Text="Duration" />
+                <TextBlock
+                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{x:Bind DurationtoString(Duration), Mode=OneWay}" />
             </StackPanel>
         </Grid>
-        <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="4" TextWrapping="Wrap" Text="{x:Bind FilePath,Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"/>
+        <TextBlock
+            Margin="4"
+            Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+            Style="{ThemeResource BodyTextBlockStyle}"
+            Text="{x:Bind FilePath, Mode=OneWay}"
+            TextWrapping="Wrap" />
     </StackPanel>
 </ContentDialog>

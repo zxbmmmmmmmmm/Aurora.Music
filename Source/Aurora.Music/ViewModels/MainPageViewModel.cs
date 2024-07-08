@@ -618,7 +618,7 @@ namespace Aurora.Music.ViewModels
             }
             if (player is IPlayer p)
             {
-                visualizerSource = new PlaybackSource(p.MediaPlayer);
+                visualizerSource = PlaybackSource.CreateFromMediaPlayer(p.MediaPlayer);
                 visualizerSource.SourceChanged += VisualizerSource_SourceChanged;
                 if (visualizerSource.Source != null)
                 {

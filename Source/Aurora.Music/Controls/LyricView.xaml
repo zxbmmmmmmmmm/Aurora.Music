@@ -1,91 +1,77 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
-<Page x:Class="Aurora.Music.Controls.LyricView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:Aurora.Music.Controls"
-      xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      Unloaded="Page_Unloaded"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+<Page
+    x:Class="Aurora.Music.Controls.LyricView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Aurora.Music.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Unloaded="Page_Unloaded"
+    mc:Ignorable="d">
 
     <Page.Resources>
-        <AcrylicBrush x:Key="ROOTBG"
-                      BackgroundSource="HostBackdrop"
-                      TintColor="{ThemeResource SystemChromeAltHighColor}"
-                      TintOpacity="0.333333"
-                      FallbackColor="{ThemeResource SystemAltHighColor}" />
-        <Style x:Key="LyricNowTextBlockStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource TitleTextBlockStyle}">
-            <Setter Property="TextWrapping"
-                    Value="Wrap" />
-            <Setter Property="TextTrimming"
-                    Value="CharacterEllipsis" />
-            <Setter Property="TextWrapping"
-                    Value="NoWrap" />
-            <Setter Property="TextAlignment"
-                    Value="Center" />
-            <Setter Property="HorizontalAlignment"
-                    Value="Center" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
+        <AcrylicBrush
+            x:Key="ROOTBG"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{ThemeResource SystemAltHighColor}"
+            TintColor="{ThemeResource SystemChromeAltHighColor}"
+            TintOpacity="0.333333" />
+        <Style
+            x:Key="LyricNowTextBlockStyle"
+            BasedOn="{StaticResource TitleTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        <Style x:Key="LyricTextBlockStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource LyricNowTextBlockStyle}">
-            <Setter Property="Foreground"
-                    Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
+        <Style
+            x:Key="LyricTextBlockStyle"
+            BasedOn="{StaticResource LyricNowTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
         </Style>
-        <Style x:Key="LyricDropShadowPanelStyle"
-               TargetType="toolkit:DropShadowPanel">
-            <Setter Property="Color"
-                    Value="{ThemeResource SystemAltHighColor}" />
-            <Setter Property="HorizontalAlignment"
-                    Value="Center" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="BlurRadius"
-                    Value="4" />
-            <Setter Property="OffsetX"
-                    Value="0" />
-            <Setter Property="OffsetY"
-                    Value="0" />
-            <Setter Property="OffsetZ"
-                    Value="0" />
+        <Style x:Key="LyricDropShadowPanelStyle" TargetType="toolkit:DropShadowPanel">
+            <Setter Property="Color" Value="{ThemeResource SystemAltHighColor}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BlurRadius" Value="4" />
+            <Setter Property="OffsetX" Value="0" />
+            <Setter Property="OffsetY" Value="0" />
+            <Setter Property="OffsetZ" Value="0" />
         </Style>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ROOTBG}"
-          x:Name="Root">
+    <Grid x:Name="Root" Background="{ThemeResource ROOTBG}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <toolkit:DropShadowPanel Opacity="0.33333"
-                                 Style="{StaticResource LyricDropShadowPanelStyle}"
-                                 Grid.Row="0">
-            <TextBlock Text="{x:Bind Lyric.GetPrevious(Lyric.CurrentIndex),Mode=OneWay}"
-                       Style="{ThemeResource LyricTextBlockStyle}" />
+        <toolkit:DropShadowPanel
+            Grid.Row="0"
+            Opacity="0.33333"
+            Style="{StaticResource LyricDropShadowPanelStyle}">
+            <TextBlock Style="{ThemeResource LyricTextBlockStyle}" Text="{x:Bind Lyric.GetPrevious(Lyric.CurrentIndex), Mode=OneWay}" />
         </toolkit:DropShadowPanel>
 
-        <toolkit:DropShadowPanel Style="{StaticResource LyricDropShadowPanelStyle}"
-                                 Grid.Row="1">
-            <TextBlock Text="{x:Bind Lyric.GetCurrent(Lyric.CurrentIndex),Mode=OneWay}"
-                       Style="{ThemeResource LyricTextBlockStyle}" />
+        <toolkit:DropShadowPanel Grid.Row="1" Style="{StaticResource LyricDropShadowPanelStyle}">
+            <TextBlock Style="{ThemeResource LyricTextBlockStyle}" Text="{x:Bind Lyric.GetCurrent(Lyric.CurrentIndex), Mode=OneWay}" />
         </toolkit:DropShadowPanel>
 
-        <toolkit:DropShadowPanel Opacity="0.33333"
-                                 Style="{StaticResource LyricDropShadowPanelStyle}"
-                                 Grid.Row="2">
-            <TextBlock Text="{x:Bind Lyric.GetNext(Lyric.CurrentIndex),Mode=OneWay}"
-                       Style="{ThemeResource LyricTextBlockStyle}" />
+        <toolkit:DropShadowPanel
+            Grid.Row="2"
+            Opacity="0.33333"
+            Style="{StaticResource LyricDropShadowPanelStyle}">
+            <TextBlock Style="{ThemeResource LyricTextBlockStyle}" Text="{x:Bind Lyric.GetNext(Lyric.CurrentIndex), Mode=OneWay}" />
         </toolkit:DropShadowPanel>
 
     </Grid>

@@ -1,23 +1,31 @@
 ﻿<!--
-Copyright (c) Aurora Studio. All rights reserved.
-
-Licensed under the MIT License. See LICENSE in the project root for license information.
+    Copyright (c) Aurora Studio. All rights reserved.
+    
+    Licensed under the MIT License. See LICENSE in the project root for license information.
 -->
 <ContentDialog
-    Unloaded="ContentDialog_Unloaded"
     x:Class="Aurora.Music.Controls.UpdateInfo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Aurora.Music.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Aurora.Music.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     x:Uid="UpdateNoteDialog"
     Background="{ThemeResource ContentDialogBackground}"
-    mc:Ignorable="d"
+    CloseButtonText="Close"
     DefaultButton="Close"
-    CloseButtonText="Close">
-    <ScrollViewer Loaded="Root_Loaded" x:Name="Root" HorizontalScrollMode="Disabled" VerticalScrollMode="Enabled">
-        <toolkit:MarkdownTextBlock Background="{x:Null}" IsTextSelectionEnabled="False" x:Name="Note" LinkClicked="Note_LinkClicked"/>
+    Unloaded="ContentDialog_Unloaded"
+    mc:Ignorable="d">
+    <ScrollViewer
+        x:Name="Root"
+        HorizontalScrollMode="Disabled"
+        Loaded="Root_Loaded"
+        VerticalScrollMode="Enabled">
+        <toolkit:MarkdownTextBlock
+            x:Name="Note"
+            Background="{x:Null}"
+            IsTextSelectionEnabled="False"
+            LinkClicked="Note_LinkClicked" />
     </ScrollViewer>
 </ContentDialog>

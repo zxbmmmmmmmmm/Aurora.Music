@@ -332,11 +332,12 @@
             </StackPanel>
         </Grid>
         <!--  Old lyric view  -->
-        <lyric:LyricRenderView Grid.Column="1"
+        <lyric:LyricRenderView
             x:Name="LyricRenderer"
             Grid.Row="0"
-            VerticalAlignment="Stretch"
+            Grid.Column="1"
             Grid.ColumnSpan="2"
+            VerticalAlignment="Stretch"
             Canvas.ZIndex="10" />
         <ListView
             x:Name="LrcView"
