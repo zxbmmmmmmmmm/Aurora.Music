@@ -169,7 +169,7 @@
             Grid.ColumnSpan="5"
             Colors="{x:Bind Context.AlbumColors, Mode=OneWay}" />
         <Border Grid.RowSpan="2" 
-                Grid.ColumnSpan="5" Opacity="0.5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+                Grid.ColumnSpan="5" Opacity="0.4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <Grid x:Name="Root" Padding="32,80,32,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition

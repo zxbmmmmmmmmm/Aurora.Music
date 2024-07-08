@@ -99,7 +99,7 @@ namespace Aurora.Music.Pages
             LyricRenderer.Context.Effects.FocusHighlighting = true;
             LyricRenderer.Context.Effects.TransliterationScanning = true;
             LyricRenderer.Context.Effects.SimpleLineScanning = false;
-            LyricRenderer.ChangeRenderColor(Color.FromArgb(128, 255, 255, 255), Colors.White);
+            LyricRenderer.ChangeRenderColor(GetIdleBrush().Color, GetAccentBrush().Color);
             //LyricRender.Context.PreferTypography.Font = Common.Setting.lyricFontFamily;
             LyricRenderer.Context.LineSpacing = 0;
             UpdateLyricSize();
