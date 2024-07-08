@@ -31,6 +31,7 @@ using LyricRenderer.Uwp.Converters;
 using Windows.Storage.Pickers;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.IO;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -215,6 +216,30 @@ namespace Aurora.Music.Pages
                         }
                 }
             });
+            if (Context.Song is null or { IsOnline:true}) return;
+            var songPath = Context.Song.Song.FilePath;
+            try
+            {
+                var lrcPath = songPath.Remove(songPath.LastIndexOf(".")) + ".alrc";
+                var file = await StorageFile.GetFileFromPathAsync(lrcPath);
+                var qrc = await FileIO.ReadTextAsync(file);
+                ILyricConverter<string> converter = file.FileType switch
+                {
+                    ".qrc" => new QQLyricConverter(),
+                    ".yrc" => new NeteaseYrcConverter(),
+                    ".lrc" => new ALRC.Converters.LrcConverter(),
+                    ".alrc" => new ALRCConverter(),
+                    ".ttml" => new AppleSyllableConverter(),
+                    _ => new LyricifySyllableConverter()
+                };
+                var lrcs = LrcConverter.Convert(converter.Convert(qrc));
+                LyricRenderer.SetLyricLines(lrcs);
+            }
+            catch(FileNotFoundException)
+            {
+                //DO NOTHING
+            }
+
         }
 
         private async void OpenArtistViewDialog(object sender, RoutedEventArgs e)
