@@ -18,6 +18,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
     Unloaded="Page_Unloaded"
+    
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -163,8 +164,7 @@
 
     <Grid
         x:Name="Root"
-        Padding="32,80,32,0"
-        Background="{ThemeResource SystemControlAltTranslucentAcrylicWindowBrush}">
+        Padding="32,80,32,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="120" />
             <ColumnDefinition Width="*" />

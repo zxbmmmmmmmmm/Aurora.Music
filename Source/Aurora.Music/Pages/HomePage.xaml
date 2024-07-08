@@ -429,7 +429,7 @@
                     Padding="16,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    animations:ItemsReorderAnimation.Duration="360"
+                    animations:ItemsReorderAnimation.Duration="00:00:00.4000000"
                     IsItemClickEnabled="True"
                     IsSynchronizedWithCurrentItem="False"
                     ItemClick="OnlineList_ItemClick"

@@ -92,7 +92,7 @@
                     x:Name="AlbumList"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    animations:ItemsReorderAnimation.Duration="360"
+                    animations:ItemsReorderAnimation.Duration="00:00:00.4000000"
                     ui:ScrollViewerExtensions.VerticalScrollBarMargin="0,48,0,0"
                     CanDragItems="True"
                     ContextCanceled="AlbumList_ContextCanceled"

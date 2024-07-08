@@ -44,7 +44,7 @@
 
     <Grid Padding="0,80,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView
-            animations:ItemsReorderAnimation.Duration="360"
+            animations:ItemsReorderAnimation.Duration="00:00:00.4000000"
             ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}"
             ItemsSource="{x:Bind Context.DownloadList}"
             SelectionMode="Extended"
