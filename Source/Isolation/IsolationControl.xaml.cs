@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Shapes;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -35,6 +37,27 @@ namespace Isolation.Uwp
             effect.Properties["color2"] = color2;
             effect.Properties["color3"] = color3;
             effect.Properties["color4"] = color4;
+        }
+
+
+
+        public List<Vector3> Colors
+        {
+            get => (List<Vector3>)GetValue(ColorsProperty);
+            set => SetValue(ColorsProperty, value);
+        }
+
+        public static readonly DependencyProperty ColorsProperty =
+            DependencyProperty.Register(nameof(Colors), typeof(List<Vector3>), typeof(IsolationControl), new PropertyMetadata(default, ColorsChanged));
+
+        private static void ColorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (IsolationControl)d;
+
+            control.effect.Properties["color1"] = control.Colors?[0];
+            control.effect.Properties["color2"] = control.Colors?[1];
+            control.effect.Properties["color3"] = control.Colors?[2];
+            control.effect.Properties["color4"] = control.Colors?[3];
         }
 
         public IsolationControl()

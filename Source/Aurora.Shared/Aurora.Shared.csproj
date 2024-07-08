@@ -132,11 +132,13 @@
     <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\EasingHelper.cs" />
     <Compile Include="Helpers\FileIOHelper.cs" />
+    <Compile Include="Helpers\ImageDecoder.cs" />
     <Compile Include="Helpers\ImagingHelper.cs" />
     <Compile Include="Helpers\InteractionHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\MemoryRandomAccessStream.cs" />
     <Compile Include="Helpers\EncodingHelper.cs" />
+    <Compile Include="Helpers\MIMEHelper.cs" />
     <Compile Include="Helpers\NavigationAttribute.cs" />
     <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\SystemInfoHelper.cs" />

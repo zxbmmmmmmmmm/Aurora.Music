@@ -804,6 +804,10 @@
       <Project>{97f79cb4-fb7b-4dc3-8a08-28fa5694a73c}</Project>
       <Name>ExpressionBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Impressionist\Impressionist.csproj">
+      <Project>{003B3E57-ED79-4AE0-8E38-F7BCC8E9AD4C}</Project>
+      <Name>Impressionist</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Isolation\Isolation.Uwp.csproj">
       <Project>{45c0e40b-e4a1-4924-bc80-157ea3ac2a69}</Project>
       <Name>Isolation.Uwp</Name>

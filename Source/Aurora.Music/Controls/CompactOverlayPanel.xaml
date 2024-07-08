@@ -216,20 +216,15 @@
             </Storyboard>
         </RelativePanel.Resources>
 
-        <Grid
+        <Image
+            Source="{x:Bind Context.CurrentArtworkImage, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"
             x:Name="ArtworkBG"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
             RelativePanel.AlignTopWithPanel="True">
-            <Grid.Background>
-                <ImageBrush
-                    AlignmentX="Center"
-                    AlignmentY="Center"
-                    ImageSource="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue=ms-appx:///Assets/Images/now_placeholder.png}"
-                    Stretch="UniformToFill" />
-            </Grid.Background>
-        </Grid>
+
+        </Image>
 
         <Grid
             x:Name="ArtworkBGBlur"

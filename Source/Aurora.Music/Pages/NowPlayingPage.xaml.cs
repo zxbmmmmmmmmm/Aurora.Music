@@ -32,6 +32,14 @@ using Windows.Storage.Pickers;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.IO;
+using System.Linq;
+using Impressionist.Implementations;
+using System.Text;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
+using Buffer = Windows.Storage.Streams.Buffer;
+using Windows.UI.Xaml.Media.Imaging;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -95,6 +103,8 @@ namespace Aurora.Music.Pages
             LyricRenderer.Context.LineSpacing = 0;
             UpdateLyricSize();
         }
+
+
 
         private SolidColorBrush GetAccentBrush()
         {
@@ -227,6 +237,8 @@ namespace Aurora.Music.Pages
                         }
                 }
             });
+            
+
             if (Context.Song is null or { IsOnline:true}) return;
             var songPath = Context.Song.Song.FilePath;
             try

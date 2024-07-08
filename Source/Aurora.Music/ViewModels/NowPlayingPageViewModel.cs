@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 using AudioVisualizer;
@@ -19,10 +21,13 @@ using Aurora.Shared.Helpers;
 using Aurora.Shared.MVVM;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Impressionist.Abstractions;
+using Impressionist.Implementations;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using Windows.Media.Casting;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -34,6 +39,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Buffer = Windows.Storage.Streams.Buffer;
 
 namespace Aurora.Music.ViewModels
 {
@@ -45,7 +51,34 @@ namespace Aurora.Music.ViewModels
         private CastingDevicePicker castingPicker;
 
         [ObservableProperty]
-        private BitmapImage currentArtwork = new BitmapImage();
+        private IRandomAccessStream currentArtwork;
+
+        [ObservableProperty]
+        private List<Vector3> albumColors;
+
+        private KMeansPaletteGenerator paletteGenerator = new KMeansPaletteGenerator();
+
+        async partial void OnCurrentArtworkChanged(IRandomAccessStream oldValue, IRandomAccessStream newValue)
+        {
+            CurrentArtworkImage.SetSource(newValue);
+            await SetIsolationColorsAsync(newValue);
+        }
+
+        public async Task SetIsolationColorsAsync(IRandomAccessStream stream)
+        {
+            if (stream is null) return;
+            stream.Seek(0);
+            var buffer = new Buffer(MIMEHelper.PICTURE_FILE_HEADER_CAPACITY);
+            await stream.ReadAsync(buffer, MIMEHelper.PICTURE_FILE_HEADER_CAPACITY, InputStreamOptions.None);
+            var mime = MIMEHelper.GetPictureCodecFromBuffer(buffer);
+            var decoder = await BitmapDecoder.CreateAsync(mime, stream);
+            var colors = await ImageDecoder.GetPixelColor(decoder);
+            var palette = await paletteGenerator.CreatePalette(colors, 9, true, true, true);
+            AlbumColors = palette.Palette.Select(t => t / 255).ToList();
+        }
+
+        [ObservableProperty]
+        public BitmapImage currentArtworkImage = new();
 
         private IPlayer player;
         public IPlayer Player => player;
@@ -938,12 +971,12 @@ namespace Aurora.Music.ViewModels
 
                 if (e.Thumnail != null)
                 {
-                    await CurrentArtwork.SetSourceAsync(await e.Thumnail.OpenReadAsync());
+                    CurrentArtwork = await e.Thumnail.OpenReadAsync();
                     CurrentColorBrush = new SolidColorBrush(await ImagingHelper.GetMainColor(e.Thumnail));
                 }
                 else
                 {
-                    await CurrentArtwork.SetSourceAsync(await RandomAccessStreamReference.CreateFromUri(new Uri(Consts.NowPlaceholder)).OpenReadAsync());
+                    CurrentArtwork = await RandomAccessStreamReference.CreateFromUri(new Uri(Consts.NowPlaceholder)).OpenReadAsync();
                     CurrentColorBrush = new SolidColorBrush(new UISettings().GetColorValue(UIColorType.Accent));
                 }
 
