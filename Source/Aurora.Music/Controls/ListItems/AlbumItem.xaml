@@ -9,7 +9,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="300"
@@ -130,14 +132,6 @@
                 Margin="-15"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-                <interactivity:Interaction.Behaviors>
-                    <!--<behaviors:Blur x:Name="BlurBehavior" Value="0"
-                                    Duration="200" Delay="0"
-                                    EasingType="Quintic"
-                                    EasingMode="EaseOut"
-                                    AutomaticallyStart="True"/>
-                    <behaviors:Offset x:Name="Offset" OffsetX="0" OffsetY="0" Duration="200" Delay="0" AutomaticallyStart="True"/>-->
-                </interactivity:Interaction.Behaviors>
                 <Image
                     x:Name="BlurBGImg"
                     Width="150"
@@ -269,10 +263,6 @@
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Duration" Value="200" />
-                        <Setter Target="Offset.Duration" Value="200" />
-                        <Setter Target="BlurBehavior.Value" Value="0" />
-                        <Setter Target="Offset.OffsetY" Value="0" />
                         <Setter Target="AlbumBorder.(RevealBrush.State)" Value="0" />
                     </VisualState.Setters>
                     <Storyboard>
@@ -322,10 +312,6 @@
                 </VisualState>
                 <VisualState x:Name="PointerOver">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Duration" Value="200" />
-                        <Setter Target="Offset.Duration" Value="200" />
-                        <Setter Target="BlurBehavior.Value" Value="6" />
-                        <Setter Target="Offset.OffsetY" Value="8" />
                         <Setter Target="FloatPanel.Visibility" Value="Visible" />
                         <Setter Target="AlbumBorder.(RevealBrush.State)" Value="PointerOver" />
                     </VisualState.Setters>
@@ -374,10 +360,6 @@
                 </VisualState>
                 <VisualState x:Name="Pressed">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Duration" Value="0" />
-                        <Setter Target="Offset.Duration" Value="0" />
-                        <Setter Target="BlurBehavior.Value" Value="0" />
-                        <Setter Target="Offset.OffsetY" Value="0" />
                         <Setter Target="AlbumBorder.(RevealBrush.State)" Value="Pressed" />
                     </VisualState.Setters>
                 </VisualState>
@@ -385,28 +367,18 @@
             <VisualStateGroup x:Name="TouchStates">
                 <VisualState x:Name="TouchNormal">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Duration" Value="200" />
-                        <Setter Target="Offset.Duration" Value="200" />
-                        <Setter Target="BlurBehavior.Value" Value="0" />
-                        <Setter Target="Offset.OffsetY" Value="0" />
                         <Setter Target="FloatPanel.Visibility" Value="Collapsed" />
                         <Setter Target="AlbumBorder.(RevealBrush.State)" Value="PointerOver" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPointerOver">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Duration" Value="200" />
-                        <Setter Target="Offset.Duration" Value="200" />
-                        <Setter Target="BlurBehavior.Value" Value="6" />
-                        <Setter Target="Offset.OffsetY" Value="8" />
                         <Setter Target="AlbumBorder.(RevealBrush.State)" Value="PointerOver" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TouchPressed">
                     <VisualState.Setters>
-                        <Setter Target="BlurBehavior.Duration" Value="0" />
                         <Setter Target="Offset.Duration" Value="0" />
-                        <Setter Target="BlurBehavior.Value" Value="0" />
                         <Setter Target="Offset.OffsetY" Value="0" />
                         <Setter Target="AlbumBorder.(RevealBrush.State)" Value="Pressed" />
                     </VisualState.Setters>
