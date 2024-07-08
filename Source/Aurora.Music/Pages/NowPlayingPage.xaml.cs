@@ -94,10 +94,11 @@ namespace Aurora.Music.Pages
                 3 => new SyncRollingCalculator(),
                 _ => new ElasticEaseRollingCalculator()
             };
+            LyricRenderer.ChangeAlignment(TextAlignment.Left);
             LyricRenderer.Context.Effects.ScaleWhenFocusing = true;
             LyricRenderer.Context.Effects.FocusHighlighting = true;
             LyricRenderer.Context.Effects.TransliterationScanning = true;
-            LyricRenderer.Context.Effects.SimpleLineScanning = true;
+            LyricRenderer.Context.Effects.SimpleLineScanning = false;
             LyricRenderer.ChangeRenderColor(Color.FromArgb(128, 255, 255, 255), Colors.White);
             //LyricRender.Context.PreferTypography.Font = Common.Setting.lyricFontFamily;
             LyricRenderer.Context.LineSpacing = 0;
@@ -150,7 +151,7 @@ namespace Aurora.Music.Pages
             //    ? Math.Max(_widget.WindowBounds.Width / 20, 40)
             //    : Common.Setting.lyricSize;
             //var translationSize = (Common.Setting.translationSize > 0) ? Common.Setting.translationSize : lyricSize / 1.8;
-            var lyricSize = Math.Max(LyricRenderer.ActualWidth / 20, 40);
+            var lyricSize = Math.Clamp(LyricRenderer.ActualWidth / 20, 20,64);
             var translationSize = lyricSize / 1.8;
             LyricRenderer.ChangeRenderFontSize((float)lyricSize, (float)translationSize, (float)translationSize / 1.2f);
         }

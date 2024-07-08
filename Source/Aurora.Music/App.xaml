@@ -11,7 +11,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <muxc:XamlControlsResources/>
+                <muxc:XamlControlsResources ControlsResourcesVersion="Version1"/>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <!--ResourceDictionary x:Key="Light">

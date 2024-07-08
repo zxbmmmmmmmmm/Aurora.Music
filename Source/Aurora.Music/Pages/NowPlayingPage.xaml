@@ -171,8 +171,8 @@
             Padding="-32,-80,-32,0" />
         <Grid x:Name="Root" Padding="32,80,32,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="120" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" MinWidth="120" MaxWidth="750"/>
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -187,13 +187,14 @@
                 VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Image
                     x:Name="Artwork"
-                    Margin="0,12"
+                    Margin="0,12,20,12"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
+                    MaxHeight="600"
                     ImageOpened="Artwork_ImageOpened"
                     Source="{x:Bind Context.CurrentArtworkImage, Mode=OneWay, TargetNullValue='ms-appx:///Assets/Images/now_placeholder.png', FallbackValue='ms-appx:///Assets/Images/now_placeholder.png'}"
                     Stretch="Uniform">
@@ -628,6 +629,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         AccessKey="L"
+                        Padding="4"
+                        CornerRadius="6"
                         Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource RevealRectangleButton}"
                         ToolTipService.ToolTip="Playing list">
