@@ -48,6 +48,7 @@ namespace Aurora.Music.ViewModels
         private BitmapImage currentArtwork = new BitmapImage();
 
         private IPlayer player;
+        public IPlayer Player => player;
 
         [ObservableProperty]
         private SongViewModel song;

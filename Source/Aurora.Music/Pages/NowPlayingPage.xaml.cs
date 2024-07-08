@@ -9,6 +9,7 @@ using Aurora.Music.ViewModels;
 using Aurora.Shared;
 using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
+using LyricRenderer.Uwp.RollingCalculators;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using System;
@@ -23,6 +24,13 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using ALRC.Converters;
+using LrcConverter = LyricRenderer.Uwp.Converters.LrcConverter;
+using Windows.Storage;
+using LyricRenderer.Uwp.Converters;
+using Windows.Storage.Pickers;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -32,6 +40,7 @@ namespace Aurora.Music.Pages
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     [UriActivate("now", Usage = ActivateUsage.Query)]
+    [ObservableObject]
     public sealed partial class NowPlayingPage : Page, IRequestGoBack
     {
         internal static NowPlayingPage Current;
@@ -45,6 +54,103 @@ namespace Aurora.Music.Pages
             InitializeComponent();
             Current = this;
             Context.SongChanged += Context_SongChanged;
+            Window.Current.SizeChanged += OnWindowResized;
+            this.Loaded += OnLoaded;
+        }
+
+        private void OnWindowResized(object sender, WindowSizeChangedEventArgs e)
+        {
+            UpdateLyricSize();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            InitializeLyricView();
+        }
+
+        public void InitializeLyricView()
+        {
+            LyricRenderer.Context.LineRollingEaseCalculator = new ElasticEaseRollingCalculator();
+            LyricRenderer.OnBeforeRender += LyricRender_OnBeforeRender; ;
+            LyricRenderer.OnRequestSeek += LyricRender_OnRequestSeek; ;
+            LyricRenderer.Context.LyricWidthRatio = 1;
+            LyricRenderer.Context.LyricPaddingTopRatio = 10 / 100f;
+            LyricRenderer.Context.CurrentLyricTime = 0;
+            LyricRenderer.Context.Debug = true;
+            LyricRenderer.Context.Effects.Blur = true;
+            LyricRenderer.Context.LineRollingEaseCalculator = 0 switch
+            {
+                1 => new SinRollingCalculator(),
+                2 => new LyricifyRollingCalculator(),
+                3 => new SyncRollingCalculator(),
+                _ => new ElasticEaseRollingCalculator()
+            };
+            LyricRenderer.Context.Effects.ScaleWhenFocusing = true;
+            LyricRenderer.Context.Effects.FocusHighlighting = true;
+            LyricRenderer.Context.Effects.TransliterationScanning = true;
+            LyricRenderer.Context.Effects.SimpleLineScanning = true;
+            //LyricRender.Context.PreferTypography.Font = Common.Setting.lyricFontFamily;
+            LyricRenderer.Context.LineSpacing = 0;
+            UpdateLyricSize();
+        }
+
+        [RelayCommand]
+        public async Task LoadLocalLyrics()
+        {
+
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".qrc");
+            picker.FileTypeFilter.Add(".lrc");
+            picker.FileTypeFilter.Add(".yrc");
+            picker.FileTypeFilter.Add(".alrc");
+            var sf = await picker.PickSingleFileAsync();
+            if (sf != null)
+            {
+                var qrc = await FileIO.ReadTextAsync(sf);
+                ILyricConverter<string> converter = sf.FileType switch
+                {
+                    ".qrc" => new QQLyricConverter(),
+                    ".yrc" => new NeteaseYrcConverter(),
+                    ".lrc" => new ALRC.Converters.LrcConverter(),
+                    ".alrc" => new ALRCConverter(),
+                    ".ttml" => new AppleSyllableConverter(),
+                    _ => new LyricifySyllableConverter()
+                };
+                var lrcs = LrcConverter.Convert(converter.Convert(qrc));
+                LyricRenderer.SetLyricLines(lrcs);
+            }
+            LyricRenderer.ReflowTime(0);
+        }
+
+        private void UpdateLyricSize()
+        {
+            //var lyricSize = Common.Setting.lyricSize <= 0
+            //    ? Math.Max(_widget.WindowBounds.Width / 20, 40)
+            //    : Common.Setting.lyricSize;
+            //var translationSize = (Common.Setting.translationSize > 0) ? Common.Setting.translationSize : lyricSize / 1.8;
+            var lyricSize = Math.Max(LyricRenderer.ActualWidth / 20, 40);
+            var translationSize = lyricSize / 1.8;
+            LyricRenderer.ChangeRenderFontSize((float)lyricSize, (float)translationSize, (float)translationSize / 1.2f);
+        }
+
+        private void LyricRender_OnRequestSeek(long time)
+        {
+            Context.PositionChange(TimeSpan.FromMilliseconds(time));
+        }
+
+        private void LyricRender_OnBeforeRender(LyricRenderer.Uwp.LyricRenderView view)
+        {
+            if (Context is null) return;
+            view.Context.IsPlaying = Context.IsPlaying is true;
+            if (Context.Player.MediaPlayer.PlaybackSession.Position.TotalMilliseconds < view.Context.CurrentLyricTime)
+            {
+                view.Context.CurrentLyricTime = (long)(Context.Player.MediaPlayer.PlaybackSession.Position.TotalMilliseconds);
+                LyricRenderer.ReflowTime(0);
+            }
+            else
+            {
+                view.Context.CurrentLyricTime = (long)Context.Player.MediaPlayer.PlaybackSession.Position.TotalMilliseconds;
+            }
         }
 
         private void PlayBtn_Click(object sender, RoutedEventArgs e)
@@ -58,6 +164,8 @@ namespace Aurora.Music.Pages
             {
                 lock (this)
                 {
+                    
+
                     var s = sender as SongViewModel;
                     if (MoreMenu.Items[1] is MenuFlyoutSeparator)
                     {
@@ -196,6 +304,7 @@ namespace Aurora.Music.Pages
 
         private async void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            return;
             if (Context.Lyric.Contents.Count > 0 && (sender as ListView).SelectedIndex >= 0)
                 try
                 {

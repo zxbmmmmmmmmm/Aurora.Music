@@ -739,6 +739,9 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>5.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.2</Version>
+    </PackageReference>
     <PackageReference Include="SmartFormat.NET">
       <Version>2.4.2</Version>
     </PackageReference>
@@ -785,6 +788,10 @@
     <ProjectReference Include="..\LrcParser\LrcParser.csproj">
       <Project>{e24bad49-f0a6-4c07-b4d9-3d3644a22c69}</Project>
       <Name>LrcParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LyricRenderer.Uwp\LyricRenderer.Uwp.csproj">
+      <Project>{749f037c-d167-4e77-9a0b-12d99d6f6ac3}</Project>
+      <Name>LyricRenderer.Uwp</Name>
     </ProjectReference>
     <ProjectReference Include="..\StarButton\StarButton.csproj">
       <Project>{013c6cda-318b-4ee7-a1c3-80df4bb9c092}</Project>
