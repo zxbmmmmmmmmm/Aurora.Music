@@ -193,7 +193,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TagLib\src\TaglibSharp\TaglibSharp.csproj">
       <Project>{56569777-4F05-44EB-9F34-E8C40159BB0B}</Project>
-      <Name>taglib-sharp</Name>
+      <Name>TaglibSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

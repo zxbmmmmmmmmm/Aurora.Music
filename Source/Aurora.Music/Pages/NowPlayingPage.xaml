@@ -17,6 +17,7 @@
     xmlns:star="using:StarButton"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:vm="using:Aurora.Music.ViewModels"
+    xmlns:isolation="using:Isolation.Uwp"
     Unloaded="Page_Unloaded"
     
     mc:Ignorable="d">
@@ -162,29 +163,31 @@
         <vm:NowPlayingPageViewModel x:Name="Context" />
     </Page.DataContext>
 
-    <Grid
+    <Grid>
+        <isolation:IsolationControl Padding="-32,-80,-32,0" Grid.RowSpan="2" Grid.ColumnSpan="5"/>
+        <Grid
         x:Name="Root"
         Padding="32,80,32,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="120" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition x:Name="RowOne" Height="60" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="120" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition x:Name="RowOne" Height="60" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
 
-        <Grid
+            <Grid
             x:Name="SongPanel"
             Margin="12,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <audio:CustomVisualizer
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <audio:CustomVisualizer
                 x:Name="Visualizer"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -192,20 +195,20 @@
                 Draw="CustomVisualizer_Draw"
                 Loaded="CustomVisualizer_Loaded"
                 Visibility="{x:Bind Context.IsVisualizing, Mode=OneWay}">
-                <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation
                         From="0"
                         To="1"
                         Duration="0:0:0.64" />
-                </animations:Implicit.ShowAnimations>
-                <animations:Implicit.HideAnimations>
-                    <animations:OpacityAnimation
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation
                         From="1"
                         To="0"
                         Duration="0:0:0.64" />
-                </animations:Implicit.HideAnimations>
-            </audio:CustomVisualizer>
-            <Image
+                    </animations:Implicit.HideAnimations>
+                </audio:CustomVisualizer>
+                <Image
                 x:Name="Artwork"
                 Margin="0,12"
                 HorizontalAlignment="Left"
@@ -214,20 +217,20 @@
                 Source="{x:Bind Context.CurrentArtwork, Mode=OneWay, TargetNullValue='ms-appx:///Assets/Images/now_placeholder.png', FallbackValue='ms-appx:///Assets/Images/now_placeholder.png'}"
                 Stretch="Uniform"
                 Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing), Mode=OneWay}">
-                <animations:Implicit.ShowAnimations>
-                    <animations:OpacityAnimation
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation
                         From="0"
                         To="1"
                         Duration="0:0:0.64" />
-                </animations:Implicit.ShowAnimations>
-                <animations:Implicit.HideAnimations>
-                    <animations:OpacityAnimation
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation
                         From="1"
                         To="0"
                         Duration="0:0:0.64" />
-                </animations:Implicit.HideAnimations>
-            </Image>
-            <Border
+                    </animations:Implicit.HideAnimations>
+                </Image>
+                <Border
                 Width="{Binding ActualWidth, ElementName=Artwork}"
                 Height="{Binding ActualHeight, ElementName=Artwork}"
                 Margin="0,12"
@@ -235,12 +238,12 @@
                 VerticalAlignment="Bottom"
                 Background="{ThemeResource ImageDarkOverlay}"
                 Visibility="{x:Bind Context.NightModeEnabled}" />
-            <StackPanel
+                <StackPanel
                 Grid.Row="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 Orientation="Vertical">
-                <Button
+                    <Button
                     Margin="0,4,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
@@ -248,17 +251,17 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource TextBlockButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Context.Song.GetFormattedArtists(), Mode=OneWay}">
-                    <TextBlock
+                        <TextBlock
                         MaxLines="1"
                         Text="{x:Bind Context.Song.GetFormattedArtists(), Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
-                </Button>
-                <StackPanel
+                    </Button>
+                    <StackPanel
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <TextBlock
+                        <TextBlock
                         x:Name="Title"
                         Margin="0,2,0,0"
                         FontWeight="Bold"
@@ -268,15 +271,15 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"
                         ToolTipService.ToolTip="{x:Bind Context.Song.Title, Mode=OneWay}" />
-                    <FontIcon
+                        <FontIcon
                         Margin="8,4,0,0"
                         VerticalAlignment="Center"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="24"
                         Glyph="{x:Bind Context.GlyphOfOnline(Context.Song), Mode=OneWay}"
                         Visibility="{x:Bind Context.Song.IsOnline, Mode=OneWay}" />
-                </StackPanel>
-                <Button
+                    </StackPanel>
+                    <Button
                     x:Name="Album"
                     Margin="0,4,0,0"
                     HorizontalAlignment="Left"
@@ -285,13 +288,13 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource TextBlockButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind Context.Song.Album, Mode=OneWay}">
-                    <TextBlock
+                        <TextBlock
                         MaxLines="1"
                         Text="{x:Bind Context.Song.Album, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap" />
-                </Button>
-                <toolkit:DropShadowPanel
+                    </Button>
+                    <toolkit:DropShadowPanel
                     Margin="0,8,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
@@ -300,7 +303,7 @@
                     OffsetY="0"
                     ShadowOpacity="0.66"
                     Color="{ThemeResource SystemAltHighColor}">
-                    <TextBlock
+                        <TextBlock
                         Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"
                         MaxLines="1"
                         Style="{ThemeResource BodyTextBlockStyle}"
@@ -308,18 +311,18 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="NoWrap"
                         ToolTipService.ToolTip="{x:Bind Context.Song.GetAddtionalDesc(), Mode=OneWay}" />
-                </toolkit:DropShadowPanel>
-                <StackPanel
+                    </toolkit:DropShadowPanel>
+                    <StackPanel
                     Margin="0,12,0,0"
                     Orientation="Horizontal"
                     Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast), Mode=OneWay}">
-                    <RatingControl
+                        <RatingControl
                         VerticalAlignment="Center"
                         IsClearEnabled="True"
                         IsReadOnly="False"
                         ValueChanged="RatingControl_ValueChanged"
                         Value="{x:Bind Context.CurrentRating, Mode=OneWay}" />
-                    <star:StarButton
+                        <star:StarButton
                         Margin="8,4,8,8"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -328,18 +331,18 @@
                         Foreground="#ff4343"
                         IsChecked="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}"
                         IsThreeState="False" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
-        <!--  Old lyric view  -->
-        <lyric:LyricRenderView
+            </Grid>
+            <!--  Old lyric view  -->
+            <lyric:LyricRenderView
             x:Name="LyricRenderer"
             Grid.Row="0"
             Grid.Column="1"
             Grid.ColumnSpan="2"
             VerticalAlignment="Stretch"
             Canvas.ZIndex="10" />
-        <ListView
+            <ListView
             x:Name="LrcView"
             Grid.Row="1"
             Grid.ColumnSpan="2"
@@ -354,14 +357,14 @@
             SelectionChanged="ListView_SelectionChanged"
             Style="{ThemeResource LyricListView}"
             Visibility="Collapsed">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:LrcContent">
-                    <list:LyricItem Data="{x:Bind}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Header>
-                <Grid x:Name="LrcHeaderGrid" Loaded="LrcHeader_Loaded">
-                    <toolkit:DropShadowPanel
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LrcContent">
+                        <list:LyricItem Data="{x:Bind}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Header>
+                    <Grid x:Name="LrcHeaderGrid" Loaded="LrcHeader_Loaded">
+                        <toolkit:DropShadowPanel
                         HorizontalAlignment="Center"
                         VerticalAlignment="Bottom"
                         BlurRadius="4"
@@ -370,19 +373,19 @@
                         ShadowOpacity="0.66"
                         Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric), Mode=OneWay}"
                         Color="{ThemeResource SystemAltHighColor}">
-                        <TextBlock
+                            <TextBlock
                             x:Name="LrcHeader"
                             FontSize="18"
                             Style="{ThemeResource SubtitleTextBlockStyle}"
                             Text="{x:Bind Context.LyricHint, Mode=OneWay}" />
-                    </toolkit:DropShadowPanel>
-                </Grid>
-            </ListView.Header>
-            <ListView.Footer>
-                <Grid Height="1600" />
-            </ListView.Footer>
-        </ListView>
-        <Grid
+                        </toolkit:DropShadowPanel>
+                    </Grid>
+                </ListView.Header>
+                <ListView.Footer>
+                    <Grid Height="1600" />
+                </ListView.Footer>
+            </ListView>
+            <Grid
             x:Name="LrcViewOverlay"
             Grid.Row="1"
             Grid.ColumnSpan="2"
@@ -390,7 +393,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Transparent">
-            <Button
+                <Button
                 Width="32"
                 Height="32"
                 HorizontalAlignment="Right"
@@ -398,28 +401,28 @@
                 BorderThickness="0"
                 Command="{x:Bind Context.OpenLyricEditorCommand}"
                 Style="{ThemeResource RevealRectangleButton}">
-                <FontIcon
+                    <FontIcon
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="16"
                     Glyph="&#xE104;" />
-            </Button>
-        </Grid>
-        <Grid
+                </Button>
+            </Grid>
+            <Grid
             Grid.Row="2"
             Grid.ColumnSpan="2"
             Margin="12,0,12,12"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <ProgressBar
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <ProgressBar
                 Grid.Column="1"
                 Height="2"
                 Margin="16,2,16,0"
@@ -428,7 +431,7 @@
                 Foreground="{ThemeResource SystemControlBackgroundBaseLowRevealBorderBrush}"
                 Style="{ThemeResource SlimProgressBar}"
                 Value="{x:Bind Context.BufferProgress, Mode=OneWay}" />
-            <Slider
+                <Slider
                 Grid.Column="1"
                 Margin="4,8,4,0"
                 HorizontalAlignment="Stretch"
@@ -441,7 +444,7 @@
                 ThumbToolTipValueConverter="{StaticResource SliderToolTipConverter}"
                 ValueChanged="Slider_ValueChanged"
                 Value="{x:Bind Context.PositionToValue(Context.CurrentPosition, Context.TotalDuration), Mode=OneWay}" />
-            <toolkit:DropShadowPanel
+                <toolkit:DropShadowPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 BlurRadius="8"
@@ -449,12 +452,12 @@
                 OffsetY="0"
                 ShadowOpacity="0.66"
                 Color="{ThemeResource SystemAltHighColor}">
-                <TextBlock
+                    <TextBlock
                     Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"
                     Style="{ThemeResource BodyTextBlockStyle}"
                     Text="{x:Bind Context.TimeSpanFormat(Context.CurrentPosition), Mode=OneWay}" />
-            </toolkit:DropShadowPanel>
-            <toolkit:DropShadowPanel
+                </toolkit:DropShadowPanel>
+                <toolkit:DropShadowPanel
                 Grid.Column="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -463,19 +466,19 @@
                 OffsetY="0"
                 ShadowOpacity="0.66"
                 Color="{ThemeResource SystemAltHighColor}">
-                <TextBlock
+                    <TextBlock
                     Foreground="{ThemeResource SystemControlBackgroundBaseHighRevealBorderBrush}"
                     Style="{ThemeResource BodyTextBlockStyle}"
                     Text="{x:Bind Context.TimeSpanFormat(Context.TotalDuration), Mode=OneWay}" />
-            </toolkit:DropShadowPanel>
-            <StackPanel
+                </toolkit:DropShadowPanel>
+                <StackPanel
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Margin="4"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 Orientation="Horizontal">
-                <Button
+                    <Button
                     x:Name="Previous"
                     x:Uid="Previous"
                     Width="48"
@@ -488,14 +491,14 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Previous">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphPreOfOnline(Context.Song), Mode=OneWay}" />
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F1" />
-                    </Button.KeyboardAccelerators>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.GlyphPreOfOnline(Context.Song), Mode=OneWay}" />
+                        </Button.Content>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F1" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
+                    <Button
                     x:Name="PlayPause"
                     Width="48"
                     Height="48"
@@ -507,15 +510,15 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}">
-                    <Button.Content>
-                        <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="P" Modifiers="Control" />
-                        <KeyboardAccelerator Key="F2" />
-                    </Button.KeyboardAccelerators>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
+                        </Button.Content>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="P" Modifiers="Control" />
+                            <KeyboardAccelerator Key="F2" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
+                    <Button
                     x:Name="Next"
                     x:Uid="Next"
                     Width="48"
@@ -528,14 +531,14 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Next">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE101;" />
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F3" />
-                    </Button.KeyboardAccelerators>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE101;" />
+                        </Button.Content>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F3" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
+                    <Button
                     x:Name="Stop"
                     x:Uid="Stop"
                     Width="48"
@@ -548,15 +551,15 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Stop">
-                    <Button.Content>
-                        <SymbolIcon Symbol="Stop" />
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="E" Modifiers="Control" />
-                        <KeyboardAccelerator Key="F4" />
-                    </Button.KeyboardAccelerators>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <SymbolIcon Symbol="Stop" />
+                        </Button.Content>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="E" Modifiers="Control" />
+                            <KeyboardAccelerator Key="F4" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
+                    <Button
                     x:Name="VisualizationBtn"
                     x:Uid="VisualizationButton"
                     Width="48"
@@ -567,11 +570,11 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Audio Visualization">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
-                    </Button.Content>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
+                        </Button.Content>
+                    </Button>
+                    <Button
                     x:Name="Volume"
                     x:Uid="VolumeButton"
                     Width="48"
@@ -582,17 +585,17 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Volume">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                            <StackPanel
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                                <StackPanel
                                 Padding="4,4,4,-4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Orientation="Horizontal">
-                                <Slider
+                                    <Slider
                                     MinWidth="240"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -603,7 +606,7 @@
                                     StepFrequency="1"
                                     Style="{ThemeResource RoundSlider}"
                                     Value="{x:Bind Context.Volume, Mode=TwoWay}" />
-                                <TextBlock
+                                    <TextBlock
                                     Width="36"
                                     Margin="4,0,0,10"
                                     HorizontalAlignment="Stretch"
@@ -614,12 +617,12 @@
                                     TextAlignment="Right"
                                     TextTrimming="None"
                                     TextWrapping="NoWrap" />
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
 
-                <ToggleButton
+                    <ToggleButton
                     x:Name="Shuffle"
                     x:Uid="Shuffle"
                     Width="48"
@@ -631,12 +634,12 @@
                     IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                     Style="{ThemeResource RevealRoundToggleButton}"
                     ToolTipService.ToolTip="Shuffle">
-                    <ToggleButton.Content>
-                        <SymbolIcon Symbol="Shuffle" />
-                    </ToggleButton.Content>
-                </ToggleButton>
+                        <ToggleButton.Content>
+                            <SymbolIcon Symbol="Shuffle" />
+                        </ToggleButton.Content>
+                    </ToggleButton>
 
-                <ToggleButton
+                    <ToggleButton
                     x:Name="Repeat"
                     x:Uid="Loop"
                     Width="48"
@@ -648,12 +651,12 @@
                     IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                     Style="{ThemeResource RevealRoundToggleButton}"
                     ToolTipService.ToolTip="Repeat">
-                    <ToggleButton.Content>
-                        <SymbolIcon Symbol="Refresh" />
-                    </ToggleButton.Content>
-                </ToggleButton>
+                        <ToggleButton.Content>
+                            <SymbolIcon Symbol="Refresh" />
+                        </ToggleButton.Content>
+                    </ToggleButton>
 
-                <Button
+                    <Button
                     x:Name="PlayListBtn"
                     x:Uid="PlayList"
                     Margin="4"
@@ -663,27 +666,27 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRectangleButton}"
                     ToolTipService.ToolTip="Playing list">
-                    <Button.Content>
-                        <Grid>
-                            <TextBlock
+                        <Button.Content>
+                            <Grid>
+                                <TextBlock
                                 x:Name="PlayListFull"
                                 Margin="12,8"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Style="{ThemeResource BodyTextBlockStyle}"
                                 Text="{x:Bind Context.NowListPreview, Mode=OneWay}" />
-                            <FontIcon
+                                <FontIcon
                                 x:Name="PlayListNarrow"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 FontFamily="Segoe MDL2 Assets"
                                 Glyph="&#xE12F;"
                                 Visibility="Collapsed" />
-                        </Grid>
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}" Opened="Flyout_Opened">
-                            <ListView
+                            </Grid>
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}" Opened="Flyout_Opened">
+                                <ListView
                                 x:Name="NowPlayingFlyout"
                                 MaxHeight="360"
                                 Margin="0"
@@ -695,8 +698,8 @@
                                 ItemTemplate="{StaticResource PlayingListTemplate}"
                                 ItemsSource="{x:Bind Context.NowPlayingList}"
                                 SelectedIndex="{x:Bind Context.CurrentIndex, Mode=OneWay, FallbackValue=-1}">
-                                <ListView.Header>
-                                    <TextBlock
+                                    <ListView.Header>
+                                        <TextBlock
                                         x:Uid="NotPlaying"
                                         Margin="36,12"
                                         HorizontalAlignment="Center"
@@ -704,16 +707,16 @@
                                         Style="{ThemeResource SubtitleTextBlockStyle}"
                                         Text="Not Playing"
                                         Visibility="{x:Bind Context.CollapseIfNotZero(Context.NowPlayingList.Count), Mode=OneWay}" />
-                                </ListView.Header>
-                            </ListView>
-                        </Flyout>
-                    </Button.Flyout>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="L" Modifiers="Control" />
-                    </Button.KeyboardAccelerators>
-                </Button>
-            </StackPanel>
-            <StackPanel
+                                    </ListView.Header>
+                                </ListView>
+                            </Flyout>
+                        </Button.Flyout>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="L" Modifiers="Control" />
+                        </Button.KeyboardAccelerators>
+                    </Button>
+                </StackPanel>
+                <StackPanel
                 Grid.Row="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
@@ -721,21 +724,21 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal">
-                <StackPanel
+                    <StackPanel
                     x:Name="VolumeSlider"
                     Margin="4"
                     Orientation="Horizontal"
                     Visibility="Collapsed">
-                    <Button
+                        <Button
                         Command="{x:Bind Context.ToggleSilenceCommand}"
                         Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource TextBlockButtonStyle}">
-                        <FontIcon
+                            <FontIcon
                             FontFamily="Segoe MDL2 Assets"
                             FontSize="22"
                             Glyph="{x:Bind Context.VolumeToSymbol(Context.Volume), Mode=OneWay}" />
-                    </Button>
-                    <Slider
+                        </Button>
+                        <Slider
                         Width="180"
                         Margin="0,6,0,0"
                         HorizontalAlignment="Stretch"
@@ -747,8 +750,8 @@
                         StepFrequency="1"
                         Style="{ThemeResource RoundSlider}"
                         Value="{x:Bind Context.Volume, Mode=TwoWay}" />
-                </StackPanel>
-                <Button
+                    </StackPanel>
+                    <Button
                     x:Name="LrcBtn"
                     x:Uid="LyricWindow"
                     Width="48"
@@ -761,11 +764,11 @@
                     IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Lyric Window">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;" />
-                    </Button.Content>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;" />
+                        </Button.Content>
+                    </Button>
+                    <Button
                     x:Name="SmallWindow"
                     x:Uid="SmallWindow"
                     Width="48"
@@ -777,11 +780,11 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Small Window">
-                    <Button.Content>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
-                    </Button.Content>
-                </Button>
-                <Button
+                        <Button.Content>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
+                        </Button.Content>
+                    </Button>
+                    <Button
                     x:Name="SpeedBtn"
                     x:Uid="SpeedBtn"
                     Width="48"
@@ -793,17 +796,17 @@
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="Playback Rate"
                     Visibility="{x:Bind Context.Song.IsPodcast, Mode=OneWay}">
-                    <Button.Content>
-                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}"><Run Text="{x:Bind Context.PlaybackRateToString(Context.PlaybackRate), Mode=OneWay}" /></TextBlock>
-                    </Button.Content>
-                    <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
-                            <StackPanel
+                        <Button.Content>
+                            <TextBlock Style="{ThemeResource BodyTextBlockStyle}"><Run Text="{x:Bind Context.PlaybackRateToString(Context.PlaybackRate), Mode=OneWay}" /></TextBlock>
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{ThemeResource HoriNoScrollFlyoutPresenter}">
+                                <StackPanel
                                 Padding="4,4,4,-4"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Orientation="Horizontal">
-                                <Slider
+                                    <Slider
                                     MinWidth="240"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -814,7 +817,7 @@
                                     StepFrequency="0.25"
                                     Style="{ThemeResource RoundSlider}"
                                     Value="{x:Bind Context.PlaybackRate, Mode=TwoWay}" />
-                                <TextBlock
+                                    <TextBlock
                                     Width="60"
                                     Margin="0,0,0,10"
                                     HorizontalAlignment="Stretch"
@@ -825,11 +828,11 @@
                                     TextAlignment="Right"
                                     TextTrimming="None"
                                     TextWrapping="NoWrap" />
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button
                     x:Name="More"
                     x:Uid="More"
                     Width="48"
@@ -841,296 +844,298 @@
                     Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                     Style="{ThemeResource RevealRoundButton}"
                     ToolTipService.ToolTip="More">
-                    <Button.Content>
-                        <SymbolIcon Symbol="More" />
-                    </Button.Content>
-                    <Button.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="F5" />
-                    </Button.KeyboardAccelerators>
-                    <Button.Flyout>
-                        <MenuFlyout x:Name="MoreMenu">
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem Command="{x:Bind LoadLocalLyricsCommand}" Text="Load local lyrics" />
-                                <MenuFlyoutItem
+                        <Button.Content>
+                            <SymbolIcon Symbol="More" />
+                        </Button.Content>
+                        <Button.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F5" />
+                        </Button.KeyboardAccelerators>
+                        <Button.Flyout>
+                            <MenuFlyout x:Name="MoreMenu">
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem Command="{x:Bind LoadLocalLyricsCommand}" Text="Load local lyrics" />
+                                    <MenuFlyoutItem
                                     Click="OpenAlbumViewDialog"
                                     Text="{x:Bind Context.Song.Album, Mode=OneWay}"
                                     Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast), Mode=OneWay}">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator />
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE93C;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
                                     x:Uid="Equalizer"
                                     Command="{x:Bind Context.ShowEqualizerCommand}"
                                     IsEnabled="{x:Bind Context.IsEqualizerEnabled}"
                                     Text="Equalizer">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Uid="Limiter"
                                     Command="{x:Bind Context.ShowLimiterCommand}"
                                     IsEnabled="{x:Bind Context.IsLimiterEnabled}"
                                     Text="Limiter">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8F9;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Uid="Timer"
                                     Command="{x:Bind Context.ShowSleepTimerCommand}"
                                     Text="Sleep Timer">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE916;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Uid="Share"
                                     Click="Share_Click"
                                     Text="Share">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Uid="Cast"
                                     Click="Cast_Click"
                                     Text="Cast">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE969;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator />
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE969;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
                                     x:Name="NarrowLrcBtn"
                                     x:Uid="LyricWindowFlyout"
                                     Command="{x:Bind Context.ShowLyricWindowCommand}"
                                     IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast), Mode=OneWay}"
                                     Text="Lyric Window">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEA4B;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Name="NarrowSmallWindow"
                                     x:Uid="SmallWindowFlyout"
                                     Command="{x:Bind Context.EnterCompactOverlayCommand}"
                                     Text="Small Window">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Name="VisualizationMenu"
                                     x:Uid="VisualizationFlyout"
                                     Command="{x:Bind Context.ToggleVisualizing}"
                                     Text="Audio Visualization">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <ToggleMenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem
                                     x:Name="ShuffleFlyout"
                                     x:Uid="ShuffleFlyout"
                                     IsChecked="{x:Bind Context.IsShuffleBool, Mode=TwoWay}"
                                     Text="Shuffle">
-                                    <ToggleMenuFlyoutItem.Icon>
-                                        <SymbolIcon Symbol="Shuffle" />
-                                    </ToggleMenuFlyoutItem.Icon>
-                                </ToggleMenuFlyoutItem>
-                                <ToggleMenuFlyoutItem
+                                        <ToggleMenuFlyoutItem.Icon>
+                                            <SymbolIcon Symbol="Shuffle" />
+                                        </ToggleMenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem
                                     x:Name="RepeatFlyout"
                                     x:Uid="RepeatFlyout"
                                     IsChecked="{x:Bind Context.IsLoopBool, Mode=TwoWay}"
                                     Text="Repeat">
-                                    <ToggleMenuFlyoutItem.Icon>
-                                        <SymbolIcon Symbol="Refresh" />
-                                    </ToggleMenuFlyoutItem.Icon>
-                                </ToggleMenuFlyoutItem>
-                                <MenuFlyoutSeparator x:Name="NarrowSplit" />
-                                <MenuFlyoutItem
+                                        <ToggleMenuFlyoutItem.Icon>
+                                            <SymbolIcon Symbol="Refresh" />
+                                        </ToggleMenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <MenuFlyoutSeparator x:Name="NarrowSplit" />
+                                    <MenuFlyoutItem
                                     Click="DownloadOrModify"
                                     IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast), Mode=OneWay}"
                                     Text="{x:Bind Context.DownloadOrModify(Context.Song.IsOnline), Mode=OneWay}">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline), Mode=OneWay}" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Context.DownloadOrModifyIcon(Context.Song.IsOnline), Mode=OneWay}" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
                                     x:Uid="OpenExplorer"
                                     Click="FindFileClick"
                                     Text="Open in Explorer"
                                     Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline), Mode=OneWay}">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC50;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSubItem
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEC50;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSubItem
                                     x:Uid="Delete"
                                     Foreground="#E81123"
                                     Text="Delete"
                                     Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsOnline), Mode=OneWay}">
-                                    <MenuFlyoutSubItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
-                                    </MenuFlyoutSubItem.Icon>
-                                    <MenuFlyoutItem
+                                        <MenuFlyoutSubItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
+                                        </MenuFlyoutSubItem.Icon>
+                                        <MenuFlyoutItem
                                         x:Uid="DeleteTrash"
                                         Click="Delete_Click"
                                         Text="Move to Trash" />
-                                    <MenuFlyoutItem
+                                        <MenuFlyoutItem
                                         x:Uid="DeletePerm"
                                         Click="Delete_Click_1"
                                         Text="Permanent Delete" />
-                                </MenuFlyoutSubItem>
-                                <MenuFlyoutItem Text="Q &amp; A" Visibility="Collapsed">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11B;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout.Items>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
-            </StackPanel>
+                                    </MenuFlyoutSubItem>
+                                    <MenuFlyoutItem Text="Q &amp; A" Visibility="Collapsed">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE11B;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="Full">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="1008" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="LrcView.(Grid.Column)" Value="1" />
+                            <Setter Target="LrcView.(Grid.Row)" Value="0" />
+                            <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1" />
+                            <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0" />
+
+                            <Setter Target="NarrowLrcBtn.Visibility" Value="Collapsed" />
+                            <Setter Target="Volume.Visibility" Value="Collapsed" />
+                            <Setter Target="VolumeSlider.Visibility" Value="Visible" />
+                            <Setter Target="NarrowSmallWindow.Visibility" Value="Collapsed" />
+                            <Setter Target="NarrowSplit.Visibility" Value="Collapsed" />
+                            <Setter Target="LrcBtn.Visibility" Value="Visible" />
+                            <Setter Target="SmallWindow.Visibility" Value="Visible" />
+                            <Setter Target="Stop.Visibility" Value="Visible" />
+                            <Setter Target="PlayListNarrow.Visibility" Value="Collapsed" />
+                            <Setter Target="PlayListFull.Visibility" Value="Visible" />
+
+                            <Setter Target="VisualizationMenu.Visibility" Value="Collapsed" />
+                            <Setter Target="VisualizationBtn.Visibility" Value="Visible" />
+
+                            <Setter Target="RepeatFlyout.Visibility" Value="Collapsed" />
+                            <Setter Target="Repeat.Visibility" Value="Visible" />
+
+                            <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed" />
+                            <Setter Target="Shuffle.Visibility" Value="Visible" />
+
+                            <Setter Target="RowOne.Height" Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Medium">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="641" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="LrcHeader.FontSize" Value="18" />
+
+                            <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="LrcView.(Grid.Column)" Value="1" />
+                            <Setter Target="LrcView.(Grid.Row)" Value="0" />
+                            <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1" />
+                            <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0" />
+
+                            <Setter Target="LrcBtn.Visibility" Value="Collapsed" />
+                            <Setter Target="SmallWindow.Visibility" Value="Collapsed" />
+                            <Setter Target="Stop.Visibility" Value="Visible" />
+                            <Setter Target="PlayListNarrow.Visibility" Value="Collapsed" />
+                            <Setter Target="PlayListFull.Visibility" Value="Visible" />
+                            <Setter Target="NarrowLrcBtn.Visibility" Value="Visible" />
+                            <Setter Target="NarrowSmallWindow.Visibility" Value="Visible" />
+                            <Setter Target="NarrowSplit.Visibility" Value="Visible" />
+
+                            <Setter Target="VisualizationMenu.Visibility" Value="Collapsed" />
+                            <Setter Target="VisualizationBtn.Visibility" Value="Visible" />
+
+                            <Setter Target="RepeatFlyout.Visibility" Value="Collapsed" />
+                            <Setter Target="Repeat.Visibility" Value="Visible" />
+
+                            <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed" />
+                            <Setter Target="Shuffle.Visibility" Value="Visible" />
+
+                            <Setter Target="LrcView.Margin" Value="16,16,16,64" />
+                            <Setter Target="LrcViewOverlay.Margin" Value="16,16,16,64" />
+                            <Setter Target="RowOne.Height" Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Narrow">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="LrcHeader.FontSize" Value="16" />
+
+                            <Setter Target="Previous.Margin" Value="2,4" />
+                            <Setter Target="PlayPause.Margin" Value="2,4" />
+                            <Setter Target="Next.Margin" Value="2,4" />
+                            <Setter Target="Shuffle.Margin" Value="2,4" />
+                            <Setter Target="Repeat.Margin" Value="2,4" />
+                            <Setter Target="LrcBtn.Margin" Value="2,4" />
+                            <Setter Target="SmallWindow.Margin" Value="2,4" />
+                            <Setter Target="More.Margin" Value="2,4" />
+                            <Setter Target="SpeedBtn.Margin" Value="2,4" />
+                            <Setter Target="VisualizationBtn.Margin" Value="2,4" />
+                            <Setter Target="Volume.Margin" Value="2,4" />
+
+                            <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="2" />
+                            <Setter Target="LrcView.(Grid.ColumnSpan)" Value="2" />
+                            <Setter Target="LrcView.(Grid.Column)" Value="0" />
+                            <Setter Target="LrcView.(Grid.Row)" Value="1" />
+                            <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="2" />
+                            <Setter Target="LrcViewOverlay.(Grid.Column)" Value="0" />
+                            <Setter Target="LrcViewOverlay.(Grid.Row)" Value="1" />
+
+                            <Setter Target="LrcBtn.Visibility" Value="Collapsed" />
+                            <Setter Target="SmallWindow.Visibility" Value="Collapsed" />
+
+                            <Setter Target="Stop.Visibility" Value="Collapsed" />
+
+                            <Setter Target="PlayListNarrow.Visibility" Value="Visible" />
+                            <Setter Target="PlayListFull.Visibility" Value="Collapsed" />
+
+                            <Setter Target="NarrowLrcBtn.Visibility" Value="Visible" />
+                            <Setter Target="NarrowSmallWindow.Visibility" Value="Visible" />
+
+                            <Setter Target="VisualizationMenu.Visibility" Value="Visible" />
+                            <Setter Target="VisualizationBtn.Visibility" Value="Collapsed" />
+
+                            <Setter Target="RepeatFlyout.Visibility" Value="Visible" />
+                            <Setter Target="Repeat.Visibility" Value="Collapsed" />
+
+                            <Setter Target="ShuffleFlyout.Visibility" Value="Visible" />
+                            <Setter Target="Shuffle.Visibility" Value="Collapsed" />
+
+                            <Setter Target="NarrowSplit.Visibility" Value="Visible" />
+
+                            <Setter Target="PlayListBtn.Width" Value="48" />
+                            <Setter Target="PlayListBtn.Height" Value="48" />
+                            <Setter Target="PlayListBtn.Style" Value="{ThemeResource RevealRoundButton}" />
+
+                            <Setter Target="LrcView.Margin" Value="12" />
+                            <Setter Target="LrcViewOverlay.Margin" Value="12" />
+                            <Setter Target="RowOne.Height" Value="72" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
         </Grid>
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="LrcView.(Grid.Column)" Value="1" />
-                        <Setter Target="LrcView.(Grid.Row)" Value="0" />
-                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1" />
-                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0" />
-
-                        <Setter Target="NarrowLrcBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="Volume.Visibility" Value="Collapsed" />
-                        <Setter Target="VolumeSlider.Visibility" Value="Visible" />
-                        <Setter Target="NarrowSmallWindow.Visibility" Value="Collapsed" />
-                        <Setter Target="NarrowSplit.Visibility" Value="Collapsed" />
-                        <Setter Target="LrcBtn.Visibility" Value="Visible" />
-                        <Setter Target="SmallWindow.Visibility" Value="Visible" />
-                        <Setter Target="Stop.Visibility" Value="Visible" />
-                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed" />
-                        <Setter Target="PlayListFull.Visibility" Value="Visible" />
-
-                        <Setter Target="VisualizationMenu.Visibility" Value="Collapsed" />
-                        <Setter Target="VisualizationBtn.Visibility" Value="Visible" />
-
-                        <Setter Target="RepeatFlyout.Visibility" Value="Collapsed" />
-                        <Setter Target="Repeat.Visibility" Value="Visible" />
-
-                        <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed" />
-                        <Setter Target="Shuffle.Visibility" Value="Visible" />
-
-                        <Setter Target="RowOne.Height" Value="0" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Medium">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="641" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="LrcHeader.FontSize" Value="18" />
-
-                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="LrcView.(Grid.Column)" Value="1" />
-                        <Setter Target="LrcView.(Grid.Row)" Value="0" />
-                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="1" />
-                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="0" />
-
-                        <Setter Target="LrcBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="SmallWindow.Visibility" Value="Collapsed" />
-                        <Setter Target="Stop.Visibility" Value="Visible" />
-                        <Setter Target="PlayListNarrow.Visibility" Value="Collapsed" />
-                        <Setter Target="PlayListFull.Visibility" Value="Visible" />
-                        <Setter Target="NarrowLrcBtn.Visibility" Value="Visible" />
-                        <Setter Target="NarrowSmallWindow.Visibility" Value="Visible" />
-                        <Setter Target="NarrowSplit.Visibility" Value="Visible" />
-
-                        <Setter Target="VisualizationMenu.Visibility" Value="Collapsed" />
-                        <Setter Target="VisualizationBtn.Visibility" Value="Visible" />
-
-                        <Setter Target="RepeatFlyout.Visibility" Value="Collapsed" />
-                        <Setter Target="Repeat.Visibility" Value="Visible" />
-
-                        <Setter Target="ShuffleFlyout.Visibility" Value="Collapsed" />
-                        <Setter Target="Shuffle.Visibility" Value="Visible" />
-
-                        <Setter Target="LrcView.Margin" Value="16,16,16,64" />
-                        <Setter Target="LrcViewOverlay.Margin" Value="16,16,16,64" />
-                        <Setter Target="RowOne.Height" Value="0" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="LrcHeader.FontSize" Value="16" />
-
-                        <Setter Target="Previous.Margin" Value="2,4" />
-                        <Setter Target="PlayPause.Margin" Value="2,4" />
-                        <Setter Target="Next.Margin" Value="2,4" />
-                        <Setter Target="Shuffle.Margin" Value="2,4" />
-                        <Setter Target="Repeat.Margin" Value="2,4" />
-                        <Setter Target="LrcBtn.Margin" Value="2,4" />
-                        <Setter Target="SmallWindow.Margin" Value="2,4" />
-                        <Setter Target="More.Margin" Value="2,4" />
-                        <Setter Target="SpeedBtn.Margin" Value="2,4" />
-                        <Setter Target="VisualizationBtn.Margin" Value="2,4" />
-                        <Setter Target="Volume.Margin" Value="2,4" />
-
-                        <Setter Target="SongPanel.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="LrcView.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="LrcView.(Grid.Column)" Value="0" />
-                        <Setter Target="LrcView.(Grid.Row)" Value="1" />
-                        <Setter Target="LrcViewOverlay.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="LrcViewOverlay.(Grid.Column)" Value="0" />
-                        <Setter Target="LrcViewOverlay.(Grid.Row)" Value="1" />
-
-                        <Setter Target="LrcBtn.Visibility" Value="Collapsed" />
-                        <Setter Target="SmallWindow.Visibility" Value="Collapsed" />
-
-                        <Setter Target="Stop.Visibility" Value="Collapsed" />
-
-                        <Setter Target="PlayListNarrow.Visibility" Value="Visible" />
-                        <Setter Target="PlayListFull.Visibility" Value="Collapsed" />
-
-                        <Setter Target="NarrowLrcBtn.Visibility" Value="Visible" />
-                        <Setter Target="NarrowSmallWindow.Visibility" Value="Visible" />
-
-                        <Setter Target="VisualizationMenu.Visibility" Value="Visible" />
-                        <Setter Target="VisualizationBtn.Visibility" Value="Collapsed" />
-
-                        <Setter Target="RepeatFlyout.Visibility" Value="Visible" />
-                        <Setter Target="Repeat.Visibility" Value="Collapsed" />
-
-                        <Setter Target="ShuffleFlyout.Visibility" Value="Visible" />
-                        <Setter Target="Shuffle.Visibility" Value="Collapsed" />
-
-                        <Setter Target="NarrowSplit.Visibility" Value="Visible" />
-
-                        <Setter Target="PlayListBtn.Width" Value="48" />
-                        <Setter Target="PlayListBtn.Height" Value="48" />
-                        <Setter Target="PlayListBtn.Style" Value="{ThemeResource RevealRoundButton}" />
-
-                        <Setter Target="LrcView.Margin" Value="12" />
-                        <Setter Target="LrcViewOverlay.Margin" Value="12" />
-                        <Setter Target="RowOne.Height" Value="72" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
