@@ -77,7 +77,7 @@ namespace Aurora.Music.Pages
             LyricRenderer.Context.LyricWidthRatio = 1;
             LyricRenderer.Context.LyricPaddingTopRatio = 10 / 100f;
             LyricRenderer.Context.CurrentLyricTime = 0;
-            LyricRenderer.Context.Debug = true;
+            LyricRenderer.Context.Debug = Settings.Current.DebugModeEnabled;
             LyricRenderer.Context.Effects.Blur = true;
             LyricRenderer.Context.LineRollingEaseCalculator = 0 switch
             {
@@ -90,9 +90,20 @@ namespace Aurora.Music.Pages
             LyricRenderer.Context.Effects.FocusHighlighting = true;
             LyricRenderer.Context.Effects.TransliterationScanning = true;
             LyricRenderer.Context.Effects.SimpleLineScanning = true;
+            LyricRenderer.ChangeRenderColor(Color.FromArgb(128, 255, 255, 255), Colors.White);
             //LyricRender.Context.PreferTypography.Font = Common.Setting.lyricFontFamily;
             LyricRenderer.Context.LineSpacing = 0;
             UpdateLyricSize();
+        }
+
+        private SolidColorBrush GetAccentBrush()
+        {
+            return Application.Current.Resources["SystemControlPageTextBaseHighBrush"] as SolidColorBrush;
+        }
+
+        private SolidColorBrush GetIdleBrush()
+        {
+            return Application.Current.Resources["TextFillColorTertiaryBrush"] as SolidColorBrush;
         }
 
         [RelayCommand]
@@ -237,7 +248,7 @@ namespace Aurora.Music.Pages
             }
             catch(FileNotFoundException)
             {
-                //DO NOTHING
+                LyricRenderer.SetLyricLines(null);
             }
 
         }

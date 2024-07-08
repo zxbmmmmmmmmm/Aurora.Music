@@ -132,6 +132,7 @@ namespace LyricRenderer.Uwp
         {
             _initializing = true;
             Context.LyricLines.Clear();
+            if (lines is null) return;
             Context.LyricLines.AddRange(lines);
             _keyFrameRendered.Clear();
             // 将 Id 换为 Index, 方便后续读取
