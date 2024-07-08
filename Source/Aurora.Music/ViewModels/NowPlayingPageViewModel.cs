@@ -648,6 +648,16 @@ namespace Aurora.Music.ViewModels
             return Symbol.Play;
         }
 
+
+        public string NullableBoolToFontIcon(bool? b)
+        {
+            if (b is bool bb)
+            {
+                return bb ? "\uE62E" : "\uF5B0";
+            }
+            return "\uF5B0";
+        }
+
         public string NullableBoolToString(bool? b)
         {
             if (b is bool bb)

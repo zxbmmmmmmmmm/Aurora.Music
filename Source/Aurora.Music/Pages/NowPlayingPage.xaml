@@ -165,13 +165,16 @@
     <Grid>
         <isolation:IsolationControl
             x:Name="IsolationBackground"
-            Colors="{x:Bind Context.AlbumColors,Mode=OneWay}"
             Grid.RowSpan="2"
             Grid.ColumnSpan="5"
-            Padding="-32,-80,-32,0" />
+            Padding="-32,-80,-32,0"
+            Colors="{x:Bind Context.AlbumColors, Mode=OneWay}" />
         <Grid x:Name="Root" Padding="32,80,32,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" MinWidth="120" MaxWidth="750"/>
+                <ColumnDefinition
+                    Width="2*"
+                    MinWidth="120"
+                    MaxWidth="750" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -191,10 +194,10 @@
                 </Grid.RowDefinitions>
                 <Image
                     x:Name="Artwork"
+                    MaxHeight="600"
                     Margin="0,12,20,12"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
-                    MaxHeight="600"
                     ImageOpened="Artwork_ImageOpened"
                     Source="{x:Bind Context.CurrentArtworkImage, Mode=OneWay, TargetNullValue='ms-appx:///Assets/Images/now_placeholder.png', FallbackValue='ms-appx:///Assets/Images/now_placeholder.png'}"
                     Stretch="Uniform">
@@ -468,8 +471,9 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         AccessKey="["
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Command="{x:Bind Context.GoPrevious}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Previous">
                         <Button.Content>
@@ -487,12 +491,13 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         AccessKey="P"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Command="{x:Bind Context.PlayPause}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="{x:Bind Context.NullableBoolToString(Context.IsPlaying), Mode=OneWay}">
                         <Button.Content>
-                            <SymbolIcon Symbol="{x:Bind Context.NullableBoolToSymbol(Context.IsPlaying), Mode=OneWay}" />
+                            <FontIcon Glyph="{x:Bind Context.NullableBoolToFontIcon(Context.IsPlaying), Mode=OneWay}" />
                         </Button.Content>
                         <Button.KeyboardAccelerators>
                             <KeyboardAccelerator Key="P" Modifiers="Control" />
@@ -508,8 +513,9 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         AccessKey="]"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Command="{x:Bind Context.GoNext}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Next">
                         <Button.Content>
@@ -528,8 +534,9 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         AccessKey="E"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Command="{x:Bind Context.Stop}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Stop">
                         <Button.Content>
@@ -548,7 +555,8 @@
                         Margin="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Volume">
                         <Button.Content>
@@ -596,7 +604,8 @@
                         Margin="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         IsChecked="{x:Bind Context.IsShuffle, Mode=TwoWay}"
                         Style="{ThemeResource RevealRoundToggleButton}"
                         ToolTipService.ToolTip="Shuffle">
@@ -613,7 +622,8 @@
                         Margin="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         IsChecked="{x:Bind Context.IsLoop, Mode=TwoWay}"
                         Style="{ThemeResource RevealRoundToggleButton}"
                         ToolTipService.ToolTip="Repeat">
@@ -626,12 +636,13 @@
                         x:Name="PlayListBtn"
                         x:Uid="PlayList"
                         Margin="4"
+                        Padding="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         AccessKey="L"
-                        Padding="4"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                         CornerRadius="6"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
                         Style="{ThemeResource RevealRectangleButton}"
                         ToolTipService.ToolTip="Playing list">
                         <Button.Content>
@@ -728,8 +739,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         Command="{x:Bind Context.ShowLyricWindowCommand}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
-                        IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast), Mode=OneWay}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"                        IsEnabled="{x:Bind Context.BoolNot(Context.Song.IsPodcast), Mode=OneWay}"
                         Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Lyric Window">
                         <Button.Content>
@@ -745,8 +756,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         Command="{x:Bind Context.EnterCompactOverlayCommand}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
-                        Style="{ThemeResource RevealRoundButton}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"                      Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Small Window">
                         <Button.Content>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
@@ -760,8 +771,8 @@
                         Margin="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
-                        Style="{ThemeResource RevealRoundButton}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"                       Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="Playback Rate"
                         Visibility="{x:Bind Context.Song.IsPodcast, Mode=OneWay}">
                         <Button.Content>
@@ -809,8 +820,8 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         AccessKey="."
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
-                        Style="{ThemeResource RevealRoundButton}"
+                        Background="{ThemeResource SystemControlTransparentRevealBackgroundBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"                   Style="{ThemeResource RevealRoundButton}"
                         ToolTipService.ToolTip="More">
                         <Button.Content>
                             <SymbolIcon Symbol="More" />
