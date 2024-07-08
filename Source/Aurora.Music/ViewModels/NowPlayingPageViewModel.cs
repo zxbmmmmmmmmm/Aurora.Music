@@ -312,25 +312,6 @@ namespace Aurora.Music.ViewModels
 
         }
 
-        private bool sVisualizing = false;
-        public bool IsVisualizing
-        {
-            get { return sVisualizing; }
-            set
-            {
-                SetProperty(ref sVisualizing, value);
-                MainPageViewModel.Current.IsVisualizing = value;
-            }
-        }
-
-        public DelegateCommand ToggleVisualizing
-        {
-            get => new DelegateCommand(() =>
-            {
-                IsVisualizing = !IsVisualizing;
-            });
-        }
-
         private void Connection_StateChanged(CastingConnection sender, object args)
         {
         }

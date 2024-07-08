@@ -189,27 +189,6 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <audio:CustomVisualizer
-                    x:Name="Visualizer"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    CreateResources="CustomVisualizer_CreateResources"
-                    Draw="CustomVisualizer_Draw"
-                    Loaded="CustomVisualizer_Loaded"
-                    Visibility="{x:Bind Context.IsVisualizing, Mode=OneWay}">
-                    <animations:Implicit.ShowAnimations>
-                        <animations:OpacityAnimation
-                            From="0"
-                            To="1"
-                            Duration="0:0:0.64" />
-                    </animations:Implicit.ShowAnimations>
-                    <animations:Implicit.HideAnimations>
-                        <animations:OpacityAnimation
-                            From="1"
-                            To="0"
-                            Duration="0:0:0.64" />
-                    </animations:Implicit.HideAnimations>
-                </audio:CustomVisualizer>
                 <Image
                     x:Name="Artwork"
                     Margin="0,12"
@@ -217,8 +196,7 @@
                     VerticalAlignment="Bottom"
                     ImageOpened="Artwork_ImageOpened"
                     Source="{x:Bind Context.CurrentArtworkImage, Mode=OneWay, TargetNullValue='ms-appx:///Assets/Images/now_placeholder.png', FallbackValue='ms-appx:///Assets/Images/now_placeholder.png'}"
-                    Stretch="Uniform"
-                    Visibility="{x:Bind Context.BoolNottoVisibility(Context.IsVisualizing), Mode=OneWay}">
+                    Stretch="Uniform">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation
                             From="0"
@@ -560,21 +538,6 @@
                             <KeyboardAccelerator Key="E" Modifiers="Control" />
                             <KeyboardAccelerator Key="F4" />
                         </Button.KeyboardAccelerators>
-                    </Button>
-                    <Button
-                        x:Name="VisualizationBtn"
-                        x:Uid="VisualizationButton"
-                        Width="48"
-                        Height="48"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Command="{x:Bind Context.ToggleVisualizing}"
-                        Foreground="{x:Bind Context.AdjustColorbyTheme(Context.CurrentColorBrush), Mode=OneWay}"
-                        Style="{ThemeResource RevealRoundButton}"
-                        ToolTipService.ToolTip="Audio Visualization">
-                        <Button.Content>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
-                        </Button.Content>
                     </Button>
                     <Button
                         x:Name="Volume"
@@ -925,15 +888,6 @@
                                         Text="Small Window">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B4;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        x:Name="VisualizationMenu"
-                                        x:Uid="VisualizationFlyout"
-                                        Command="{x:Bind Context.ToggleVisualizing}"
-                                        Text="Audio Visualization">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                     <ToggleMenuFlyoutItem

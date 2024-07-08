@@ -69,10 +69,15 @@ namespace Isolation.Uwp
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
+
             MainCanvas.CreateResources -= MainCanvas_CreateResources;
             MainCanvas.Update -= MainCanvas_Update;
             MainCanvas.Draw -= MainCanvas_Draw;
             MainCanvas.SizeChanged -= MainCanvas_SizeChanged;
+            this.Loaded -= OnLoaded;
+            this.Unloaded -= OnUnloaded;
+            MainCanvas.RemoveFromVisualTree();
+            MainCanvas = null;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
