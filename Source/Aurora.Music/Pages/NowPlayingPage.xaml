@@ -167,8 +167,9 @@
             x:Name="IsolationBackground"
             Grid.RowSpan="2"
             Grid.ColumnSpan="5"
-            Padding="-32,-80,-32,0"
             Colors="{x:Bind Context.AlbumColors, Mode=OneWay}" />
+        <Border Grid.RowSpan="2" 
+                Grid.ColumnSpan="5" Opacity="0.5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <Grid x:Name="Root" Padding="32,80,32,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition

@@ -83,7 +83,7 @@ namespace Aurora.Music.Pages
             LyricRenderer.OnBeforeRender += LyricRender_OnBeforeRender; ;
             LyricRenderer.OnRequestSeek += LyricRender_OnRequestSeek; ;
             LyricRenderer.Context.LyricWidthRatio = 1;
-            LyricRenderer.Context.LyricPaddingTopRatio = 10 / 100f;
+            LyricRenderer.Context.LyricPaddingTopRatio = 0;
             LyricRenderer.Context.CurrentLyricTime = 0;
             LyricRenderer.Context.Debug = Settings.Current.DebugModeEnabled;
             LyricRenderer.Context.Effects.Blur = true;
