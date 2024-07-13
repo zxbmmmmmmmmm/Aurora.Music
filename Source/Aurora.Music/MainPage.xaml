@@ -1145,7 +1145,7 @@
                         <SymbolIcon Symbol="Refresh" />
                     </ToggleButton.Content>
                 </ToggleButton>
-                <Button
+                <Button Visibility="Collapsed"
                     x:Name="Stop"
                     x:Uid="Stop"
                     Width="48"

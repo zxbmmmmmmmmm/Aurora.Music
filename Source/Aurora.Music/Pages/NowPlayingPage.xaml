@@ -300,23 +300,13 @@
                     </toolkit:DropShadowPanel>
                     <StackPanel
                         Margin="0,12,0,0"
-                        Orientation="Horizontal"
-                        Visibility="{x:Bind Context.BoolNottoVisibility(Context.Song.IsPodcast), Mode=OneWay}">
-                        <RatingControl
+                        Orientation="Horizontal" Visibility="Collapsed">
+                        <RatingControl Visibility="Collapsed"
                             VerticalAlignment="Center"
                             IsClearEnabled="True"
                             IsReadOnly="False"
                             ValueChanged="RatingControl_ValueChanged"
                             Value="{x:Bind Context.CurrentRating, Mode=OneWay}" />
-                        <star:StarButton
-                            Margin="8,4,8,8"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                            FontSize="16"
-                            Foreground="#ff4343"
-                            IsChecked="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}"
-                            IsThreeState="False" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -464,6 +454,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     Orientation="Horizontal">
+                    
                     <Button
                         x:Name="Previous"
                         x:Uid="Previous"
@@ -527,9 +518,11 @@
                             <KeyboardAccelerator Key="F3" />
                         </Button.KeyboardAccelerators>
                     </Button>
+
                     <Button
                         x:Name="Stop"
                         x:Uid="Stop"
+                        Visibility="Collapsed"
                         Width="48"
                         Height="48"
                         Margin="4"
@@ -633,12 +626,19 @@
                             <SymbolIcon Symbol="Refresh" />
                         </ToggleButton.Content>
                     </ToggleButton>
-
+                    <star:StarButton
+                        Margin="12,4,12,4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                        FontSize="20"
+                        Foreground="#ff4343"
+                        IsChecked="{x:Bind Context.IsCurrentFavorite, Mode=TwoWay}"
+                        IsThreeState="False" />
                     <Button
                         x:Name="PlayListBtn"
                         x:Uid="PlayList"
                         Margin="4"
-                        Padding="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         AccessKey="L"
@@ -649,7 +649,7 @@
                         ToolTipService.ToolTip="Playing list">
                         <Button.Content>
                             <Grid>
-                                <TextBlock
+                                <TextBlock FontSize="18"
                                     x:Name="PlayListFull"
                                     Margin="12,8"
                                     HorizontalAlignment="Stretch"
@@ -696,6 +696,7 @@
                             <KeyboardAccelerator Key="L" Modifiers="Control" />
                         </Button.KeyboardAccelerators>
                     </Button>
+                    
                 </StackPanel>
                 <StackPanel
                     Grid.Row="1"
