@@ -53,7 +53,7 @@ namespace Isolation.Uwp
         private static void ColorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (IsolationControl)d;
-
+            if (control.effect is null) return;
             control.effect.Properties["color1"] = control.Colors?[0];
             control.effect.Properties["color2"] = control.Colors?[1];
             control.effect.Properties["color3"] = control.Colors?[2];
