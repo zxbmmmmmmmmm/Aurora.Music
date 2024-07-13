@@ -40,7 +40,6 @@ namespace Isolation.Uwp
         }
 
 
-
         public List<Vector3> Colors
         {
             get => (List<Vector3>)GetValue(ColorsProperty);
@@ -49,6 +48,38 @@ namespace Isolation.Uwp
 
         public static readonly DependencyProperty ColorsProperty =
             DependencyProperty.Register(nameof(Colors), typeof(List<Vector3>), typeof(IsolationControl), new PropertyMetadata(default, ColorsChanged));
+
+        public bool IsPlaying
+        {
+            get => (bool)GetValue(IsPlayingProperty);
+            set => SetValue(IsPlayingProperty, value);
+        }
+
+        public static readonly DependencyProperty IsPlayingProperty =
+            DependencyProperty.Register(nameof(IsPlaying), typeof(bool), typeof(IsolationControl), new PropertyMetadata(true, IsPlayingChanged));
+
+
+
+        public int Fps
+        {
+            get => (int)GetValue(FpsProperty);
+            set => SetValue(FpsProperty, value);
+        }
+
+        public static readonly DependencyProperty FpsProperty =
+            DependencyProperty.Register(nameof(Fps), typeof(int), typeof(IsolationControl), new PropertyMetadata(60,FpsChanged));
+
+        private static void FpsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (IsolationControl)d;
+            control.MainCanvas.TargetElapsedTime = TimeSpan.FromMilliseconds(16.6 * (60d / (int)e.NewValue));
+        }
+
+        private static void IsPlayingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (IsolationControl)d;
+            control.MainCanvas.Paused = !(bool)e.NewValue;         
+        }
 
         private static void ColorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -66,6 +97,7 @@ namespace Isolation.Uwp
             this.Loaded += OnLoaded;
             this.Unloaded += OnUnloaded;
         }
+
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {

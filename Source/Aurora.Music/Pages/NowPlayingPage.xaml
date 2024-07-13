@@ -165,7 +165,8 @@
     <Grid>
         <isolation:IsolationControl
             x:Name="IsolationBackground"
-            Grid.RowSpan="2"
+            Grid.RowSpan="2" IsPlaying="{x:Bind Context.IsPlaying.Value,Mode=OneWay}"
+            Fps="30"
             Grid.ColumnSpan="5"
             Colors="{x:Bind Context.AlbumColors, Mode=OneWay}" />
         <Border Grid.RowSpan="2" 
