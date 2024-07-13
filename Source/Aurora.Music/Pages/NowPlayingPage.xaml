@@ -318,49 +318,7 @@
                 Grid.ColumnSpan="2"
                 VerticalAlignment="Stretch"
                 Canvas.ZIndex="10" />
-            <ListView
-                x:Name="LrcView"
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                Margin="32,32,32,64"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                IsItemClickEnabled="False"
-                IsSynchronizedWithCurrentItem="False"
-                ItemContainerStyle="{ThemeResource LyricListItem}"
-                ItemsSource="{x:Bind Context.Lyric.Contents, Mode=OneWay}"
-                SelectedIndex="{x:Bind Context.Lyric.CurrentIndex, Mode=OneWay}"
-                SelectionChanged="ListView_SelectionChanged"
-                Style="{ThemeResource LyricListView}"
-                Visibility="Collapsed">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:LrcContent">
-                        <list:LyricItem Data="{x:Bind}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Header>
-                    <Grid x:Name="LrcHeaderGrid" Loaded="LrcHeader_Loaded">
-                        <toolkit:DropShadowPanel
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            BlurRadius="4"
-                            OffsetX="0"
-                            OffsetY="0"
-                            ShadowOpacity="0.66"
-                            Visibility="{x:Bind Context.BoolNottoVisibility(Context.Lyric.HasLyric), Mode=OneWay}"
-                            Color="{ThemeResource SystemAltHighColor}">
-                            <TextBlock
-                                x:Name="LrcHeader"
-                                FontSize="18"
-                                Style="{ThemeResource SubtitleTextBlockStyle}"
-                                Text="{x:Bind Context.LyricHint, Mode=OneWay}" />
-                        </toolkit:DropShadowPanel>
-                    </Grid>
-                </ListView.Header>
-                <ListView.Footer>
-                    <Grid Height="1600" />
-                </ListView.Footer>
-            </ListView>
+ 
             <Grid
                 x:Name="LrcViewOverlay"
                 Grid.Row="1"

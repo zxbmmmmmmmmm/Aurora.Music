@@ -343,25 +343,12 @@ namespace Aurora.Music.Pages
         {
             base.OnNavigatedFrom(e);
             MainPageViewModel.Current.IsVisualizing = false;
-            SizeChanged -= NowPlayingPage_SizeChanged;
             Context.SongChanged -= Context_SongChanged;
             Context?.Dispose();
             MainPageViewModel.Current.IsVisualizing = false;
             Unload();
         }
 
-        private async void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            return;
-            if (Context.Lyric.Contents.Count > 0 && (sender as ListView).SelectedIndex >= 0)
-                try
-                {
-                    await (sender as ListView).ScrollToIndex((sender as ListView).SelectedIndex, ScrollPosition.Center);
-                }
-                catch (Exception)
-                {
-                }
-        }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
@@ -440,36 +427,6 @@ namespace Aurora.Music.Pages
                 default:
                     return Palette.IsDarkColor((Resources["SystemControlBackgroundAltHighBrush"] as SolidColorBrush).Color);
             }
-        }
-
-        private void VisualStateGroup_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
-        {
-            ListView_SelectionChanged(LrcView, null);
-            if (e.NewState.Name != "Full")
-            {
-
-            }
-        }
-
-        private void LrcHeader_Loaded(object sender, RoutedEventArgs e)
-        {
-            SizeChanged += NowPlayingPage_SizeChanged;
-            var h = (Artwork.ActualHeight + LrcHeader.ActualHeight) / 2;
-            if (h < 24)
-            {
-                h = 24;
-            }
-            LrcHeaderGrid.Height = h;
-        }
-
-        private void NowPlayingPage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var h = (Artwork.ActualHeight + LrcHeader.ActualHeight) / 2;
-            if (h < 24)
-            {
-                h = 24;
-            }
-            LrcHeaderGrid.Height = h;
         }
 
         private async void Flyout_Opened(object sender, object e)
