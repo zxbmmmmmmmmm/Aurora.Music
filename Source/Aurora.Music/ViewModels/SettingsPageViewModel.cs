@@ -489,6 +489,18 @@ namespace Aurora.Music.ViewModels
             }
         }
 
+        private string downloadPath = Settings.Current.DownloadPathToken;
+        public string DownloadPath
+        {
+            get => downloadPath;
+            set
+            {
+                Settings.Current.DownloadPathToken = value;
+                Settings.Current.Save();
+                SetProperty(ref downloadPath, value);
+            }
+        }
+
         [ObservableProperty]
         private string downloadPathText;
 

@@ -193,23 +193,23 @@
                             x:Uid="DontOverlaySwitch"
                             Margin="0,12"
                             Header="Don't show small window at top(Compact overlay)"
-                            IsOn="{Binding DontOverlay, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.DontOverlay, Mode=TwoWay}" />
                         <ToggleSwitch
                             x:Uid="SingletonSwitch"
                             Margin="0,12"
                             Header="Singleton instance of lyric window"
-                            IsOn="{Binding Singleton, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.Singleton, Mode=TwoWay}" />
 
                         <ToggleSwitch
                             x:Uid="MeterFetchSwitch"
                             Margin="0,12"
                             Header="Using metered connection to fetch online contents"
-                            IsOn="{Binding DataPlayEnabled, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.DataPlayEnabled, Mode=TwoWay}" />
                         <ToggleSwitch
                             x:Uid="MeterDownSwitch"
                             Margin="0,12"
                             Header="Using metered connection to download online contents"
-                            IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.DataDownloadEnabled, Mode=TwoWay}" />
 
                     </StackPanel>
 
@@ -232,7 +232,7 @@
                             BorderThickness="1"
                             Header="Output Endpoint"
                             IsSynchronizedWithCurrentItem="False"
-                            ItemsSource="{Binding DevicList}" />
+                            ItemsSource="{x:Bind Context.DevicList}" />
                         <TextBlock
                             x:Uid="OutputDefaultHint"
                             Margin="0,0,0,12"
@@ -253,7 +253,7 @@
                             BorderThickness="1"
                             Header="Playback Engine"
                             IsSynchronizedWithCurrentItem="False"
-                            ItemsSource="{Binding EngineList}" />
+                            ItemsSource="{x:Bind Context.EngineList}" />
                         <TextBlock
                             Margin="0,0,0,4"
                             HorizontalAlignment="Left"
@@ -261,7 +261,7 @@
                             FontSize="13"
                             Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
                             Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{Binding EngineHint, Mode=OneWay}" />
+                            Text="{x:Bind Context.EngineHint, Mode=OneWay}" />
                         <TextBlock
                             x:Uid="EngineChangeHint"
                             Margin="0,0,0,12"
@@ -286,7 +286,7 @@
                                 Header="Volume Level"
                                 IsThumbToolTipEnabled="False"
                                 Style="{StaticResource RoundSlider}"
-                                Value="{Binding PlayerVolume, Mode=TwoWay}" />
+                                Value="{x:Bind Context.PlayerVolume, Mode=TwoWay}" />
                             <TextBlock
                                 Width="40"
                                 Margin="0,10,0,0"
@@ -294,7 +294,7 @@
                                 VerticalAlignment="Center"
                                 MaxLines="1"
                                 Style="{ThemeResource TitleTextBlockStyle}"
-                                Text="{Binding PlayerVolume, Mode=OneWay, Converter={StaticResource VolumeToStringConverter}}"
+                                Text="{x:Bind Context.PlayerVolume, Mode=OneWay, Converter={StaticResource VolumeToStringConverter}}"
                                 TextAlignment="Right"
                                 TextTrimming="None"
                                 TextWrapping="NoWrap" />
@@ -312,7 +312,7 @@
                             x:Uid="DisplayRequestSwitch"
                             Margin="0,12"
                             Header="Prevent screen locks when playing"
-                            IsOn="{Binding PreventScreenLock, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.PreventScreenLock, Mode=TwoWay}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -327,12 +327,12 @@
                             x:Uid="ShowPodcastsWhenSearch"
                             Margin="0,12"
                             Header="Show podcasts when search"
-                            IsOn="{Binding ShowPodcastsWhenSearch, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.ShowPodcastsWhenSearch, Mode=TwoWay}" />
                         <ToggleSwitch
                             x:Uid="SendPodcastToast"
                             Margin="0,12"
                             Header="Send toast when new-coming"
-                            IsOn="{Binding IsPodcastToast, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.IsPodcastToast, Mode=TwoWay}" />
                         <StackPanel
                             Margin="0,12"
                             HorizontalAlignment="Stretch"
@@ -349,7 +349,7 @@
                                 Minimum="15"
                                 StepFrequency="15"
                                 Style="{ThemeResource RoundSlider}"
-                                Value="{Binding FetchInterval, Mode=TwoWay}" />
+                                Value="{x:Bind Context.FetchInterval, Mode=TwoWay}" />
                             <TextBlock
                                 Width="96"
                                 Margin="0,10,0,0"
@@ -357,7 +357,7 @@
                                 VerticalAlignment="Center"
                                 MaxLines="1"
                                 Style="{ThemeResource TitleTextBlockStyle}"
-                                Text="{Binding FetchInterval, Mode=OneWay, Converter={StaticResource IntervalToStringConverter}}"
+                                Text="{x:Bind Context.FetchInterval, Mode=OneWay, Converter={StaticResource IntervalToStringConverter}}"
                                 TextAlignment="Left"
                                 TextTrimming="None"
                                 TextWrapping="NoWrap" />
@@ -365,13 +365,13 @@
                         <Button
                             x:Uid="ImportOPMLBtn"
                             Margin="0,12"
-                            Command="{Binding ImportOPML}"
+                            Command="{x:Bind Context.ImportOPML}"
                             Content="Import OPML"
                             Style="{ThemeResource TextBlockButtonStyle}" />
                         <Button
                             x:Uid="ExportOPMLBtn"
                             Margin="0,12"
-                            Command="{Binding ExportOPML}"
+                            Command="{x:Bind Context.ExportOPML}"
                             Content="Export OPML"
                             Style="{ThemeResource TextBlockButtonStyle}" />
                     </StackPanel>
@@ -388,7 +388,7 @@
                             x:Uid="Manage"
                             Margin="0,12"
                             VerticalAlignment="Center"
-                            Command="{Binding OpenExtensionManager}"
+                            Command="{x:Bind Context.OpenExtensionManagerCommand}"
                             Content="Manage"
                             Style="{ThemeResource ButtonRevealStyle}" />
                         <ComboBox
@@ -403,7 +403,7 @@
                             BorderThickness="1"
                             Header="Lyric Extension"
                             ItemTemplate="{StaticResource ExtensionTemplate}"
-                            ItemsSource="{Binding LyricExts}" />
+                            ItemsSource="{x:Bind Context.LyricExts}" />
                         <ComboBox
                             x:Name="MetaCombo"
                             x:Uid="MetaExtension"
@@ -416,12 +416,12 @@
                             BorderThickness="1"
                             Header="MetaData Extension"
                             ItemTemplate="{StaticResource ExtensionTemplate}"
-                            ItemsSource="{Binding MetaExts}" />
+                            ItemsSource="{x:Bind Context.MetaExts}" />
                         <TextBlock
                             Margin="0,12"
                             IsTextSelectionEnabled="False"
                             Style="{ThemeResource BodyTextBlockStyle}"
-                            Visibility="{Binding OnlinePurchase, Converter={StaticResource BooleanNottoVisibilityConverter}, Mode=OneWay}">
+                            Visibility="{x:Bind Context.OnlinePurchase, Converter={StaticResource BooleanNottoVisibilityConverter}, Mode=OneWay}">
                             <Run x:Uid="ExtensionIntro" Text="You can enable or restore online extensibility from" />
                             <Hyperlink Click="Hyperlink_Click" Foreground="{ThemeResource AccentForText}">
                                 <Run x:Uid="Here" Text="here" />
@@ -439,22 +439,22 @@
                             BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
                             BorderThickness="1"
                             Header="Online Music Extension"
-                            IsEnabled="{Binding OnlinePurchase, Mode=OneWay}"
+                            IsEnabled="{x:Bind Context.OnlinePurchase, Mode=OneWay}"
                             ItemTemplate="{StaticResource ExtensionTemplate}"
-                            ItemsSource="{Binding OnlineExts}" />
+                            ItemsSource="{x:Bind Context.OnlineExts}" />
                         <Button
                             x:Uid="DownloadPath"
                             Margin="0,12,0,0"
-                            Command="{Binding DownloadPath}"
+                            Command="{x:Bind Context.DownloadPath}"
                             Content="Download Path"
-                            IsEnabled="{Binding OnlinePurchase, Mode=OneWay}"
+                            IsEnabled="{x:Bind Context.OnlinePurchase, Mode=OneWay}"
                             Style="{ThemeResource ButtonRevealStyle}" />
                         <TextBlock
                             Margin="0,4,0,12"
                             Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}"
                             Style="{ThemeResource BodyTextBlockStyle}"
-                            Text="{Binding DownloadPathText, Mode=OneWay}"
-                            Visibility="{Binding OnlinePurchase, Mode=OneWay}" />
+                            Text="{x:Bind Context.DownloadPathText, Mode=OneWay}"
+                            Visibility="{x:Bind Context.OnlinePurchase, Mode=OneWay}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -481,28 +481,28 @@
                             x:Uid="EqualizerToggle"
                             Margin="0,12,0,0"
                             Header="Equalizer"
-                            IsOn="{Binding EqualizerEnabled, Mode=OneWay}"
+                            IsOn="{x:Bind Context.EqualizerEnabled, Mode=OneWay}"
                             Loaded="ToggleSwitch_Loaded"
                             Tag="Equalizer" />
                         <Button
                             x:Uid="EqualizerButton"
                             Margin="12,0,0,12"
-                            Command="{Binding ShowEqualizer}"
+                            Command="{x:Bind Context.ShowEqualizerCommand}"
                             Content="Equalizer Settings"
                             Style="{ThemeResource TextBlockButtonStyle}"
-                            Visibility="{Binding EqualizerEnabled, Mode=OneWay}" />
+                            Visibility="{x:Bind Context.EqualizerEnabled, Mode=OneWay}" />
                         <ToggleSwitch
                             x:Uid="ChannelShiftToggle"
                             Margin="0,12,0,0"
                             Header="Channel shift"
-                            IsOn="{Binding ChannelShiftEnabled, Mode=OneWay}"
+                            IsOn="{x:Bind  Context.ChannelShiftEnabled, Mode=OneWay}"
                             Loaded="ToggleSwitch_Loaded"
                             Tag="Channel" />
                         <StackPanel
                             Margin="12,0,0,12"
                             HorizontalAlignment="Left"
                             Orientation="Horizontal"
-                            Visibility="{Binding ChannelShiftEnabled, Mode=OneWay}">
+                            Visibility="{x:Bind  Context.ChannelShiftEnabled, Mode=OneWay}">
                             <Button
                                 Margin="0,0,0,16"
                                 HorizontalAlignment="Center"
@@ -525,7 +525,7 @@
                                 ThumbToolTipValueConverter="{StaticResource ChannelShiftToolTipConverter}"
                                 TickFrequency="0.1"
                                 TickPlacement="Inline"
-                                Value="{Binding ChannelShift, Mode=TwoWay}" />
+                                Value="{x:Bind Context.ChannelShift, Mode=TwoWay}" />
                             <Button
                                 Margin="0,0,0,16"
                                 HorizontalAlignment="Center"
@@ -539,22 +539,22 @@
                             Margin="12,0,0,12"
                             VerticalAlignment="Top"
                             Header="Stereo to mono"
-                            IsOn="{Binding StereoToMono, Mode=TwoWay}"
-                            Visibility="{Binding ChannelShiftEnabled, Mode=OneWay}" />
+                            IsOn="{x:Bind Context.StereoToMono, Mode=TwoWay}"
+                            Visibility="{x:Bind Context.ChannelShiftEnabled, Mode=OneWay}" />
                         <ToggleSwitch
                             x:Uid="LimiterToggle"
                             Margin="0,12,0,0"
                             Header="Limiter"
-                            IsOn="{Binding ThresholdEnabled, Mode=OneWay}"
+                            IsOn="{x:Bind Context.ThresholdEnabled, Mode=OneWay}"
                             Loaded="ToggleSwitch_Loaded"
                             Tag="Threshold" />
                         <Button
                             x:Uid="LimiterButton"
                             Margin="12,0,0,12"
-                            Command="{Binding ShowLimiter}"
+                            Command="{x:Bind Context.ShowLimiterCommand}"
                             Content="Limiter Settings"
                             Style="{ThemeResource TextBlockButtonStyle}"
-                            Visibility="{Binding ThresholdEnabled, Mode=OneWay}" />
+                            Visibility="{x:Bind Context.ThresholdEnabled, Mode=OneWay}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -569,7 +569,7 @@
                             x:Uid="DebugMode"
                             Margin="0,12"
                             Header="Debug Mode"
-                            IsOn="{Binding DebugModeEnabled, Mode=TwoWay}" />
+                            IsOn="{x:Bind Context.DebugModeEnabled, Mode=TwoWay}" />
                         <TextBlock
                             x:Uid="ExperimentalText"
                             Margin="0,12,0,-8"
@@ -628,7 +628,7 @@
                                 Margin="0,12"
                                 Command="{x:Bind Context.ClearCacheCommand}"
                                 Content="Clear Cache"
-                                IsEnabled="{Binding CanClearCache, Mode=OneWay}"
+                                IsEnabled="{x:Bind Context.CanClearCache, Mode=OneWay}"
                                 Style="{ThemeResource ButtonRevealStyle}" />
                             <Button
                                 x:Uid="DeleteAll"
