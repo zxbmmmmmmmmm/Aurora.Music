@@ -22,8 +22,6 @@ namespace LyricRenderer.Uwp
 
         private const float Epsilon = 0.001f;
 
-        private readonly Timer _secondTimer = new(500);
-
         public delegate void BeforeRenderDelegate(LyricRenderView view);
 
         public event BeforeRenderDelegate OnBeforeRender;
@@ -67,8 +65,12 @@ namespace LyricRenderer.Uwp
         public LyricRenderView()
         {
             InitializeComponent();
-            _secondTimer.Elapsed += SecondTimerOnElapsed;
-            _secondTimer.Start();
+            this.Loaded += LyricRenderView_Loaded;
+        }
+
+        private void LyricRenderView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Redesign((float)LyricView.Size.Width,(float)LyricView.Size.Height);
         }
 
         private bool _isTypographyChanged = true;
@@ -113,18 +115,7 @@ namespace LyricRenderer.Uwp
 
         private bool _needRecalculate = false;
         private bool _needRecalculateSize = false;
-
-        private void SecondTimerOnElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (Math.Abs(_sizeChangedWidth - Context.ViewWidth) > Epsilon ||
-                Math.Abs(_sizeChangedHeight - Context.ViewHeight) > Epsilon)
-            {
-                Context.ViewWidth = _sizeChangedWidth;
-                Context.ViewHeight = _sizeChangedHeight;
-                _needRecalculateSize = true;
-                _needRecalculate = true;
-            }
-        }
+        private long _lastRedesignedTime;
 
         private bool _initializing = true;
 
@@ -406,15 +397,20 @@ namespace LyricRenderer.Uwp
             args.DrawingSession.Dispose();
         }
 
-
-        private float _sizeChangedWidth;
-        private float _sizeChangedHeight;
-
-
+        public void Redesign(float width, float height)
+        {
+            Context.ViewWidth = width;
+            Context.ViewHeight = height;
+            _needRecalculateSize = true;
+            _needRecalculate = true;
+            _lastRedesignedTime = Context.RenderTick;
+        }
         private void LyricView_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _sizeChangedWidth = (float)e.NewSize.Width;
-            _sizeChangedHeight = (float)e.NewSize.Height;
+            if (Context.RenderTick - _lastRedesignedTime > 5000000)
+            {
+                Redesign((float)e.NewSize.Width, (float)e.NewSize.Height);
+            }
         }
 
         private long _lastWheelTime;
@@ -490,8 +486,6 @@ namespace LyricRenderer.Uwp
 
         private void LyricRenderView_OnUnloaded(object sender, RoutedEventArgs e)
         {
-            _secondTimer.Stop();
-            _secondTimer.Dispose();
             LyricView.RemoveFromVisualTree();
             LyricView = null;
         }
