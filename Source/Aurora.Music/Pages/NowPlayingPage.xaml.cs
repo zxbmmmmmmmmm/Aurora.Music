@@ -94,6 +94,7 @@ namespace Aurora.Music.Pages
                 3 => new SyncRollingCalculator(),
                 _ => new ElasticEaseRollingCalculator()
             };
+            LyricRenderer.ChangeFps(Core.Storage.LocalSettings.Current.LyricRendererFps);
             LyricRenderer.ChangeAlignment(TextAlignment.Left);
             LyricRenderer.Context.Effects.ScaleWhenFocusing = true;
             LyricRenderer.Context.Effects.FocusHighlighting = true;

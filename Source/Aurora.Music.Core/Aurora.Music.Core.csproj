@@ -142,6 +142,7 @@
     <Compile Include="Storage\FileReader.cs" />
     <Compile Include="Storage\FileTracker.cs" />
     <Compile Include="Storage\OneDrivePropertyProvider.cs" />
+    <Compile Include="Storage\LocalSettings.cs" />
     <Compile Include="Storage\SQLOperator.cs" />
     <Compile Include="Tools\AdaptiveCards.cs" />
     <Compile Include="Tools\EnvelopeDetector.cs" />

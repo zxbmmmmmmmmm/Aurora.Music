@@ -495,37 +495,37 @@ namespace Aurora.Music.ViewModels
         [ObservableProperty]
         private bool canClearCache = true;
 
-        public DelegateCommand ClearCache =>
-            new DelegateCommand(async () =>
-            {
-                CanClearCache = false;
-                await ApplicationData.Current.ClearAsync(ApplicationDataLocality.Temporary);
-                CanClearCache = true;
-                MainPage.Current.PopMessage(Consts.Localizer.GetString("ClearCacheText"));
-            });
+        [RelayCommand]
+        public async Task ClearCache()
+        {
+            CanClearCache = false;
+            await ApplicationData.Current.ClearAsync(ApplicationDataLocality.Temporary);
+            CanClearCache = true;
+            MainPage.Current.PopMessage(Consts.Localizer.GetString("ClearCacheText"));
+        }
 
-        public DelegateCommand DeleteAll =>
-            new DelegateCommand(async () =>
-            {
-                MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("Deleting"));
-                (PlaybackEngine.PlaybackEngine.Current).Dispose();
-                Settings.Current.DANGER_DELETE();
-                var opr = SQLOperator.Current();
-                opr.Dispose();
-                opr = null;
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+        [RelayCommand]
+        public async Task DeleteAll()
+        {
+            MainPage.Current.ShowModalUI(true, Consts.Localizer.GetString("Deleting"));
+            (PlaybackEngine.PlaybackEngine.Current).Dispose();
+            Settings.Current.DANGER_DELETE();
+            var opr = SQLOperator.Current();
+            opr.Dispose();
+            opr = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
-                await Task.Delay(300);
-                await ApplicationData.Current.ClearAsync();
-                await CoreApplication.RequestRestartAsync("");
-            });
+            await Task.Delay(300);
+            await ApplicationData.Current.ClearAsync();
+            await CoreApplication.RequestRestartAsync("");
+        }
 
-        public DelegateCommand OpenData =>
-            new DelegateCommand(async () =>
-            {
-                await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-            });
+        [RelayCommand]
+        public async Task OpenData()
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
 
         [ObservableProperty]
         private bool onlinePurchase = Settings.Current.OnlinePurchase;

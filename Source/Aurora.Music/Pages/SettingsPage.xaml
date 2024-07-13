@@ -12,6 +12,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Aurora.Music"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:storage="using:Aurora.Music.Core.Storage"
     xmlns:vm="using:Aurora.Music.ViewModels"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
@@ -167,6 +169,16 @@
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
+                        <StackPanel HorizontalAlignment="Left">
+                            <muxc:NumberBox
+                                Description="高刷屏调高此值可获得更好效果(会增加一定占用)"
+                                Header="LyricRenderer FPS"
+                                Maximum="800"
+                                Minimum="10"
+                                Value="{x:Bind storage:LocalSettings.Current.LyricRendererFps, Mode=TwoWay}" />
+
+                        </StackPanel>
+
                         <ToggleSwitch
                             x:Uid="ShowFeatureSwitch"
                             Margin="0,8,0,12"
@@ -198,7 +210,9 @@
                             Margin="0,12"
                             Header="Using metered connection to download online contents"
                             IsOn="{Binding DataDownloadEnabled, Mode=TwoWay}" />
+
                     </StackPanel>
+
                 </ScrollViewer>
             </PivotItem>
             <PivotItem x:Uid="Configuration" Header="Player Configuration">
@@ -579,20 +593,20 @@
                             FontSize="13"
                             Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
                             <Run x:Uid="CacheFolderSize" Text="Cache folder size:" />
-                            <Run Text="{Binding CacheFolderSize, Mode=OneWay}" />
+                            <Run Text="{x:Bind Context.CacheFolderSize, Mode=OneWay}" />
                         </TextBlock>
                         <TextBlock
                             Margin="0,4,0,0"
                             FontSize="13"
                             Foreground="{ThemeResource SystemControlBackgroundBaseMediumLowRevealBorderBrush}">
                             <Run x:Uid="DataFolderSize" Text="Data folder size:" />
-                            <Run Text="{Binding DataFolderSize, Mode=OneWay}" />
+                            <Run Text="{x:Bind Context.DataFolderSize, Mode=OneWay}" />
                         </TextBlock>
                         <Button
                             x:Uid="OpenDataButton"
                             Margin="0,4,0,12"
                             HorizontalAlignment="Left"
-                            Command="{Binding OpenData}"
+                            Command="{x:Bind Context.OpenDataCommand}"
                             Content="Open data folder" />
                         <StackPanel
                             Margin="0,12,32,12"
@@ -612,7 +626,7 @@
                             <Button
                                 x:Uid="ClearCache"
                                 Margin="0,12"
-                                Command="{Binding ClearCache}"
+                                Command="{x:Bind Context.ClearCacheCommand}"
                                 Content="Clear Cache"
                                 IsEnabled="{Binding CanClearCache, Mode=OneWay}"
                                 Style="{ThemeResource ButtonRevealStyle}" />
@@ -629,7 +643,7 @@
                                             <Button
                                                 x:Uid="DeleteAllHint"
                                                 Background="#ff4343"
-                                                Command="{Binding DeleteAll}"
+                                                Command="{x:Bind Context.DeleteAllCommand}"
                                                 Content="I know this will clear all data and continue"
                                                 Foreground="{StaticResource SystemControlForegroundAltHighBrush}"
                                                 Style="{ThemeResource ButtonRevealStyle}" />
@@ -658,49 +672,49 @@
             <Button
                 x:Uid="OpenSource"
                 Margin="0,8"
-                Command="{Binding Github}"
+                Command="{x:Bind Context.GoGithubCommand}"
                 Content="Open Source"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="Comment"
                 Margin="0,8"
-                Command="{Binding CommentInStore}"
+                Command="{x:Bind Context.CommentInStoreCommand}"
                 Content="Comment in Store"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="ReportBug"
                 Margin="0,8"
-                Command="{Binding ReportABug}"
+                Command="{x:Bind Context.ReportABugCommand}"
                 Content="Report a Bug"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="GetExtension"
                 Margin="0,8"
-                Command="{Binding GetExtensions}"
+                Command="{x:Bind Context.GetExtensionsCommand}"
                 Content="Get Extensions"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="AboutBtn"
                 Margin="0,8"
-                Command="{Binding About}"
+                Command="{x:Bind Context.NavigateToAboutCommand}"
                 Content="About"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="Privacy"
                 Margin="0,8"
-                Command="{Binding NavigateToPrivacy}"
+                Command="{x:Bind Context.NavigateToPrivacyCommand}"
                 Content="Privacy Policy"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="EaseAccessBtn"
                 Margin="0,8"
-                Command="{Binding ShowEaseAccess}"
+                Command="{x:Bind Context.ShowEaseAccessCommand}"
                 Content="Ease of Access"
                 Style="{ThemeResource TextBlockButtonStyle}" />
             <Button
                 x:Uid="WhatsNew"
                 Margin="0,8"
-                Command="{Binding ShowUpdateInfo}"
+                Command="{x:Bind Context.ShowUpdateInfoCommand}"
                 Content="What's New?"
                 Style="{ThemeResource TextBlockButtonStyle}" />
         </StackPanel>

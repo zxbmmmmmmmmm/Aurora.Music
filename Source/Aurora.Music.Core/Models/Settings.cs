@@ -5,8 +5,12 @@ using Aurora.Shared.Extensions;
 using Aurora.Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Aurora.Music.Core.Models
@@ -53,6 +57,7 @@ namespace Aurora.Music.Core.Models
 
     public class Settings
     {
+        public static LocalSetting LocalSetting { get; set; } = new LocalSetting();
         private static Settings current;
         public static Settings Current
         {
@@ -147,7 +152,7 @@ namespace Aurora.Music.Core.Models
             return $"{FileSizeFilter / 1024u}kb";
         }
 
-        private const string SETTINGS_CONTAINER = "main";
+        internal const string SETTINGS_CONTAINER = "main";
 
         public bool IncludeMusicLibrary { get; set; } = true;
         public ElementTheme Theme { get; set; } = ElementTheme.Default;
@@ -242,6 +247,52 @@ namespace Aurora.Music.Core.Models
             var j = Newtonsoft.Json.JsonConvert.SerializeObject(l);
             var file = await FileIOHelper.GetFileFromLocalAsync("LibraryIndex");
             await FileIO.WriteTextAsync(file, j);
+        }
+    }
+
+    public class LocalSetting: INotifyPropertyChanged
+    {
+        public int LyricRendererFps
+        {
+            get => GetSettings(nameof(LyricRendererFps), 60);
+            set
+            {
+                ApplicationData.Current.LocalSettings.Values[nameof(LyricRendererFps)] = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public async void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () => { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); });
+        }
+
+        public static T GetSettings<T>(string propertyName, T defaultValue)
+        {
+            try
+            {
+                var container = ApplicationData.Current.LocalSettings.GetContainer(Settings.SETTINGS_CONTAINER);
+                if (container.Values.ContainsKey(propertyName) &&
+                    container.Values[propertyName] != null &&
+                    !string.IsNullOrEmpty(container.Values[propertyName].ToString()))
+                {
+                    if (typeof(T).ToString() == "System.Boolean")
+                        return (T)(object)bool.Parse(container.Values[propertyName]
+                            .ToString());
+
+                    //超长的IF
+                    return (T)container.Values[propertyName];
+                }
+
+                return defaultValue;
+            }
+            catch
+            {
+                return defaultValue;
+            }
         }
     }
 }

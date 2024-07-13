@@ -75,6 +75,11 @@ namespace LyricRenderer.Uwp
 
         private bool _isTypographyChanged = true;
 
+        public void ChangeFps(int fps)
+        {
+            LyricView.TargetElapsedTime = TimeSpan.FromMilliseconds(16.6 * (60d / fps));
+        }
+
         public void ChangeRenderColor(Color idleColor, Color focusingColor)
         {
             Context.PreferTypography.IdleColor = idleColor;
